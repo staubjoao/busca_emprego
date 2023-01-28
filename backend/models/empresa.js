@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       cidade: DataTypes.STRING(80),
       estado: DataTypes.STRING(80),
       pais: DataTypes.STRING(80),
-      numero: DataTypes.INT,
+      numero: DataTypes.INTEGER,
       complemento: DataTypes.STRING(80),
       telefone: DataTypes.STRING(45),
       ramo: DataTypes.STRING(64),
