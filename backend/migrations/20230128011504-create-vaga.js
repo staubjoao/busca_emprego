@@ -9,12 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      jornada: {
-        type: Sequelize.DataTypes.CHAR(2),
-        allowNull: true
+      tipo: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      tipo_contrato: {
-        type: Sequelize.DataTypes.CHAR(2),
+      descricao: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
       nivel_hierarquico: {

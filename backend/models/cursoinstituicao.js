@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CursoInstituicao.init(
-    {},
+    {
+      CursoId: DataTypes.INTEGER,
+      InstituicaoId: DataTypes.INTEGER
+    },
     {
       sequelize,
       modelName: 'CursoInstituicao'

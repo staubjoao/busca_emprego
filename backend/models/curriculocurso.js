@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
   CurriculoCurso.init(
     {
       inicio: DataTypes.DATE,
-      termino: DataTypes.DATE
+      termino: DataTypes.DATE,
+      CurriculoId: DataTypes.INTEGER,
+      CursoId: DataTypes.INTEGER
     },
     {
       sequelize,

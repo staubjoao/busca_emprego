@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   CurriculoIdioma.init(
     {
+      CurriculoId: DataTypes.INTEGER,
+      IdiomaId: DataTypes.INTEGER,
       nivel: DataTypes.STRING(45)
     },
     {
