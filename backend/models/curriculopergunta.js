@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       PerguntaId: DataTypes.INTEGER,
       CurriculoId: DataTypes.INTEGER,
-      resposta: DataTypes.INT
+      resposta: DataTypes.INTEGER
     },
     {
       sequelize,
