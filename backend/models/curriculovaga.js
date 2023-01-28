@@ -7,9 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       CurriculoVaga.belongsTo(models.Vaga)
     }
   }
-  CurriculoVaga.init({
-    sequelize,
-    modelName: 'CurriculoVaga'
-  })
+  CurriculoVaga.init(
+    {
+      VagaId: DataTypes.INTEGER,
+      CurriculoId: DataTypes.INTEGER
+    },
+    {
+      sequelize,
+      modelName: 'CurriculoVaga'
+    }
+  )
   return CurriculoVaga
 }

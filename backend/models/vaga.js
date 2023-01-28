@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Vaga.init(
     {
-      jornada: DataTypes.CHAR(2),
-      tipo_contrato: DataTypes.CHAR(2),
+      tipo: DataTypes.STRING(45),
+      descricao: DataTypes.TEXT,
       nivel_hierarquico: DataTypes.STRING(45),
-      salario: DataTypes.FLOAT
+      salario: DataTypes.FLOAT,
+      EmpresaId: DataTypes.INTEGER
     },
     {
       sequelize,

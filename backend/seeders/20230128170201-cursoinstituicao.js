@@ -4,23 +4,17 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      'Vagas',
+      'CursosInstituicoes',
       [
         {
-          tipo: 'Segurança',
-          nivel_hierarquico: 'Experiente',
-          descricao: 'Mimir',
-          salario: '2475.75',
-          EmpresaId: 2,
+          CursoId: 1,
+          InstituicaoId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          tipo: 'Programador Web Full Stack',
-          nivel_hierarquico: 'Senior',
-          descricao: 'Mimir',
-          salario: '29475.75',
-          EmpresaId: 1,
+          CursoId: 2,
+          InstituicaoId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -30,6 +24,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Vagas', null, {})
+    await queryInterface.bulkDelete('CursosInstituicoes', null, {})
   }
 }
