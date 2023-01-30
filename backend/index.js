@@ -8,5 +8,5 @@ server.use(cors())
 server.use('/usuario', express.json(), routes) //pra levar pro arquivo de rotas.js
 
 server.listen(process.env.PORT, () => {
-  console.log('Server is running!')
+  console.log(`Server is running on PORT ${process.env.PORT}`)
 })

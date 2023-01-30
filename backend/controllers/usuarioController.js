@@ -9,6 +9,7 @@ const usuarioController = {
   },
 
   loginCandidato: async (req, res) => {
+    console.log('ENTROU AUQI')
     const candidato = models.Curriculo
 
     let usuario = await candidato.findOne({
