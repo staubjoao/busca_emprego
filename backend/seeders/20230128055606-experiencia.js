@@ -7,6 +7,7 @@ module.exports = {
       'Experiencias',
       [
         {
+          id: 1,
           empresa: 'Google',
           endereco: 'Av. Brigadeiro Faria Lima',
           ramo: 'Serviços online e software',
@@ -14,6 +15,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          id: 2,
           empresa: 'EXPRESSO TRANSPORTE E TURISMO LTDA',
           endereco: 'Rua da Concórdia',
           ramo: 'Construção',

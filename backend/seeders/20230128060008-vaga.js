@@ -7,20 +7,22 @@ module.exports = {
       'Vagas',
       [
         {
+          id: 1,
           tipo: 'Segurança',
           nivel_hierarquico: 'Experiente',
           descricao: 'Mimir',
           salario: '2475.75',
-          EmpresaId: 2,
+          EmpresaId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
+          id: 2,
           tipo: 'Programador Web Full Stack',
           nivel_hierarquico: 'Senior',
           descricao: 'Mimir',
           salario: '29475.75',
-          EmpresaId: 1,
+          EmpresaId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         }

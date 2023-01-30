@@ -4,9 +4,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      'instituicoes',
+      'Instituicoes',
       [
         {
+          id: 1,
           nome: 'UNIVERSIDADES ESTADUAL DE MARINGÁ',
           cidade: 'Maringá',
           pais: 'Brasil',
@@ -14,6 +15,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          id: 2,
           nome: 'FACULDADE PRESIDENTE ANTÔNIO',
           cidade: 'Leopoldina',
           pais: 'Brasil',

@@ -7,11 +7,13 @@ module.exports = {
       'Cursos',
       [
         {
+          id: 1,
           curso: 'Economia',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
+          id: 2,
           curso: 'Ciências da Computação',
           createdAt: new Date(),
           updatedAt: new Date()

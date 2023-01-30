@@ -5,6 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Empresas', [
       {
+        id: 1,
         logo: 'https://img.freepik.com/icones-gratis/procurar_318-265146.jpg?w=2000',
         email: 'google@gmail.com',
         senha: 'uRyBdXS7PM',
@@ -24,6 +25,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        id: 2,
         logo: null,
         email: 'transportestocantins@gmail.com',
         senha: 'RGshM9KLho',
