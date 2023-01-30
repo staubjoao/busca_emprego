@@ -1,13 +1,11 @@
 const express = require('express')
 const cors = require('cors')
 const server = express()
+const empresaController = require('./controller/cadastro_empresa.js')
 
 server.use(cors())
+server.use('/empresa', empresaController)
 
-server.get('/', req => {
-  console.log('rodou!')
-})
-
-server.listen(3000, () => {
-  console.log('Server is running!')
+server.listen(process.env.PORT, () =>{
+  console.log('Servido ativo: http://localhost:')
 })
