@@ -1,11 +1,12 @@
 const express = require('express')
 const cors = require('cors')
 const server = express()
-const empresaController = require('./controller/cadastro_empresa.js')
-
+const routes = require('./routes/routes')
+require('dotenv').config()
 server.use(cors())
-server.use('/empresa', empresaController)
 
-server.listen(process.env.PORT, () =>{
-  console.log('Servido ativo: http://localhost:')
+server.use('/usuario', express.json(), routes) //pra levar pro arquivo de rotas.js
+
+server.listen(process.env.PORT, () => {
+  console.log('Server is running!')
 })
