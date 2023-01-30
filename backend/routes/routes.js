@@ -7,7 +7,7 @@ const authEmpresa = require('../controllers/authEmpresaController') //controller
 //arquivo para colocar as rotas
 
 //rota de cadastro
-router.post('/cadastro', usuarioController.cadastro)
+router.post('/cadastro/empresas', usuarioController.cadastroEmpresa)
 
 //rota de login
 router.post('/login/candidato', usuarioController.loginCandidato)
