@@ -2,7 +2,7 @@ const models = require('../models')
 const jwt = require('jsonwebtoken')
 
 let empresa = models.Empresa
-let candidato = models.Cadidato
+let candidato = models.Curriculo
 
 //controller de usuario
 
@@ -19,6 +19,22 @@ const usuarioController = {
       return res.status(400).json({
         error: true,
         message: "Falha na criação da empresa."
+      })
+    })
+  },
+
+  cadastroCandidato: async(req, res) => {
+    await candidato.create(
+      req.body
+    ).then(() => {
+      return res.json({
+        error: false,
+        message: "Candidato(a) criado(a) com sucesso."
+      })
+    }).catch((erro) => {
+      return res.status(400).json({
+        error: true,
+        message: "Falha na criação do(a) candidato(a)."
       })
     })
   },
