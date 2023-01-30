@@ -19,15 +19,14 @@ const usuarioController = {
     })
 
     if (!usuario)
-      res.status(400).send({ erro: true, message: 'email ou senha inválido' })
+      return res.send({ erro: true, mensagem: 'Email ou senha inválido' })
 
     const token = jwt.sign(
       { _id: usuario._id },
       process.env.TOKEN_SECRET_CANDIDATO
     )
-
     res.header('authorization-token', token)
-    res.send('Logado')
+    res.send('LOGADO')
   },
 
   loginEmpresa: async (req, res) => {
@@ -35,13 +34,13 @@ const usuarioController = {
 
     let usuario = await empresa.findOne({
       where: {
-        email: req.body.email,
+        cnpj: req.body.cnpj,
         senha: req.body.senha
       }
     })
 
     if (!usuario)
-      res.status(400).send({ erro: true, message: 'email ou senha inválido' })
+      return res.send({ erro: true, mensagem: 'Cnpj ou senha inválido' })
 
     const token = jwt.sign(
       { _id: usuario._id },
@@ -49,7 +48,7 @@ const usuarioController = {
     )
 
     res.header('authorization-token', token)
-    res.send('Logado')
+    res.send('LOGADO')
   }
 }
 
