@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 // import paper from '../assets/images/paper.png'
 import IMaskInput from 'react-input-mask'
 import { api } from '../lib/axios'
@@ -23,6 +23,7 @@ export function CadastroEmpresa() {
     const [cnpj, setCnpj] = useState('')
     const [sucesso, setSucesso] = useState(false)
     const [falha, setFalha] = useState(false)
+    const navigate = useNavigate()
 
     async function cadastrar(e: FormEvent) {
         e.preventDefault()
@@ -46,18 +47,32 @@ export function CadastroEmpresa() {
             })
             .then(res => {
                 setSucesso(true)
+                setTimeout(() => navigate('/'), 2000)
             }).catch((erro) => {
                 setFalha(true)
+                setEmail('')
+                setSenha('')
+                setNome('')
+                setCep('')
+                setEndereco('')
+                setBairro('')
+                setCidade('')
+                setEstado('')
+                setPais('')
+                setNumero('')
+                setComplemento('')
+                setTelefone('')
+                setRamo('')
+                setCnpj('')
             })
     }
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
-
-        setSucesso(false);
-        setFalha(false);
+        setSucesso(false)
+        setFalha(false)
     };
 
     const checkCEP = () => {
@@ -249,7 +264,7 @@ export function CadastroEmpresa() {
                 </form>
                 <Snackbar open={sucesso} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                        Emresa cadastrada com sucesso!
+                        Empresa cadastrada com sucesso!
                     </Alert>
                 </Snackbar>
                 <Snackbar open={falha} autoHideDuration={6000} onClose={handleClose}>
