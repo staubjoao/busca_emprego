@@ -1,6 +1,20 @@
 const jwt = require('jsonwebtoken')
 const models = require('../models')
 
+
+const returnChamadas = (req, res, value) => {
+    var promises = req.body[`${value}`].map(source => `${value}`.create(source));
+
+    Promise.all(promises)
+        .then(() => {
+            res.json(req.body)
+        }).catch(error => {
+            res.send(error);
+            console.log('Error during Post: ' + error);
+        });
+}
+
+
 const curriculo = {
     createCurriculo: async (req, res) => {
         const { idCandidato } = req.params
@@ -21,15 +35,16 @@ const curriculo = {
         try {
             console.log("REQ", req.body.experiencias)
             //const createXP = await experiencias.create(req.body.experiencias)
-            var promises =  req.body.experiencias.map(source => experiencias.create(source));
+            returnChamadas(req, res, experiencias)
+            // var promises = req.body.experiencias.map(source => experiencias.create(source));
 
-            Promise.all(promises)
-                .then(() => {
-                    res.json(req.body)
-                }).catch(error => {
-                    res.send(error);
-                    console.log('Error during Post: ' + error);
-                });
+            // Promise.all(promises)
+            //     .then(() => {
+            //         res.json(req.body)
+            //     }).catch(error => {
+            //         res.send(error);
+            //         console.log('Error during Post: ' + error);
+            //     });
             //   await curriculoExperiencias.create({
             //     inicio: createExperiencia.inicio,
             //     termino: createExperiencia.termino,
