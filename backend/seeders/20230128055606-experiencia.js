@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.bulkInsert(
       'Experiencias',
       [
-        {
+       {
           id: 1,
           empresa: 'Google',
           endereco: 'Av. Brigadeiro Faria Lima',

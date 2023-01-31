@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'CurriculoCurso'
       })
 
-      Curriculo.belongsToMany(models.Experiencia, {
+      Curriculo.belongsToMany(models.Experiencias, {
         through: 'CurriculoExperiencia'
       })
 

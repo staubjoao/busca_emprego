@@ -15,7 +15,7 @@ router.post('/login/candidato', usuarioController.loginCandidato)
 router.post('/login/empresa', usuarioController.loginEmpresa)
 
 //criar currículo
-router.post('/curriculo', curriculoController.createCurriculo)
+router.post('/curriculo/:idCandidato', curriculoController.createCurriculo)
 
 //Exemplo para usar alguns dos controllers de autorização
 // router.get('/vagas', authEmpresa, (res) => {
