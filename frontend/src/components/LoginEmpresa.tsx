@@ -96,7 +96,7 @@ export function LoginEmpresa() {
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors ">
-            Cadastrar
+          <Link to={'/cadastro/empresa'}>Cadastrar</Link>
           </button>
         </form>
       </div>
