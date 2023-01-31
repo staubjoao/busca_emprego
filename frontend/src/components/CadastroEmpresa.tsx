@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import IMaskInput from 'react-input-mask'
 import { api } from '../lib/axios'
 import { FormEvent, useState } from 'react'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 export function CadastroEmpresa() {
     const [email, setEmail] = useState('')
@@ -12,25 +14,58 @@ export function CadastroEmpresa() {
     const [endereco, setEndereco] = useState('')
     const [bairro, setBairro] = useState('')
     const [cidade, setCidade] = useState('')
-    const [uf, setUf] = useState('')
+    const [estado, setEstado] = useState('')
     const [pais, setPais] = useState('')
     const [numero, setNumero] = useState('')
     const [complemento, setComplemento] = useState('')
     const [telefone, setTelefone] = useState('')
     const [ramo, setRamo] = useState('')
     const [cnpj, setCnpj] = useState('')
-    const [erro, setErro] = useState('')
+    const [sucesso, setSucesso] = useState(false)
+    const [falha, setFalha] = useState(false)
 
     async function cadastrar(e: FormEvent) {
+        e.preventDefault()
 
+        await api
+            .post('/usuario/cadastro/empresas', {
+                email,
+                senha,
+                nome,
+                ramo,
+                cnpj,
+                pais,
+                cep,
+                estado,
+                cidade,
+                endereco,
+                numero,
+                bairro,
+                complemento,
+                telefone
+            })
+            .then(res => {
+                setSucesso(true)
+            }).catch((erro) => {
+                setFalha(true)
+            })
     }
+
+    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSucesso(false);
+        setFalha(false);
+    };
 
     const checkCEP = () => {
         const cepApi = cep.replace(/\D/g, '')
         fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
             .then(res => res.json()).then(data => {
                 setCidade(data.localidade)
-                setUf(data.uf)
+                setEstado(data.uf)
                 setEndereco(data.logradouro)
                 setBairro(data.bairro)
             })
@@ -141,9 +176,9 @@ export function CadastroEmpresa() {
                             <input
                                 className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
                                 type="text"
-                                placeholder="UF"
-                                value={uf}
-                                onChange={event => setUf(event.target.value)}
+                                placeholder="Estado"
+                                value={estado}
+                                onChange={event => setEstado(event.target.value)}
                             />
                         </div>
                         <div className="col-span-2">
@@ -212,6 +247,16 @@ export function CadastroEmpresa() {
                         Cadastrar
                     </button>
                 </form>
+                <Snackbar open={sucesso} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Emresa cadastrada com sucesso!
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={falha} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                        Falha ao efetuar o cadastro!
+                    </Alert>
+                </Snackbar>
             </div>
         </div>
     )
