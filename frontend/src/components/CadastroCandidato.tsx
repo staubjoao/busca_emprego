@@ -34,11 +34,46 @@ export function CadastroCandidato() {
 
         await api
             .post('/usuario/cadastro/candidatos', {
+                email,
+                senha,
+                nome,
+                cpf,
+                endereco,
+                bairro,
+                cidade,
+                estado,
+                pais,
+                numero,
+                complemento,
+                telefone,
+                sexo,
+                genero,
+                deficiencia,
+                cep
             })
             .then(res => {
                 setSucesso(true)
                 setTimeout(() => navigate('/'), 2000)
             }).catch((erro) => {
+                setFalha(true)
+                setEmail('')
+                setSenha('')
+                setNome('')
+                setCpf('')
+                setDescricao('')
+                setSexo('')
+                setGenero('')
+                setDeficiencia('')
+                setCep('')
+                setEndereco('')
+                setBairro('')
+                setCidade('')
+                setEstado('')
+                setPais('')
+                setNumero('')
+                setComplemento('')
+                setTelefone('')
+                setPresensao('')
             })
     }
 
@@ -268,7 +303,7 @@ export function CadastroCandidato() {
                             <input
                                 className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
                                 type="text"
-                                placeholder="Pretensão"
+                                placeholder="Pretensão salarial"
                                 value={pretensao}
                                 onChange={event => setPresensao(event.target.value)}
                             />
@@ -283,7 +318,7 @@ export function CadastroCandidato() {
                 </form>
                 <Snackbar open={sucesso} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                        Empresa cadastrada com sucesso!
+                        Candidato(a) cadastrado(a) com sucesso!
                     </Alert>
                 </Snackbar>
                 <Snackbar open={falha} autoHideDuration={6000} onClose={handleClose}>
