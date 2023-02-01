@@ -22,6 +22,8 @@ module.exports = {
         genero: 'O',
         deficiencia: false,
         cep: '93517721',
+        pretensao: 20000.0,
+        descricao: 'Sla mano',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -44,6 +46,8 @@ module.exports = {
         genero: 'F',
         deficiencia: true,
         cep: '07076247',
+        pretensao: 2000.0,
+        descricao: 'Sla mano',
         createdAt: new Date(),
         updatedAt: new Date()
       }
