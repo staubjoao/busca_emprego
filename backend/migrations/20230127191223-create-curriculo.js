@@ -79,6 +79,14 @@ module.exports = {
         type: Sequelize.DataTypes.CHAR(8),
         allowNull: false
       },
+      pretensao: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+      descricao: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

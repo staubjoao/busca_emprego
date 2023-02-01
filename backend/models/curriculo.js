@@ -42,7 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       sexo: DataTypes.CHAR(1),
       genero: DataTypes.CHAR(1),
       deficiencia: DataTypes.BOOLEAN,
-      cep: DataTypes.CHAR(8)
+      cep: DataTypes.CHAR(8),
+      pretensao: DataTypes.FLOAT,
+      descricao: DataTypes.TEXT
     },
     {
       sequelize,
