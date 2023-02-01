@@ -227,7 +227,7 @@ export function CadastroCandidato() {
                         <div className="col-span-2">
                             <IMaskInput
                                 className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
-                                mask="99999-999"
+                                mask="99999999"
                                 placeholder="CEP"
                                 value={cep}
                                 onChange={event => setCep(event.target.value)}
