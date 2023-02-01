@@ -49,7 +49,9 @@ export function CadastroCandidato() {
                 sexo,
                 genero,
                 deficiencia,
-                cep
+                cep,
+                descricao,
+                pretensao
             })
             .then(res => {
                 setSucesso(true)
