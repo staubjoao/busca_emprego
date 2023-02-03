@@ -41,8 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       telefone: DataTypes.STRING(45),
       sexo: DataTypes.CHAR(1),
       genero: DataTypes.CHAR(1),
-      deficiencia: DataTypes.BOOLEAN,
-      cep: DataTypes.CHAR(8)
+      deficiencia: DataTypes.STRING(80),
+      cep: DataTypes.CHAR(8),
+      pretensao: DataTypes.FLOAT,
+      descricao: DataTypes.TEXT
     },
     {
       sequelize,

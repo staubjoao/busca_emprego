@@ -21,8 +21,10 @@ module.exports = {
         telefone: '999547972',
         sexo: 'M',
         genero: 'O',
-        deficiencia: false,
+        deficiencia: 'Não possui',
         cep: '93517721',
+        pretensao: 20000.0,
+        descricao: 'Sla mano',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -44,8 +46,10 @@ module.exports = {
         telefone: '994730066',
         sexo: 'F',
         genero: 'F',
-        deficiencia: true,
+        deficiencia: 'Deficiência motora',
         cep: '07076247',
+        pretensao: 2000.0,
+        descricao: 'Sla mano',
         createdAt: new Date(),
         updatedAt: new Date()
       }

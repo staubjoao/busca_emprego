@@ -72,11 +72,19 @@ module.exports = {
         allowNull: true
       },
       deficiencia: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.DataTypes.STRING(80),
         allowNull: false
       },
       cep: {
         type: Sequelize.DataTypes.CHAR(8),
+        allowNull: false
+      },
+      pretensao: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+      descricao: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
       createdAt: {
