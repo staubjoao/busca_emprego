@@ -1,25 +1,25 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Curso extends Model {
+  class Cursos extends Model {
     static associate(models) {
-      Curso.belongsToMany(models.Curriculo, {
+      Cursos.belongsToMany(models.Curriculo, {
         through: 'CurriculoCurso'
       })
 
-      Curso.belongsToMany(models.Instituicao, {
+      Cursos.belongsToMany(models.Instituicao, {
         through: 'CursoInstituicao'
       })
     }
   }
-  Curso.init(
+  Cursos.init(
     {
       curso: DataTypes.STRING(100)
     },
     {
       sequelize,
-      modelName: 'Curso'
+      modelName: 'Cursos'
     }
   )
-  return Curso
+  return Cursos
 }

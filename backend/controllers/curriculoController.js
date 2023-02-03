@@ -40,7 +40,6 @@ const getJSON = (value, model, candidato) => {
         case 'idiomas':
             return jsonIdiomas(model)
         case 'curriculosIdiomas':
-            console.log('ENTROU AQUI --->', model)
             return jsonCurriculosIdiomas(model, candidato)
         default:
             console.log('nenhum')
