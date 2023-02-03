@@ -3,7 +3,7 @@ import { api } from '../lib/axios';
 import { Box, Divider, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Content = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -18,6 +18,35 @@ export function CadastroCurriculo() {
   const [inicio, setInicio] = useState('');
   const [fim, setFim] = useState('');
   const [cargo, setCargo] = useState('');
+  const [experiences, setExperiences] = useState([]);
+
+  const clearStatesExperience = () => {
+    setCargo('');
+    setInicio('');
+    setFim('');
+    setNomeEmpresa('');
+  };
+
+  useEffect(() => {
+    const item = {
+      firstItem: cargo,
+      secondItem: fim,
+      thirdItem: inicio,
+      fourItem: nomeEmpresa,
+    };
+    setExperiences([item, ...experiences]);
+  }, []);
+
+  const handleSaveItem = () => {
+    const item = {
+      firstItem: cargo,
+      secondItem: fim,
+      thirdItem: inicio,
+      fourItem: nomeEmpresa,
+    };
+    setExperiences([item, ...experiences]);
+    clearStatesExperience();
+  };
 
   return (
     <Box
@@ -28,6 +57,7 @@ export function CadastroCurriculo() {
     >
       <Content>
         <SectionCreate
+          array={experiences}
           title="Experiências profissionais"
           firstItem={{
             label: 'Nome da empresa',
@@ -53,6 +83,7 @@ export function CadastroCurriculo() {
             currentValue: fim,
             setCurrentValue: setFim,
           }}
+          onPressAdd={handleSaveItem}
         />
         {/* <SectionCreate
           title="Idiomas"

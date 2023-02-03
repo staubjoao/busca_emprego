@@ -6,6 +6,7 @@ import {
   Divider,
   Container,
   Grid,
+  Button,
 } from '@mui/material';
 
 import {
@@ -31,6 +32,8 @@ type PropsSection = {
   secondItem: item;
   thirdItem: item;
   fourItem: item;
+  onPressAdd: () => void;
+  array: Array<any>;
 };
 
 export function SectionCreate({
@@ -39,50 +42,94 @@ export function SectionCreate({
   secondItem,
   thirdItem,
   title,
+  onPressAdd,
+  array,
 }: PropsSection) {
+  console.log('ARRAY', array);
   return (
     <>
       <HeaderSection>
         <TitleSection>{title}</TitleSection>
-        <TextButtonAdd>Adicionar</TextButtonAdd>
+        <Button onClick={onPressAdd}>
+          <TextButtonAdd>Adicionar</TextButtonAdd>
+        </Button>
       </HeaderSection>
 
       <DvividerStyle />
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Label>{firstItem.label}</Label>
-          <Field
-            placeholder={firstItem.placeholder}
-            value={firstItem.currentValue}
-            onChange={(e) => firstItem.setCurrentValue(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Label>{secondItem.label}</Label>
-          <Field
-            placeholder={secondItem.placeholder}
-            value={secondItem.currentValue}
-            onChange={(e) => secondItem.setCurrentValue(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <Label>{thirdItem.label}</Label>
-          <Field
-            placeholder={thirdItem.placeholder}
-            value={thirdItem.currentValue}
-            onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <Label>{fourItem.label}</Label>
-          <Field
-            placeholder={fourItem.placeholder}
-            value={fourItem.currentValue}
-            onChange={(e) => fourItem.setCurrentValue(e.target.value)}
-          />
-        </Grid>
-      </Grid>
+      {array.map((item) =>
+        item.firstItem === '' ? (
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Label>{firstItem.label}</Label>
+              <Field
+                placeholder={firstItem.placeholder}
+                value={firstItem.currentValue}
+                onChange={(e) => firstItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Label>{secondItem.label}</Label>
+              <Field
+                placeholder={secondItem.placeholder}
+                value={secondItem.currentValue}
+                onChange={(e) => secondItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Label>{thirdItem.label}</Label>
+              <Field
+                placeholder={thirdItem.placeholder}
+                value={thirdItem.currentValue}
+                onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Label>{fourItem.label}</Label>
+              <Field
+                placeholder={fourItem.placeholder}
+                value={fourItem.currentValue}
+                onChange={(e) => fourItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Label>{firstItem.label}</Label>
+              <Field
+                placeholder={firstItem.placeholder}
+                value={item.firstItem}
+                // onChange={(e) => firstItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Label>{secondItem.label}</Label>
+              <Field
+                placeholder={secondItem.placeholder}
+                value={item.secondItem}
+                // onChange={(e) => secondItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Label>{thirdItem.label}</Label>
+              <Field
+                placeholder={thirdItem.placeholder}
+                value={item.thirdItem}
+                //  onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Label>{fourItem.label}</Label>
+              <Field
+                placeholder={fourItem.placeholder}
+                value={item.fourItem}
+                //   onChange={(e) => fourItem.setCurrentValue(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+        )
+      )}
     </>
   );
 }
