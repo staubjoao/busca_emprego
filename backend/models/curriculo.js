@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         through: 'CurriculoPergunta'
       })
 
-      Curriculo.belongsToMany(models.Idioma, {
-        through: 'CurriculoIdioma'
+      Curriculo.belongsToMany(models.Idiomas, {
+        through: 'CurriculosIdiomas'
       })
 
       Curriculo.belongsToMany(models.Curso, {

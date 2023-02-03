@@ -1,13 +1,13 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class CurriculoIdioma extends Model {
+  class CurriculosIdiomas extends Model {
     static associate(models) {
-      CurriculoIdioma.belongsTo(models.Curriculo)
-      CurriculoIdioma.belongsTo(models.Idioma)
+      CurriculosIdiomas.belongsTo(models.Curriculo)
+      CurriculosIdiomas.belongsTo(models.Idiomas)
     }
   }
-  CurriculoIdioma.init(
+  CurriculosIdiomas.init(
     {
       CurriculoId: DataTypes.INTEGER,
       IdiomaId: DataTypes.INTEGER,
@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'CurriculoIdioma'
+      modelName: 'CurriculosIdiomas'
     }
   )
-  return CurriculoIdioma
+  return CurriculosIdiomas
 }

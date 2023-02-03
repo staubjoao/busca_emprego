@@ -20,12 +20,28 @@ const jsonExperiencia = (model) => ({
     ramo: model.ramo
 })
 
+const jsonIdiomas = (model) => ({
+    id: model.id,
+    idioma: model.idioma
+})
+
+const jsonCurriculosIdiomas = (model, candidato) => ({
+    CurriculoId: candidato.id,
+    IdiomaId: model.id,
+    nivel: model.nivel,
+})
+
 const getJSON = (value, model, candidato) => {
     switch (value) {
         case 'curriculoExperiencias':
             return jsonCurriculoExperiencia(model, candidato)
         case 'experiencias':
             return jsonExperiencia(model)
+        case 'idiomas':
+            return jsonIdiomas(model)
+        case 'curriculosIdiomas':
+            console.log('ENTROU AQUI --->', model)
+            return jsonCurriculosIdiomas(model, candidato)
         default:
             console.log('nenhum')
     }
@@ -34,7 +50,7 @@ const getJSON = (value, model, candidato) => {
 
 const returnChamadas = (req, valueBody, model, value, candidato) => {
     const getModel = models[`${model}`]
-    const promises =  req.body[`${valueBody}`].map(source => getModel.create(getJSON(value, source, candidato)));
+    const promises =  req.body[`${valueBody}`].map(itemModel => getModel.create(getJSON(value, itemModel, candidato)));
     return promises
 }
 
@@ -49,6 +65,16 @@ const campos = [
         value: "curriculoExperiencias",
         model: "CurriculosExperiencias"
     },
+    {
+        valueBody: "idiomas",
+        value: "idiomas",
+        model: "Idiomas"
+    },
+    {
+        valueBody: "idiomas",
+        value: "curriculosIdiomas",
+        model: "CurriculosIdiomas"
+    },
 ]
 
 
@@ -62,10 +88,6 @@ const curriculo = {
             }
         })
 
-        let numChamadas = 2
-        let resultado = 0
-        
-      
        const body = campos.map(async item => {
                  return await returnChamadas(req, item.valueBody, item.model, item.value, curriculo)
                // Promise.all(promises)
