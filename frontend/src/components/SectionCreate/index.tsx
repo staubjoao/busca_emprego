@@ -18,11 +18,30 @@ import {
   TitleSection,
 } from './styles';
 
-export function SectionCreate() {
+type item = {
+  label: string;
+  placeholder: string;
+};
+
+type PropsSection = {
+  title: string;
+  firstItem: item;
+  secondItem: item;
+  thirdItem: item;
+  fourItem: item;
+};
+
+export function SectionCreate({
+  firstItem,
+  fourItem,
+  secondItem,
+  thirdItem,
+  title,
+}: PropsSection) {
   return (
     <>
       <HeaderSection>
-        <TitleSection>Experiências profissionais</TitleSection>
+        <TitleSection>{title}</TitleSection>
         <TextButtonAdd>Adicionar</TextButtonAdd>
       </HeaderSection>
 
@@ -30,20 +49,20 @@ export function SectionCreate() {
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Label>Nome da empresa</Label>
-          <Field placeholder="Digite o nome" />
+          <Label>{firstItem.label}</Label>
+          <Field placeholder={firstItem.placeholder} />
         </Grid>
         <Grid item xs={6}>
-          <Label>Cargo</Label>
-          <Field placeholder="Digite o cargo" />
+          <Label>{secondItem.label}</Label>
+          <Field placeholder={secondItem.placeholder} />
         </Grid>
         <Grid item xs={3}>
-          <Label>Início</Label>
-          <Field placeholder="Data de inicio" />
+          <Label>{thirdItem.label}</Label>
+          <Field placeholder={thirdItem.placeholder} />
         </Grid>
         <Grid item xs={3}>
-          <Label>Fim</Label>
-          <Field placeholder="Data de fim" />
+          <Label>{fourItem.label}</Label>
+          <Field placeholder={fourItem.placeholder} />
         </Grid>
       </Grid>
     </>

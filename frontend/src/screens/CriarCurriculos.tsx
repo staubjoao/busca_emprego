@@ -21,7 +21,25 @@ export function CadastroCurriculo() {
       minHeight="100vh"
     >
       <Content>
-        <SectionCreate />
+        <SectionCreate
+          title="Experiências profissionais"
+          firstItem={{
+            label: 'Nome da empresa',
+            placeholder: 'Digite o nome da empresa',
+          }}
+          secondItem={{
+            label: 'Cargo',
+            placeholder: 'Digite o cargo',
+          }}
+          thirdItem={{
+            label: 'Início',
+            placeholder: 'Data de início',
+          }}
+          fourItem={{
+            label: 'Fim',
+            placeholder: 'Data de fim',
+          }}
+        />
       </Content>
     </Box>
   );
