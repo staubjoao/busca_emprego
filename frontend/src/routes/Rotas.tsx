@@ -14,7 +14,7 @@ export function Rotas() {
       <Route path="login/empresa" element={<LoginEmpresa />} />
       <Route path="cadastro/empresa" element={<CadastroEmpresa />} />
       <Route path="cadastro/candidato" element={<CadastroCandidato />} />
-      <Route path="cadastro/:id/curriculo" element={<CadastroCurriculo />} />
+      <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
     </Routes>
   );
 }
