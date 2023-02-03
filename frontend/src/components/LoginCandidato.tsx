@@ -1,28 +1,29 @@
-import { FormEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
-import paper from '../assets/images/paper.png'
-import { api } from '../lib/axios'
+import { FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
+import paper from '../assets/images/paper.png';
+import { api } from '../lib/axios';
 
 export function LoginCandidato() {
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [erro, setErro] = useState('')
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
 
   async function autenticacaoLogin(e: FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (email === '' || senha === '') {
-      return
+      return;
     }
 
     await api
       .post('usuario/login/candidato', {
         email,
-        senha
+        senha,
       })
-      .then(res => {
-        if (res.data.erro) setErro(res.data.mensagem)
-      })
+      .then((res) => {
+        if (res.data.erro) setErro(res.data.mensagem);
+        else console.log('DATA', res.data);
+      });
   }
 
   return (
@@ -69,7 +70,7 @@ export function LoginCandidato() {
             id="email"
             value={email}
             autoFocus
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <input
             className="block border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
@@ -77,7 +78,7 @@ export function LoginCandidato() {
             placeholder="Senha"
             id="senha"
             value={senha}
-            onChange={event => setSenha(event.target.value)}
+            onChange={(event) => setSenha(event.target.value)}
           />
           <div className="flex justify-between mb-5">
             {erro != '' ? (
@@ -103,5 +104,5 @@ export function LoginCandidato() {
         </form>
       </div>
     </div>
-  )
+  );
 }
