@@ -1,2 +1,2 @@
-export * from './getCampos';
-export * from './getJSONCurriculos';
+module.exports = './getCampos';
+module.exports = './getJSONCurriculos';

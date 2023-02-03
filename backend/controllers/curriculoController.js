@@ -1,5 +1,5 @@
 const models = require('../models');
-import { getJSON, campos } from '../utils/curriculos';
+const { campos, getJSON } = require('../utils/curriculos');
 
 const createItensModels = async (req, valueBody, model, value, candidato) => {
   const getModel = models[`${model}`];
