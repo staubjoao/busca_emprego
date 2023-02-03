@@ -1,9 +1,9 @@
-import { TelaInicial } from '../components/TelaInicial'
-import { Route, Routes } from 'react-router-dom'
-import { LoginCandidato } from '../components/LoginCandidato'
-import { LoginEmpresa } from '../components/LoginEmpresa'
-import { CadastroEmpresa } from '../components/CadastroEmpresa'
-import { CadastroCandidato } from '../components/CadastroCandidato'
+import { TelaInicial } from '../screens/TelaInicial';
+import { Route, Routes } from 'react-router-dom';
+import { LoginCandidato } from '../screens/LoginCandidato';
+import { LoginEmpresa } from '../screens/LoginEmpresa';
+import { CadastroEmpresa } from '../screens/CadastroEmpresa';
+import { CadastroCandidato } from '../screens/CadastroCandidato';
 
 export function Rotas() {
   return (
@@ -14,5 +14,5 @@ export function Rotas() {
       <Route path="cadastro/empresa" element={<CadastroEmpresa />} />
       <Route path="cadastro/candidato" element={<CadastroCandidato />} />
     </Routes>
-  )
+  );
 }
