@@ -32,10 +32,10 @@ const getJSON = (value, model, candidato) => {
 }
 
 
-const returnChamadas = (req, res, valueBody, model, value, candidato) => {
-    //console.log('valueBody', model)
+const returnChamadas = (req, valueBody, model, value, candidato) => {
     const getModel = models[`${model}`]
-    return promises = req.body[`${valueBody}`].map(source => getModel.create(getJSON(value, source, candidato)));
+    const promises =  req.body[`${valueBody}`].map(source => getModel.create(getJSON(value, source, candidato)));
+    return promises
 }
 
 const campos = [
@@ -48,7 +48,7 @@ const campos = [
         valueBody: "experiencias",
         value: "curriculoExperiencias",
         model: "CurriculosExperiencias"
-    }
+    },
 ]
 
 
@@ -62,21 +62,26 @@ const curriculo = {
             }
         })
 
-        try {
-            campos.map(item => {
-                const promises = returnChamadas(req, res, item.valueBody, item.model, item.value, curriculo)
-                Promise.all(promises)
-                    .then(() => {
-                        console.log("BODY", req.body)
-                    }).catch(error => {
-                        console.log(error);
-                        console.log(`Error during Post: ${item.value} ` + error);
-                    })
+        let numChamadas = 2
+        let resultado = 0
+        
+      
+       const body = campos.map(async item => {
+                 return await returnChamadas(req, item.valueBody, item.model, item.value, curriculo)
+               // Promise.all(promises)
+                //     .then((res) => {
+                //         body.push(res)
+                //     }).catch(error => {
+                //         resultado-=1
+                //         console.log(error);
+                //         console.log(`Error during Post: ${item.value} ` + error);
+                 //   })
             })
+        
 
-        } catch (e) {
-            console.log("ERROR", e)
-        }
+        console.log("BODY----->", body)
+    
+        return res.send(body)
     }
 }
 
