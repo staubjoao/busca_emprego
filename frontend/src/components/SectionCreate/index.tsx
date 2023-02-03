@@ -45,7 +45,6 @@ export function SectionCreate({
   onPressAdd,
   array,
 }: PropsSection) {
-  console.log('ARRAY', array);
   return (
     <>
       <HeaderSection>
@@ -119,7 +118,7 @@ export function SectionCreate({
                 //  onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} marginBottom={4}>
               <Label>{fourItem.label}</Label>
               <Field
                 placeholder={fourItem.placeholder}

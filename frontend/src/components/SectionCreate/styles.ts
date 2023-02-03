@@ -9,12 +9,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const Content = styled(Paper)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  lineHeight: '60px',
-  padding: theme.spacing(4),
-  width: '50%',
-  borderRadius: 16,
+export const Content = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
 }));
 
 export const HeaderSection = styled(Box)(({ theme }) => ({
