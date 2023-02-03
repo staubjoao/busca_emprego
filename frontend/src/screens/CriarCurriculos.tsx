@@ -20,6 +20,15 @@ export function CadastroCurriculo() {
   const [cargo, setCargo] = useState('');
   const [experiences, setExperiences] = useState([]);
 
+  const [idioma, setIdioma] = useState('');
+  const [nivel, setNivel] = useState('');
+  const [idiomas, setIdiomas] = useState([]);
+
+  const [curso, setCurso] = useState('');
+  const [inicioCurso, setInicioCurso] = useState('');
+  const [fimCurso, setFimCurso] = useState('');
+  const [cursos, setCursos] = useState([]);
+
   const clearStatesExperience = () => {
     setCargo('');
     setInicio('');
@@ -27,17 +36,43 @@ export function CadastroCurriculo() {
     setNomeEmpresa('');
   };
 
+  const clearStatesIdiomas = () => {
+    setIdioma('');
+    setNivel('');
+  };
+
+  const clearStatesCursos = () => {
+    setCurso('');
+    setFimCurso('');
+    setInicioCurso('');
+  };
+
   useEffect(() => {
-    const item = {
+    const experienceItem = {
       firstItem: cargo,
       secondItem: fim,
       thirdItem: inicio,
       fourItem: nomeEmpresa,
     };
-    setExperiences([item, ...experiences]);
+    setExperiences([experienceItem, ...experiences]);
+
+    const idiomaItem = {
+      firstItem: idioma,
+      secondItem: nivel,
+    };
+
+    setIdiomas([idiomaItem, ...idiomas]);
+
+    const cursoItem = {
+      firstItem: curso,
+      secondItem: inicioCurso,
+      thirdItem: fimCurso,
+    };
+
+    setCursos([cursoItem, ...cursos]);
   }, []);
 
-  const handleSaveItem = () => {
+  const handleSaveExperience = () => {
     const item = {
       firstItem: cargo,
       secondItem: fim,
@@ -46,6 +81,25 @@ export function CadastroCurriculo() {
     };
     setExperiences([item, ...experiences]);
     clearStatesExperience();
+  };
+
+  const handleSaveIdiomas = () => {
+    const item = {
+      firstItem: idioma,
+      secondItem: nivel,
+    };
+    setIdiomas([item, ...idiomas]);
+    clearStatesIdiomas();
+  };
+
+  const handleSaveCursos = () => {
+    const item = {
+      firstItem: curso,
+      secondItem: inicioCurso,
+      thirdItem: fimCurso,
+    };
+    setCursos([item, ...cursos]);
+    clearStatesCursos();
   };
 
   return (
@@ -83,27 +137,48 @@ export function CadastroCurriculo() {
             currentValue: fim,
             setCurrentValue: setFim,
           }}
-          onPressAdd={handleSaveItem}
+          onPressAdd={handleSaveExperience}
         />
-        {/* <SectionCreate
+        <SectionCreate
           title="Idiomas"
+          array={idiomas}
           firstItem={{
             label: 'Idioma',
             placeholder: 'Digite o nome da empresa',
+            currentValue: idioma,
+            setCurrentValue: setIdioma,
           }}
           secondItem={{
             label: 'Nível',
             placeholder: 'Digite o cargo',
+            currentValue: nivel,
+            setCurrentValue: setNivel,
+          }}
+          onPressAdd={handleSaveIdiomas}
+        />
+        <SectionCreate
+          title="Cursos"
+          array={cursos}
+          firstItem={{
+            label: 'Curso',
+            placeholder: 'Digite o nome do curso',
+            currentValue: curso,
+            setCurrentValue: setCurso,
+          }}
+          secondItem={{
+            label: 'Início',
+            placeholder: 'Data início',
+            currentValue: inicioCurso,
+            setCurrentValue: setInicioCurso,
           }}
           thirdItem={{
-            label: 'Início',
-            placeholder: 'Data de início',
-          }}
-          fourItem={{
             label: 'Fim',
-            placeholder: 'Data de fim',
+            placeholder: 'Data fim',
+            currentValue: fimCurso,
+            setCurrentValue: setFimCurso,
           }}
-        /> */}
+          onPressAdd={handleSaveCursos}
+        />
       </Content>
     </Box>
   );

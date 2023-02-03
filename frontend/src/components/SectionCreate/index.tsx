@@ -30,8 +30,8 @@ type PropsSection = {
   title: string;
   firstItem: item;
   secondItem: item;
-  thirdItem: item;
-  fourItem: item;
+  thirdItem?: item;
+  fourItem?: item;
   onPressAdd: () => void;
   array: Array<any>;
 };
@@ -45,6 +45,7 @@ export function SectionCreate({
   onPressAdd,
   array,
 }: PropsSection) {
+  console.log(array);
   return (
     <>
       <HeaderSection>
@@ -75,22 +76,26 @@ export function SectionCreate({
                 onChange={(e) => secondItem.setCurrentValue(e.target.value)}
               />
             </Grid>
-            <Grid item xs={3}>
-              <Label>{thirdItem.label}</Label>
-              <Field
-                placeholder={thirdItem.placeholder}
-                value={thirdItem.currentValue}
-                onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Label>{fourItem.label}</Label>
-              <Field
-                placeholder={fourItem.placeholder}
-                value={fourItem.currentValue}
-                onChange={(e) => fourItem.setCurrentValue(e.target.value)}
-              />
-            </Grid>
+            {thirdItem && (
+              <Grid item xs={3}>
+                <Label>{thirdItem.label}</Label>
+                <Field
+                  placeholder={thirdItem.placeholder}
+                  value={thirdItem.currentValue}
+                  onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
+                />
+              </Grid>
+            )}
+            {fourItem && (
+              <Grid item xs={3}>
+                <Label>{fourItem.label}</Label>
+                <Field
+                  placeholder={fourItem.placeholder}
+                  value={fourItem.currentValue}
+                  onChange={(e) => fourItem.setCurrentValue(e.target.value)}
+                />
+              </Grid>
+            )}
           </Grid>
         ) : (
           <Grid container spacing={2}>
@@ -110,22 +115,24 @@ export function SectionCreate({
                 // onChange={(e) => secondItem.setCurrentValue(e.target.value)}
               />
             </Grid>
-            <Grid item xs={3}>
-              <Label>{thirdItem.label}</Label>
-              <Field
-                placeholder={thirdItem.placeholder}
-                value={item.thirdItem}
-                //  onChange={(e) => thirdItem.setCurrentValue(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={3} marginBottom={4}>
-              <Label>{fourItem.label}</Label>
-              <Field
-                placeholder={fourItem.placeholder}
-                value={item.fourItem}
-                //   onChange={(e) => fourItem.setCurrentValue(e.target.value)}
-              />
-            </Grid>
+            {thirdItem && (
+              <Grid item xs={3}>
+                <Label>{thirdItem.label}</Label>
+                <Field
+                  placeholder={thirdItem.placeholder}
+                  value={item.thirdItem}
+                />
+              </Grid>
+            )}
+            {fourItem && (
+              <Grid item xs={3}>
+                <Label>{fourItem.label}</Label>
+                <Field
+                  placeholder={fourItem.placeholder}
+                  value={item.fourItem}
+                />
+              </Grid>
+            )}
           </Grid>
         )
       )}
