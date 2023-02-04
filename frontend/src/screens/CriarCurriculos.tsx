@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography, Snackbar, Alert } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
 import { useCallback, useEffect, useState } from 'react';
@@ -37,6 +37,11 @@ export function CadastroCurriculo() {
   const [inicioCurso, setInicioCurso] = useState('');
   const [fimCurso, setFimCurso] = useState('');
   const [cursos, setCursos] = useState<Array<ItensList>>([]);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [severity, setSeverity] = useState<
+    'success' | 'info' | 'warning' | 'error'
+  >('success');
 
   const clearStatesExperience = () => {
     setCargo('');
@@ -168,12 +173,20 @@ export function CadastroCurriculo() {
         };
       });
 
-    await createCurriculo(
+    const response = await createCurriculo(
       id as any,
       experienciasArrayAPI,
       idiomasArrayAPI,
       cursosAPI
     );
+
+    if (response.ok === 'OK') {
+      setOpenSnackbar(true);
+      setSeverity('success');
+    } else {
+      setOpenSnackbar(true);
+      setSeverity('error');
+    }
   }, [experiences, idiomas, cursos]);
 
   return (
@@ -272,6 +285,20 @@ export function CadastroCurriculo() {
           <Typography>Salvar</Typography>
         </ButtonCreate>
       </Content>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(!openSnackbar)}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(!openSnackbar)}
+          severity={severity}
+          sx={{ width: '100%' }}
+        >
+          Currículo salvo com sucesso
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

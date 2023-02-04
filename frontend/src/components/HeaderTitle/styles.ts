@@ -22,5 +22,5 @@ export const TitleSection = styled(Typography)(({ theme }) => ({
 export const TextButtonAdd = styled(Typography)(({ theme }) => ({
   color: '#5E80BB',
   fontWeight: 'bold',
-  fontSize: 20,
+  fontSize: 16,
 }));
