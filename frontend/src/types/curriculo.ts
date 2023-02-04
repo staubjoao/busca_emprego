@@ -21,3 +21,8 @@ export type PropsSection = {
   onPressAdd: () => void;
   array: Array<any>;
 };
+
+export type Header = {
+  title: string;
+  onPressAdd?: () => void;
+};

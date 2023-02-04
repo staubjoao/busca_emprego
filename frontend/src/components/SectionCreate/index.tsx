@@ -1,25 +1,9 @@
-import {
-  Box,
-  Paper,
-  Typography,
-  TextField,
-  Divider,
-  Container,
-  Grid,
-  Button,
-} from '@mui/material';
+import { Grid, Button } from '@mui/material';
 
-import {
-  Content,
-  DvividerStyle,
-  Field,
-  HeaderSection,
-  Label,
-  TextButtonAdd,
-  TitleSection,
-} from './styles';
+import { Content, DvividerStyle, Field, Label } from './styles';
 
 import { PropsSection } from '../../types/curriculo';
+import { Header } from '../HeaderTitle';
 
 export function SectionCreate({
   firstItem,
@@ -32,14 +16,7 @@ export function SectionCreate({
 }: PropsSection) {
   return (
     <Content>
-      <HeaderSection>
-        <TitleSection>{title}</TitleSection>
-        <Button onClick={onPressAdd}>
-          <TextButtonAdd>Adicionar</TextButtonAdd>
-        </Button>
-      </HeaderSection>
-
-      <DvividerStyle />
+      <Header title={title} onPressAdd={onPressAdd} />
 
       {array.map((item) =>
         item.firstItem === '' ? (

@@ -5,13 +5,21 @@ import { SectionCreate } from '../components/SectionCreate';
 import { useCallback, useEffect, useState } from 'react';
 import { ItensList } from '../types/curriculo';
 import { createCurriculo } from '../service';
+import { Header } from '../components/HeaderTitle';
 
 const Content = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   lineHeight: '60px',
   padding: theme.spacing(4),
   width: '50%',
-  borderRadius: 16,
+  borderRadius: 12,
+}));
+
+const ButtonCreate = styled(Button)(({ theme }) => ({
+  backgroundColor: '#5E80BB',
+  display: 'flex',
+  alignSelf: 'flex-end',
+  width: '20%',
 }));
 
 export function CadastroCurriculo() {
@@ -248,9 +256,13 @@ export function CadastroCurriculo() {
           onPressAdd={handleSaveCursos}
         />
 
-        <Button variant="contained" onClick={handleCreateCurriculo}>
-          <Typography>Criar</Typography>
-        </Button>
+        <ButtonCreate
+          sx={{ marginLeft: 'auto' }}
+          variant="contained"
+          onClick={handleCreateCurriculo}
+        >
+          <Typography>Salvar</Typography>
+        </ButtonCreate>
       </Content>
     </Box>
   );
