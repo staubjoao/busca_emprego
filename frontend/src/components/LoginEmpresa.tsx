@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import paper from '../assets/images/paper.png'
 import IMaskInput from 'react-input-mask'
 import { api } from '../lib/axios'
@@ -8,6 +8,7 @@ export function LoginEmpresa() {
   const [cnpj, setCnpj] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
+  const navigate = useNavigate()
 
   async function autenticacaoLogin(e: FormEvent) {
     e.preventDefault()
@@ -22,7 +23,13 @@ export function LoginEmpresa() {
         senha
       })
       .then(res => {
-        if (res.data.erro) setErro(res.data.mensagem)
+        if (res.data.erro) {
+          setErro(res.data.mensagem)
+        } else {
+          localStorage.setItem('id', res.data.id)
+          localStorage.setItem('token', res.data.token)
+          navigate('/empresa/curriculos')
+        }
       })
   }
 
@@ -78,7 +85,7 @@ export function LoginEmpresa() {
             onChange={event => setSenha(event.target.value)}
           />
           <div className="flex justify-between items-center mb-5">
-            {erro != '' ? (
+            {erro !== '' ? (
               <span className="text-red-600">{erro}</span>
             ) : (
               <div></div>
@@ -96,7 +103,7 @@ export function LoginEmpresa() {
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors ">
-          <Link to={'/cadastro/empresa'}>Cadastrar</Link>
+            <Link to={'/cadastro/empresa'}>Cadastrar</Link>
           </button>
         </form>
       </div>
