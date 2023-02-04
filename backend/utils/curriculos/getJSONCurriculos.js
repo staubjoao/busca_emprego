@@ -1,13 +1,13 @@
-import {
+const {
   jsonCurriculoExperiencia,
   jsonCurriculosCursos,
   jsonCurriculosIdiomas,
   jsonCursos,
   jsonExperiencia,
   jsonIdiomas,
-} from './jsonCurriculos';
+} = require('./jsonCurriculos');
 
-export const getJSON = (value, model, candidato) => {
+const getJSON = (value, model, candidato) => {
   switch (value) {
     case 'curriculoExperiencias':
       return jsonCurriculoExperiencia(model, candidato);
@@ -25,3 +25,5 @@ export const getJSON = (value, model, candidato) => {
       console.log('nenhum');
   }
 };
+
+module.exports = { getJSON };

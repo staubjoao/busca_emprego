@@ -1,4 +1,4 @@
-export const campos = [
+const campos = [
   {
     valueBody: 'experiencias',
     value: 'experiencias',
@@ -30,3 +30,5 @@ export const campos = [
     model: 'CurriculosCursos',
   },
 ];
+
+module.exports = { campos };

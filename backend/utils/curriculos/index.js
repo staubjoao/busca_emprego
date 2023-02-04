@@ -1,2 +1,4 @@
-module.exports = './getCampos';
-module.exports = './getJSONCurriculos';
+const { campos } = require('./getCampos');
+const { getJSON } = require('./getJSONCurriculos');
+
+module.exports = { campos, getJSON };

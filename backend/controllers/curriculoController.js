@@ -1,8 +1,17 @@
 const models = require('../models');
+const {
+  jsonCurriculoExperiencia,
+  jsonCurriculosCursos,
+  jsonCurriculosIdiomas,
+  jsonCursos,
+  jsonExperiencia,
+  jsonIdiomas,
+} = require('../utils/curriculos/jsonCurriculos');
 const { campos, getJSON } = require('../utils/curriculos');
 
 const createItensModels = async (req, valueBody, model, value, candidato) => {
   const getModel = models[`${model}`];
+  console.log(valueBody);
   const promises = await Promise.all(
     req.body[`${valueBody}`].map((itemModel) =>
       getModel.create(getJSON(value, itemModel, candidato))
