@@ -43,7 +43,7 @@ export function SectionCreate({
 
       {array.map((item) =>
         item.firstItem === '' ? (
-          <Grid container spacing={2} marginBottom={8}>
+          <Grid container spacing={2} marginBottom={6}>
             <Grid item xs={12}>
               <Label>{firstItem.label}</Label>
               <Field
