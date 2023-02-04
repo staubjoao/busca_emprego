@@ -21,7 +21,7 @@ export function SectionCreate({
       {array.map((item) =>
         item.firstItem === '' ? (
           <Grid container spacing={2} marginBottom={6}>
-            <Grid item xs={12}>
+            <Grid item xs={firstItem.xs}>
               <Label>{firstItem.label}</Label>
               <Field
                 placeholder={firstItem.placeholder}
@@ -29,7 +29,7 @@ export function SectionCreate({
                 onChange={(e) => firstItem.setCurrentValue(e.target.value)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={secondItem.xs}>
               <Label>{secondItem.label}</Label>
               <Field
                 placeholder={secondItem.placeholder}
@@ -38,7 +38,7 @@ export function SectionCreate({
               />
             </Grid>
             {thirdItem && (
-              <Grid item xs={3}>
+              <Grid item xs={thirdItem.xs}>
                 <Label>{thirdItem.label}</Label>
                 <Field
                   placeholder={thirdItem.placeholder}
@@ -48,7 +48,7 @@ export function SectionCreate({
               </Grid>
             )}
             {fourItem && (
-              <Grid item xs={3}>
+              <Grid item xs={fourItem.xs}>
                 <Label>{fourItem.label}</Label>
                 <Field
                   placeholder={fourItem.placeholder}

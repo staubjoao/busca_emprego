@@ -5,7 +5,6 @@ import { SectionCreate } from '../components/SectionCreate';
 import { useCallback, useEffect, useState } from 'react';
 import { ItensList } from '../types/curriculo';
 import { createCurriculo } from '../service';
-import { Header } from '../components/HeaderTitle';
 
 const Content = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -190,24 +189,28 @@ export function CadastroCurriculo() {
           array={experiences}
           title="Experiências profissionais"
           firstItem={{
+            xs: 12,
             label: 'Nome da empresa',
             placeholder: 'Digite o nome da empresa',
             currentValue: nomeEmpresa,
             setCurrentValue: setNomeEmpresa,
           }}
           secondItem={{
+            xs: 6,
             label: 'Cargo',
             placeholder: 'Digite o cargo',
             currentValue: cargo,
             setCurrentValue: setCargo,
           }}
           thirdItem={{
+            xs: 3,
             label: 'Início',
             placeholder: 'Data de início',
             currentValue: inicio,
             setCurrentValue: setInicio,
           }}
           fourItem={{
+            xs: 3,
             label: 'Fim',
             placeholder: 'Data de fim',
             currentValue: fim,
@@ -219,12 +222,14 @@ export function CadastroCurriculo() {
           title="Idiomas"
           array={idiomas}
           firstItem={{
+            xs: 6,
             label: 'Idioma',
             placeholder: 'Ex: Inglês',
             currentValue: idioma,
             setCurrentValue: setIdioma,
           }}
           secondItem={{
+            xs: 6,
             label: 'Nível',
             placeholder: 'Ex: Intermediário',
             currentValue: nivel,
@@ -236,18 +241,21 @@ export function CadastroCurriculo() {
           title="Cursos"
           array={cursos}
           firstItem={{
+            xs: 12,
             label: 'Curso',
             placeholder: 'Digite o nome do curso',
             currentValue: curso,
             setCurrentValue: setCurso,
           }}
           secondItem={{
+            xs: 4,
             label: 'Início',
             placeholder: 'Data início',
             currentValue: inicioCurso,
             setCurrentValue: setInicioCurso,
           }}
           thirdItem={{
+            xs: 4,
             label: 'Fim',
             placeholder: 'Data fim',
             currentValue: fimCurso,

@@ -3,6 +3,7 @@ export type item = {
   placeholder: string;
   currentValue: any;
   setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
+  xs: number;
 };
 
 export type ItensList = {
