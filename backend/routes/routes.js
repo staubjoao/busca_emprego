@@ -12,17 +12,10 @@ router.post('/cadastro/candidatos', usuarioController.cadastroCandidato)
 
 //rota de login
 router.post('/login/candidato', usuarioController.loginCandidato)
-
 router.post('/login/empresa', usuarioController.loginEmpresa)
 
-//rota de cadastro e listagem das vagas
-router.post('/cadastro/vaga', usuarioController.cadastroVaga)
-
-router.get('/listar/vagas', usuarioController.listarVagas)
-
-//Exemplo para usar alguns dos controllers de autorização
-// router.get('/vagas', authEmpresa, (res) => {
-//   res.send('Somente usuário empresa pode acessar está rota')
-// })
+//rota de vagas
+router.post('/cadastro/vaga', authEmpresa, usuarioController.cadastroVaga)
+router.get('/listar/vagas', authCandidato, usuarioController.listarVagas)
 
 module.exports = router

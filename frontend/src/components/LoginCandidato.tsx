@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import paper from '../assets/images/paper.png'
 import { api } from '../lib/axios'
 
@@ -7,6 +7,7 @@ export function LoginCandidato() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
+  const navigate = useNavigate()
 
   async function autenticacaoLogin(e: FormEvent) {
     e.preventDefault()
@@ -21,7 +22,13 @@ export function LoginCandidato() {
         senha
       })
       .then(res => {
-        if (res.data.erro) setErro(res.data.mensagem)
+        if (res.data.erro) {
+          setErro(res.data.mensagem)
+        } else {
+          localStorage.setItem('id', res.data.id)
+          localStorage.setItem('token', res.data.token)
+          navigate('/candidato/vagas')
+        }
       })
   }
 
@@ -80,7 +87,7 @@ export function LoginCandidato() {
             onChange={event => setSenha(event.target.value)}
           />
           <div className="flex justify-between mb-5">
-            {erro != '' ? (
+            {erro !== '' ? (
               <span className="text-red-600">{erro}</span>
             ) : (
               <div></div>
