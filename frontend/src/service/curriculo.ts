@@ -1,21 +1,16 @@
 import { api } from './baseURL';
 
-export const createCurriculo = (
+export const createCurriculo = async (
   idCandidato: string,
   experiences: Array<any>,
   idiomas: Array<any>,
   cursos: Array<any>
 ) => {
-  api
-    .post(`/usuario/curriculo/${idCandidato}`, {
-      experiences,
-      idiomas,
-      cursos,
-    })
-    .then((response) => {
-      return { ok: true, data: response.data };
-    })
-    .catch((e) => {
-      return { ok: false, error: e };
-    });
+  console.log(idCandidato, experiences, idiomas, cursos);
+  const tes = await api.post(`/usuario/curriculo/${idCandidato}`, {
+    experiencias: experiences,
+    idiomas: idiomas,
+    cursos: cursos,
+  });
+  console.log('TEST', tes);
 };

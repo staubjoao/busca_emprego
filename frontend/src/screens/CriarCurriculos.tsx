@@ -1,10 +1,11 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/axios';
-import { Box, Divider, Paper } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ItensList } from '../types/curriculo';
+import { createCurriculo } from '../service';
 
 const Content = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -15,6 +16,7 @@ const Content = styled(Paper)(({ theme }) => ({
 }));
 
 export function CadastroCurriculo() {
+  const { id } = useParams();
   const [nomeEmpresa, setNomeEmpresa] = useState('');
   const [inicio, setInicio] = useState('');
   const [fim, setFim] = useState('');
@@ -72,14 +74,16 @@ export function CadastroCurriculo() {
     };
 
     setCursos([cursoItem, ...cursos]);
+
+    console.log(experiences, cursos, idiomas);
   }, []);
 
   const handleSaveExperience = () => {
     const item = {
-      firstItem: cargo,
-      secondItem: fim,
+      firstItem: nomeEmpresa,
+      secondItem: cargo,
       thirdItem: inicio,
-      fourItem: nomeEmpresa,
+      fourItem: fim,
     };
     setExperiences([item, ...experiences]);
     clearStatesExperience();
@@ -103,6 +107,63 @@ export function CadastroCurriculo() {
     setCursos([item, ...cursos]);
     clearStatesCursos();
   };
+
+  useEffect(() => {
+    if (cargo && inicio && nomeEmpresa && fim) handleSaveExperience();
+  }, [cargo, inicio, nomeEmpresa, fim]);
+
+  useEffect(() => {
+    if (inicioCurso && curso && fimCurso) handleSaveCursos();
+  }, [inicioCurso, curso, fimCurso]);
+
+  useEffect(() => {
+    if (idioma && nivel) handleSaveIdiomas();
+  }, [idioma, nivel]);
+
+  const handleCreateCurriculo = useCallback(async () => {
+    const experienciasArrayAPI = experiences
+      .filter((i) => i.firstItem !== '')
+      .map((i, index) => {
+        return {
+          id: index + 10,
+          empresa: i.firstItem,
+          cargo: i.secondItem,
+          inicio: i.thirdItem,
+          termino: i.fourItem,
+          endereco: 'Rua Palmital',
+          ramo: 'algum',
+        };
+      });
+
+    const idiomasArrayAPI = idiomas
+      .filter((i) => i.firstItem !== '')
+      .map((i, index) => {
+        return {
+          id: index + 10,
+          idioma: i.firstItem,
+          nivel: i.secondItem,
+        };
+      });
+
+    const cursosAPI = cursos
+      .filter((i) => i.firstItem !== '')
+      .map((i, index) => {
+        return {
+          id: index + 10,
+          curso: i.firstItem,
+          inicio: i.secondItem,
+          fim: i.thirdItem,
+        };
+      });
+
+    const retorn = await createCurriculo(
+      id,
+      experienciasArrayAPI,
+      idiomasArrayAPI,
+      cursosAPI
+    );
+    console.log('RETORN', retorn);
+  }, [experiences, idiomas, cursos]);
 
   return (
     <Box
@@ -182,6 +243,10 @@ export function CadastroCurriculo() {
           }}
           onPressAdd={handleSaveCursos}
         />
+
+        <Button variant="contained" onClick={handleCreateCurriculo}>
+          <Typography>Criar</Typography>
+        </Button>
       </Content>
     </Box>
   );
