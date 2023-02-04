@@ -8,14 +8,14 @@ module.exports = {
       [
         {
           CurriculoId: 1,
-          IdiomaId: 2,
+          IdiomaId: 1,
           nivel: 'Intermediário',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           CurriculoId: 2,
-          IdiomaId: 1,
+          IdiomaId: 2,
           nivel: 'Basico',
           createdAt: new Date(),
           updatedAt: new Date()

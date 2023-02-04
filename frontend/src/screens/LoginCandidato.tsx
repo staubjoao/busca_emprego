@@ -1,56 +1,57 @@
-import { FormEvent, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import paper from '../assets/images/paper.png'
-import { api } from '../lib/axios'
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import paper from '../assets/images/paper.png';
+import { api } from '../lib/axios';
 
 export function LoginCandidato() {
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [erro, setErro] = useState('')
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const navigate = useNavigate();
 
   async function autenticacaoLogin(e: FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (email === '' || senha === '') {
-      return
+      return;
     }
 
     await api
       .post('usuario/login/candidato', {
         email,
-        senha
+        senha,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.erro) {
-          setErro(res.data.mensagem)
+          setErro(res.data.mensagem);
         } else {
-          localStorage.setItem('id', res.data.id)
-          localStorage.setItem('token', res.data.token)
-          navigate('/candidato/vagas')
+          localStorage.setItem('id', res.data.id);
+          localStorage.setItem('token', res.data.token);
+          navigate('/candidato/1/curriculo');
         }
-      })
+      });
   }
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
-      <button className="text-white absolute top-0 left-0 text-2xl p-5">
-        <Link to={'/'}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </Link>
+      <button
+        onClick={() => navigate('/')}
+        className="text-white absolute top-0 left-0 text-2xl p-5"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
       <div className="mx-auto max-w-sm">
         <img src={paper} className="mx-auto my-5" />
@@ -76,7 +77,7 @@ export function LoginCandidato() {
             id="email"
             value={email}
             autoFocus
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <input
             className="block border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
@@ -84,7 +85,7 @@ export function LoginCandidato() {
             placeholder="Senha"
             id="senha"
             value={senha}
-            onChange={event => setSenha(event.target.value)}
+            onChange={(event) => setSenha(event.target.value)}
           />
           <div className="flex justify-between mb-5">
             {erro !== '' ? (
@@ -93,7 +94,7 @@ export function LoginCandidato() {
               <div></div>
             )}
             <div className="text-left text-background1 ">
-              <Link to={'/'}>Esqueceu a senha?</Link>
+              <button onClick={() => navigate('/')}>Esqueceu a senha?</button>
             </div>
           </div>
           <button
@@ -104,11 +105,14 @@ export function LoginCandidato() {
           </button>
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
-          <button className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors ">
-            <Link to={'/cadastro/candidato'}>Cadastrar</Link>
+          <button
+            onClick={() => navigate('/cadastro/candidato')}
+            className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
+          >
+            Cadastrar
           </button>
         </form>
       </div>
     </div>
-  )
+  );
 }

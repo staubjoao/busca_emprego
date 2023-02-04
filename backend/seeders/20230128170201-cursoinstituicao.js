@@ -14,7 +14,7 @@ module.exports = {
         },
         {
           CursoId: 2,
-          InstituicaoId: 1,
+          InstituicaoId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         }

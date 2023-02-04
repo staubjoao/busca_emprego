@@ -5,6 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Curriculos', [
       {
+        id:1,
         perfil: null,
         email: 'jucivanio1983@gmail.com',
         senha: 'senha123',
@@ -28,6 +29,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        id:2,
         perfil:
           'https://i.pinimg.com/736x/a9/1e/a7/a91ea7eb629e95ab7f23e4088c09587f.jpg',
         email: 'anivalda1977@gmail.com',

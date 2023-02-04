@@ -1,13 +1,13 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class CurriculoExperiencia extends Model {
+  class CurriculosExperiencias extends Model {
     static associate(models) {
-      CurriculoExperiencia.belongsTo(models.Experiencia)
-      CurriculoExperiencia.belongsTo(models.Curriculo)
+      CurriculosExperiencias.belongsTo(models.Experiencias)
+      CurriculosExperiencias.belongsTo(models.Curriculo)
     }
   }
-  CurriculoExperiencia.init(
+  CurriculosExperiencias.init(
     {
       inicio: DataTypes.DATE,
       termino: DataTypes.DATE,
@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'CurriculoExperiencia'
+      modelName: 'CurriculosExperiencias'
     }
   )
-  return CurriculoExperiencia
+  return CurriculosExperiencias
 }
