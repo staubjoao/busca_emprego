@@ -1,5 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { api } from '../lib/axios';
+import { useParams } from 'react-router-dom';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
@@ -51,29 +50,35 @@ export function CadastroCurriculo() {
   };
 
   useEffect(() => {
-    const experienceItem = {
-      firstItem: cargo,
-      secondItem: fim,
-      thirdItem: inicio,
-      fourItem: nomeEmpresa,
-    };
+    if (!experiences.length) {
+      const experienceItem = {
+        firstItem: cargo,
+        secondItem: fim,
+        thirdItem: inicio,
+        fourItem: nomeEmpresa,
+      };
 
-    setExperiences([experienceItem, ...experiences]);
+      setExperiences([experienceItem, ...experiences]);
+    }
 
-    const idiomaItem = {
-      firstItem: idioma,
-      secondItem: nivel,
-    };
+    if (!idiomas.length) {
+      const idiomaItem = {
+        firstItem: idioma,
+        secondItem: nivel,
+      };
 
-    setIdiomas([idiomaItem, ...idiomas]);
+      setIdiomas([idiomaItem, ...idiomas]);
+    }
 
-    const cursoItem = {
-      firstItem: curso,
-      secondItem: inicioCurso,
-      thirdItem: fimCurso,
-    };
+    if (!cursos.length) {
+      const cursoItem = {
+        firstItem: curso,
+        secondItem: inicioCurso,
+        thirdItem: fimCurso,
+      };
 
-    setCursos([cursoItem, ...cursos]);
+      setCursos([cursoItem, ...cursos]);
+    }
 
     console.log(experiences, cursos, idiomas);
   }, []);
@@ -156,13 +161,12 @@ export function CadastroCurriculo() {
         };
       });
 
-    const retorn = await createCurriculo(
-      id,
+    await createCurriculo(
+      id as any,
       experienciasArrayAPI,
       idiomasArrayAPI,
       cursosAPI
     );
-    console.log('RETORN', retorn);
   }, [experiences, idiomas, cursos]);
 
   return (
