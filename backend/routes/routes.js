@@ -26,5 +26,8 @@ router.get('/listar/vagas', usuarioController.listarVagas);
 // router.get('/vagas', authEmpresa, (res) => {
 //   res.send('Somente usuário empresa pode acessar está rota')
 // })
+//rota de vagas
+router.post('/cadastro/vaga', authEmpresa, usuarioController.cadastroVaga);
+router.get('/listar/vagas', authCandidato, usuarioController.listarVagas);
 
 module.exports = router;

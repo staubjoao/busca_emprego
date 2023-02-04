@@ -22,8 +22,13 @@ export function LoginCandidato() {
         senha,
       })
       .then((res) => {
-        if (res.data.erro) setErro(res.data.mensagem);
-        else navigate('/candidato/1/curriculo');
+        if (res.data.erro) {
+          setErro(res.data.mensagem);
+        } else {
+          localStorage.setItem('id', res.data.id);
+          localStorage.setItem('token', res.data.token);
+          navigate('/candidato/1/curriculo');
+        }
       });
   }
 
@@ -83,7 +88,7 @@ export function LoginCandidato() {
             onChange={(event) => setSenha(event.target.value)}
           />
           <div className="flex justify-between mb-5">
-            {erro != '' ? (
+            {erro !== '' ? (
               <span className="text-red-600">{erro}</span>
             ) : (
               <div></div>
