@@ -19,22 +19,7 @@ import {
   TitleSection,
 } from './styles';
 
-type item = {
-  label: string;
-  placeholder: string;
-  currentValue: any;
-  setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
-};
-
-type PropsSection = {
-  title: string;
-  firstItem: item;
-  secondItem: item;
-  thirdItem?: item;
-  fourItem?: item;
-  onPressAdd: () => void;
-  array: Array<any>;
-};
+import { PropsSection } from '../../types/curriculo';
 
 export function SectionCreate({
   firstItem,
@@ -45,9 +30,8 @@ export function SectionCreate({
   onPressAdd,
   array,
 }: PropsSection) {
-  console.log(array);
   return (
-    <>
+    <Content>
       <HeaderSection>
         <TitleSection>{title}</TitleSection>
         <Button onClick={onPressAdd}>
@@ -59,7 +43,7 @@ export function SectionCreate({
 
       {array.map((item) =>
         item.firstItem === '' ? (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} marginBottom={8}>
             <Grid item xs={12}>
               <Label>{firstItem.label}</Label>
               <Field
@@ -136,6 +120,6 @@ export function SectionCreate({
           </Grid>
         )
       )}
-    </>
+    </Content>
   );
 }

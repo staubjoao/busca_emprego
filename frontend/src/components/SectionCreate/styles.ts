@@ -10,7 +10,7 @@ import {
 import { styled } from '@mui/material/styles';
 
 export const Content = styled(Box)(({ theme }) => ({
-  marginBottom: theme.spacing(4),
+  marginTop: theme.spacing(4),
 }));
 
 export const HeaderSection = styled(Box)(({ theme }) => ({

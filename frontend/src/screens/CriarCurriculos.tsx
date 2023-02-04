@@ -4,6 +4,7 @@ import { Box, Divider, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
 import { useEffect, useState } from 'react';
+import { ItensList } from '../types/curriculo';
 
 const Content = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -18,16 +19,16 @@ export function CadastroCurriculo() {
   const [inicio, setInicio] = useState('');
   const [fim, setFim] = useState('');
   const [cargo, setCargo] = useState('');
-  const [experiences, setExperiences] = useState([]);
+  const [experiences, setExperiences] = useState<Array<ItensList>>([]);
 
   const [idioma, setIdioma] = useState('');
   const [nivel, setNivel] = useState('');
-  const [idiomas, setIdiomas] = useState([]);
+  const [idiomas, setIdiomas] = useState<Array<ItensList>>([]);
 
   const [curso, setCurso] = useState('');
   const [inicioCurso, setInicioCurso] = useState('');
   const [fimCurso, setFimCurso] = useState('');
-  const [cursos, setCursos] = useState([]);
+  const [cursos, setCursos] = useState<Array<ItensList>>([]);
 
   const clearStatesExperience = () => {
     setCargo('');
@@ -54,6 +55,7 @@ export function CadastroCurriculo() {
       thirdItem: inicio,
       fourItem: nomeEmpresa,
     };
+
     setExperiences([experienceItem, ...experiences]);
 
     const idiomaItem = {
@@ -108,6 +110,7 @@ export function CadastroCurriculo() {
       justifyContent="center"
       alignItems="center"
       minHeight="100vh"
+      marginY={8}
     >
       <Content>
         <SectionCreate
@@ -144,13 +147,13 @@ export function CadastroCurriculo() {
           array={idiomas}
           firstItem={{
             label: 'Idioma',
-            placeholder: 'Digite o nome da empresa',
+            placeholder: 'Ex: Inglês',
             currentValue: idioma,
             setCurrentValue: setIdioma,
           }}
           secondItem={{
             label: 'Nível',
-            placeholder: 'Digite o cargo',
+            placeholder: 'Ex: Intermediário',
             currentValue: nivel,
             setCurrentValue: setNivel,
           }}
