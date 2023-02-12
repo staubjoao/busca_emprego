@@ -8,8 +8,8 @@ module.exports = {
       [
         {
           id: 1,
-          tipo: 'Segurança',
-          nivel_hierarquico: 'Experiente',
+          titulo: 'Segurança',
+          periodo: 'Das 8:00 as 18:00',
           descricao: 'Mimir',
           salario: '2475.75',
           EmpresaId: 1,
@@ -18,8 +18,8 @@ module.exports = {
         },
         {
           id: 2,
-          tipo: 'Programador Web Full Stack',
-          nivel_hierarquico: 'Senior',
+          titulo: 'Programador Web Full Stack',
+          periodo: 'Flexível',
           descricao: 'Mimir',
           salario: '29475.75',
           EmpresaId: 2,

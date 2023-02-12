@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Vaga.init(
     {
-      tipo: DataTypes.STRING(45),
+      titulo: DataTypes.STRING,
       descricao: DataTypes.TEXT,
-      nivel_hierarquico: DataTypes.STRING(45),
+      periodo: DataTypes.STRING(45),
       salario: DataTypes.FLOAT,
       EmpresaId: DataTypes.INTEGER
     },
