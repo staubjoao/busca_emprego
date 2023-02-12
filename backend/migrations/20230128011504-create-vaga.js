@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tipo: {
+      titulo: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      nivel_hierarquico: {
+      periodo: {
         type: Sequelize.DataTypes.STRING(45),
         allowNull: false
       },
@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Empresas',
+          model: 'empresas',
           key: 'id'
         },
         onDelete: 'CASCADE',

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, Paper, Typography, Snackbar, Alert } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SectionCreate } from '../components/SectionCreate';
@@ -42,6 +42,7 @@ export function CadastroCurriculo() {
   const [severity, setSeverity] = useState<
     'success' | 'info' | 'warning' | 'error'
   >('success');
+  const navigate = useNavigate();
 
   const clearStatesExperience = () => {
     setCargo('');
@@ -183,6 +184,7 @@ export function CadastroCurriculo() {
     if (response.ok === 'OK') {
       setOpenSnackbar(true);
       setSeverity('success');
+      navigate('/candidato/vagas')
     } else {
       setOpenSnackbar(true);
       setSeverity('error');
