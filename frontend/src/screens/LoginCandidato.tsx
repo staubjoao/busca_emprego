@@ -1,36 +1,14 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paper from '../assets/images/paper.png';
-import { api } from '../lib/axios';
+import { autenticacaoLoginCandidato } from '../service/login';
 
 export function LoginCandidato() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [canNavigate, setCanNavigate] = useState(false);
   const navigate = useNavigate();
-
-  async function autenticacaoLogin(e: FormEvent) {
-    e.preventDefault();
-
-    if (email === '' || senha === '') {
-      return;
-    }
-
-    await api
-      .post('usuario/login/candidato', {
-        email,
-        senha,
-      })
-      .then((res) => {
-        if (res.data.erro) {
-          setErro(res.data.mensagem);
-        } else {
-          localStorage.setItem('id', res.data.id);
-          localStorage.setItem('token', res.data.token);
-          navigate('/candidato/1/curriculo');
-        }
-      });
-  }
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
@@ -69,7 +47,19 @@ export function LoginCandidato() {
         <h2 className="text-textColor1 text-center font-semibold text-2xl mb-10 lg:text-3xl md:text-2xl">
           Faça Login
         </h2>
-        <form onSubmit={autenticacaoLogin} className="sm:mx-10 lg:mx-40">
+        <form
+          onSubmit={(e) => {
+            autenticacaoLoginCandidato(
+              e,
+              email,
+              senha,
+              setErro,
+              setCanNavigate
+            );
+            canNavigate && navigate('/candidato/1/curriculo');
+          }}
+          className="sm:mx-10 lg:mx-40"
+        >
           <input
             className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
             type="email"
