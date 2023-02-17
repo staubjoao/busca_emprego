@@ -1,6 +1,5 @@
 import IMaskInput from 'react-input-mask';
-import { FormEvent, useEffect, useState } from 'react';
-import { api } from '../lib/axios';
+import { useEffect, useState } from 'react';
 import { Lista } from '../components/Lista';
 import { getVagas } from '../service/vagas';
 
