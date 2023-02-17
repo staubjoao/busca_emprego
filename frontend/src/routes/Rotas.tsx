@@ -1,13 +1,16 @@
 import { TelaInicial } from '../screens/TelaInicial';
 import { Route, Routes } from 'react-router-dom';
-import { LoginCandidato } from '../screens/LoginCandidato';
-import { LoginEmpresa } from '../screens/LoginEmpresa';
-import { CadastroEmpresa } from '../screens/CadastroEmpresa';
-import { CadastroCandidato } from '../screens/CadastroCandidato';
-import { CadastroCurriculo } from '../screens/CriarCurriculos';
-import { ListagemCurriculos } from '../screens/ListagemCurriculos';
-import { ListagemVagas } from '../screens/ListagemVagas';
-import { CadastroVaga } from '../screens/CadastroVaga';
+
+import {
+  CadastroCandidato,
+  CadastroCurriculo,
+  CadastroEmpresa,
+  CadastroVaga,
+  ListagemCurriculos,
+  ListagemVagas,
+  LoginCandidato,
+  LoginEmpresa,
+} from '../screens';
 
 export function Rotas() {
   return (
