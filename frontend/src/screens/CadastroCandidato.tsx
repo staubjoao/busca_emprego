@@ -1,7 +1,6 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import paper from '../assets/images/paper.png'
 import IMaskInput from 'react-input-mask';
-import { api } from '../lib/axios';
 import { FormEvent, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -102,23 +101,24 @@ export function CadastroCandidato() {
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
-      <button className="text-white absolute top-0 left-0 text-2xl p-5">
-        <Link to={'/'} className="transition-all">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </Link>
+      <button
+        onClick={() => navigate('/')}
+        className="text-white absolute top-0 left-0 text-2xl p-5"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
       <div className="mx-auto max-w-sm">
         <div className="flex flex-col gap-3 text-center">
