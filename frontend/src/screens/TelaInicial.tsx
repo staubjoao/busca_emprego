@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import people from '../assets/images/people.png';
 import { useNavigate } from 'react-router-dom';
 
