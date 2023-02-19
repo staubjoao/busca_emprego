@@ -1,5 +1,4 @@
 import { useNavigate, Link } from 'react-router-dom'
-// import paper from '../assets/images/paper.png'
 import IMaskInput from 'react-input-mask'
 import { api } from '../lib/axios'
 import { FormEvent, useState } from 'react'
