@@ -29,7 +29,7 @@ export function CadastroEmpresa() {
     const [telefone, setTelefone] = useState('')
     const [ramo, setRamo] = useState('')
     const [cnpj, setCnpj] = useState('')
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false)
     const [severity, setSeverity] = useState<
         'success' | 'info' | 'warning' | 'error'
     >('success');
@@ -101,7 +101,10 @@ export function CadastroEmpresa() {
             }}
         >
             <Box sx={{ gridArea: 'sidebar' }}>
-                <Button color="error">
+                <Button sx={{
+                    color: '#f5f5f5',
+                    marginTop: 2
+                }}>
                     <Link to={'/'} className="transition-all">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -119,39 +122,73 @@ export function CadastroEmpresa() {
                         </svg>
                     </Link>
                 </Button>
+                <Typography
+                    variant="h4"
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '80vh',
+                        marginLeft: 3,
+                        color: '#f5f5f5'
+                    }}
+                    fontWeight="600"
+                >
+                    Encontre os melhores currículos para sua vaga
+                </Typography>
             </Box>
             <Box sx={{ gridArea: 'main' }}>
-                <Box sx={{ borderRadius: '50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box sx={{ borderRadius: '50px 0px 0px 50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Box sx={{ m: 10 }}>
                         <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
                         <form onSubmit={cadastrar}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField label="E-mail" type="email" value={email} onChange={(event) => setEmail(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="E-mail" type="email"
+                                        value={email}
+                                        onChange={(event) => setEmail(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField label="Senha" type="password" value={senha} onChange={(event) => setSenha(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Senha" type="password"
+                                        value={senha}
+                                        onChange={(event) => setSenha(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField label="Nome da Empresa" value={nome} onChange={(event) => setNome(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Nome da Empresa"
+                                        value={nome}
+                                        onChange={(event) => setNome(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <TextField label="Ramo da Empresa" value={ramo} onChange={(event) => setRamo(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Ramo da Empresa"
+                                        value={ramo}
+                                        onChange={(event) => setRamo(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField
                                         label="CNPJ"
                                         value={cnpj}
                                         onChange={(event) => setCnpj(event.target.value)}
-                                        fullWidth
                                         InputProps={{
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "99.999.999/9999-99" },
                                         }}
+                                        fullWidth
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
-                                    <TextField label="País" value={pais} onChange={(event) => setPais(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="País"
+                                        value={pais}
+                                        onChange={(event) => setPais(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField
@@ -159,30 +196,54 @@ export function CadastroEmpresa() {
                                         value={cep}
                                         onChange={(event) => setCep(event.target.value)}
                                         onBlur={checkCEP}
-                                        fullWidth
                                         InputProps={{
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "99999-999" },
                                         }}
+                                        fullWidth
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
-                                    <TextField label="Estado" value={estado} onChange={(event) => setEstado(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Estado"
+                                        value={estado}
+                                        onChange={(event) => setEstado(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
-                                    <TextField label="Cidade" value={cidade} onChange={(event) => setCidade(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Cidade"
+                                        value={cidade}
+                                        onChange={(event) => setCidade(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
-                                    <TextField label="Endereço" value={endereco} onChange={(event) => setEndereco(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Endereço"
+                                        value={endereco}
+                                        onChange={(event) => setEndereco(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField label="Número" value={numero} onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))} fullWidth />
+                                    <TextField
+                                        label="Número"
+                                        value={numero}
+                                        onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField label="Bairro" value={bairro} onChange={(event) => setBairro(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Bairro"
+                                        value={bairro}
+                                        onChange={(event) => setBairro(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <TextField label="Complemento" value={complemento} onChange={(event) => setComplemento(event.target.value)} fullWidth />
+                                    <TextField
+                                        label="Complemento"
+                                        value={complemento}
+                                        onChange={(event) => setComplemento(event.target.value)}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <TextField
@@ -192,10 +253,17 @@ export function CadastroEmpresa() {
                                         InputProps={{
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "(99) 9999-99999" },
-                                        }} fullWidth />
+                                        }}
+                                        fullWidth />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button variant="contained" color="primary" type="submit" fullWidth>Cadastrar</Button>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
+                                        style={{ borderRadius: 50 }}
+                                        fullWidth>
+                                        Cadastrar</Button>
                                 </Grid>
                             </Grid>
                         </form>
