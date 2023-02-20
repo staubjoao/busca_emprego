@@ -1,9 +1,18 @@
 import { useNavigate, Link } from 'react-router-dom'
-import IMaskInput from 'react-input-mask'
+import InputMask from "react-input-mask"
 import { api } from '../lib/axios'
-import { FormEvent, useState } from 'react'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+import { FormEvent, useState, forwardRef } from 'react'
+import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
+
+type MaskedInputProps = {
+    mask: string;
+} & InputBaseComponentProps;
+
+const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
+    ({ mask, ...inputProps }, ref) => {
+        return <InputMask mask={mask} {...inputProps} />;
+    }
+)
 
 export function CadastroCandidato() {
     const [email, setEmail] = useState('')

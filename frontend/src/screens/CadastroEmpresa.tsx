@@ -2,22 +2,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import InputMask from "react-input-mask"
 import { api } from '../lib/axios'
 import { FormEvent, useState, forwardRef } from 'react'
-import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button } from '@mui/material'
-
-// const Content = styled(Paper)(({ theme }) => ({
-//     color: theme.palette.text.secondary,
-//     lineHeight: '60px',
-//     padding: theme.spacing(4),
-//     width: '50%',
-//     borderRadius: 12,
-// }));
-
-// const ButtonCreate = styled(Button)(({ theme }) => ({
-//     backgroundColor: '#5E80BB',
-//     display: 'flex',
-//     alignSelf: 'flex-end',
-//     width: '20%',
-// }));
+import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
 
 type MaskedInputProps = {
     mask: string;
@@ -27,7 +12,7 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
     ({ mask, ...inputProps }, ref) => {
         return <InputMask mask={mask} {...inputProps} />;
     }
-);
+)
 
 export function CadastroEmpresa() {
     const [email, setEmail] = useState('')
@@ -71,10 +56,12 @@ export function CadastroEmpresa() {
                 telefone
             })
             .then(res => {
-                // setSucesso(true)
-                setTimeout(() => navigate('/'), 2000)
+                setOpenSnackbar(true)
+                setSeverity('success')
+                navigate('/')
             }).catch((erro) => {
-                // setFalha(true)
+                setOpenSnackbar(true)
+                setSeverity('error')
                 setEmail('')
                 setSenha('')
                 setNome('')
@@ -91,14 +78,6 @@ export function CadastroEmpresa() {
                 setCnpj('')
             })
     }
-
-    // const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    //     if (reason === 'clickaway') {
-    //         return
-    //     }
-    //     setSucesso(false)
-    //     setFalha(false)
-    // };
 
     const checkCEP = () => {
         const cepApi = cep.replace(/\D/g, '')
@@ -142,7 +121,7 @@ export function CadastroEmpresa() {
                 </Button>
             </Box>
             <Box sx={{ gridArea: 'main' }}>
-                <Box sx={{ borderRadius: '16px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box sx={{ borderRadius: '50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Box sx={{ m: 10 }}>
                         <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
                         <form onSubmit={cadastrar}>
@@ -223,6 +202,19 @@ export function CadastroEmpresa() {
                     </Box>
                 </Box>
             </Box>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setOpenSnackbar(!openSnackbar)}
+            >
+                <Alert
+                    onClose={() => setOpenSnackbar(!openSnackbar)}
+                    severity={severity}
+                    sx={{ width: '100%' }}
+                >
+                    Empresa cadastrada com sucesso
+                </Alert>
+            </Snackbar>
         </Box>
 
     )
