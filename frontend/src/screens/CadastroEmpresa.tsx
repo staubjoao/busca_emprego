@@ -32,7 +32,8 @@ export function CadastroEmpresa() {
     const [openSnackbar, setOpenSnackbar] = useState(false)
     const [severity, setSeverity] = useState<
         'success' | 'info' | 'warning' | 'error'
-    >('success');
+    >('success')
+    const [mensagem, setMensagem] = useState('')
     const navigate = useNavigate();
 
     async function cadastrar(e: FormEvent) {
@@ -58,10 +59,12 @@ export function CadastroEmpresa() {
             .then(res => {
                 setOpenSnackbar(true)
                 setSeverity('success')
-                navigate('/')
+                setMensagem('Empresa cadastrada com sucesso')
+                setTimeout(() => navigate('/'), 2000)
             }).catch((erro) => {
                 setOpenSnackbar(true)
                 setSeverity('error')
+                setMensagem('Erro ao cadastrar empresa')
                 setEmail('')
                 setSenha('')
                 setNome('')
@@ -280,7 +283,7 @@ export function CadastroEmpresa() {
                     severity={severity}
                     sx={{ width: '100%' }}
                 >
-                    Empresa cadastrada com sucesso
+                    {mensagem}
                 </Alert>
             </Snackbar>
         </Box>

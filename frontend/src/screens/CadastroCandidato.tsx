@@ -36,7 +36,8 @@ export function CadastroCandidato() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [severity, setSeverity] = useState<
         'success' | 'info' | 'warning' | 'error'
-    >('success');
+    >('success')
+    const [mensagem, setMensagem] = useState('')
     const navigate = useNavigate()
 
     async function cadastrar(e: FormEvent) {
@@ -64,10 +65,12 @@ export function CadastroCandidato() {
             .then(res => {
                 setOpenSnackbar(true)
                 setSeverity('success')
-                navigate('/')
+                setMensagem('Candidato(a) cadastrado(a) com sucesso')
+                setTimeout(() => navigate('/'), 2000)
             }).catch((erro) => {
                 setOpenSnackbar(true)
                 setSeverity('error')
+                setMensagem('Erro ao cadastrar o(a) candidato(a)')
                 setEmail('')
                 setSenha('')
                 setNome('')
@@ -346,7 +349,7 @@ export function CadastroCandidato() {
                     severity={severity}
                     sx={{ width: '100%' }}
                 >
-                    Candidato(a) cadastrado(a) com sucesso
+                    {mensagem}
                 </Alert>
             </Snackbar>
         </Box >

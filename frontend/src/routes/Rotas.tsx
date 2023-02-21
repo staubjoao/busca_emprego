@@ -6,6 +6,7 @@ import { CadastroEmpresa } from '../screens/CadastroEmpresa';
 import { CadastroCandidato } from '../screens/CadastroCandidato';
 import { CadastroCurriculo } from '../screens/CriarCurriculos';
 import { ListagemCurriculos } from '../components/ListagemCurriculos';
+import { ListagemCurriculosteste } from '../screens/ListarCurriculos';
 import { ListagemVagas } from '../components/ListagemVagas';
 import { CadastroVaga } from '../components/CadastroVaga';
 
@@ -20,6 +21,7 @@ export function Rotas() {
       <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
       <Route path="candidato/vagas" element={<ListagemVagas />} />
       <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
+      <Route path="empresateste/curriculos" element={<ListagemCurriculosteste />} />
       <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
     </Routes>
   );
