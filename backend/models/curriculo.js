@@ -3,10 +3,6 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Curriculo extends Model {
     static associate(models) {
-      Curriculo.belongsToMany(models.Pergunta, {
-        through: 'CurriculoPergunta'
-      })
-
       Curriculo.belongsToMany(models.Idiomas, {
         through: 'CurriculosIdiomas'
       })
@@ -39,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       numero: DataTypes.INTEGER,
       complemento: DataTypes.STRING(80),
       telefone: DataTypes.STRING(45),
-      sexo: DataTypes.CHAR(1),
       genero: DataTypes.CHAR(1),
       deficiencia: DataTypes.STRING(80),
       cep: DataTypes.CHAR(8),
