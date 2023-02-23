@@ -16,23 +16,41 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
 
 export function CadastroCandidato() {
     const [email, setEmail] = useState('')
+    const [emailError, setEmailError] = useState(false)
     const [senha, setSenha] = useState('')
+    const [senhaError, setSenhaError] = useState(false)
     const [nome, setNome] = useState('')
+    const [nomeError, setNomeError] = useState(false)
     const [cep, setCep] = useState('')
+    const [cepError, setCepError] = useState(false)
     const [endereco, setEndereco] = useState('')
+    const [enderecoError, setEnderecoError] = useState(false)
     const [bairro, setBairro] = useState('')
+    const [bairroError, setBairroError] = useState(false)
     const [cidade, setCidade] = useState('')
+    const [cidadeError, setCidadeError] = useState(false)
     const [estado, setEstado] = useState('')
+    const [estadoError, setEstadoError] = useState(false)
     const [pais, setPais] = useState('')
+    const [paisError, setPaisError] = useState(false)
     const [numero, setNumero] = useState('')
+    const [numeroError, setNumeroError] = useState(false)
     const [complemento, setComplemento] = useState('')
+    const [complementoError, setComplementoError] = useState(false)
     const [telefone, setTelefone] = useState('')
-    const [sexo, setSexo] = useState('')
+    const [telefoneError, setTelefoneError] = useState(false)
     const [genero, setGenero] = useState('')
+    const [generoError, setGeneroError] = useState(false)
     const [deficiencia, setDeficiencia] = useState('')
+    const [deficienciaError, setDeficienciaError] = useState(false)
     const [pretensao, setPresensao] = useState('')
+    const [pretensaoError, setPretensaoError] = useState(false)
     const [descricao, setDescricao] = useState('')
+    const [descricaoError, setDescricaoError] = useState(false)
     const [cpf, setCpf] = useState('')
+    const [cpfError, setCpfError] = useState(false)
+    const [formularioError, setFormularioError] = useState(false)
+
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [severity, setSeverity] = useState<
         'success' | 'info' | 'warning' | 'error'
@@ -40,8 +58,166 @@ export function CadastroCandidato() {
     const [mensagem, setMensagem] = useState('')
     const navigate = useNavigate()
 
+    const isEmailError = () => {
+        if (email.trim() === '')
+            return false
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return emailRegex.test(email)
+    }
+
+    const isSenhaError = () => {
+        return senha.trim() !== ''
+    }
+
+    const isNomeError = () => {
+        return nome.trim() !== ''
+    }
+
+    const isCepError = () => {
+        const cepApi = cep.replace(/\D/g, '')
+        if (cep.trim() === '')
+            return false
+        if (cepApi.length !== 8)
+            return false
+        checkCEP()
+        return true
+    }
+
+    const isEnderecoError = () => {
+        return endereco.trim() !== ''
+    }
+
+    const isBairroError = () => {
+        return bairro.trim() !== ''
+    }
+
+    const isCidadeError = () => {
+        return cidade.trim() !== ''
+    }
+
+    const isEstadoError = () => {
+        return estado.trim() !== ''
+    }
+
+    const isPaisError = () => {
+        return pais.trim() !== ''
+    }
+
+    const isNumeroError = () => {
+        return numero.trim() !== ''
+    }
+
+    const isTelefoneError = () => {
+        const telefoneAux = telefone.replace(/\D/g, '')
+        return telefone.trim() !== '' && telefoneAux.length >= 10
+    }
+
+    const isDeficienciaError = () => {
+        return deficiencia.trim() !== ''
+    }
+
+    const isComplementoError = () => {
+        return complemento.trim() !== ''
+    }
+
+    const isGeneroError = () => {
+        return genero.trim() !== ''
+    }
+
+    const isPretensaoError = () => {
+        return pretensao.trim() !== ''
+    }
+
+    const isDescricaoError = () => {
+        return descricao.trim() !== ''
+    }
+
+    const isCpfError = () => {
+        const cpfAux = cpf.replace(/[^\d]+/g, '');
+        if (cpfAux === '') return false;
+        if (cpfAux.length !== 11 ||
+            cpfAux === "00000000000" ||
+            cpfAux === "11111111111" ||
+            cpfAux === "22222222222" ||
+            cpfAux === "33333333333" ||
+            cpfAux === "44444444444" ||
+            cpfAux === "55555555555" ||
+            cpfAux === "66666666666" ||
+            cpfAux === "77777777777" ||
+            cpfAux === "88888888888" ||
+            cpfAux === "99999999999")
+            return false;
+
+        let add = 0;
+        for (let i = 0; i < 9; i++)
+            add += parseInt(cpfAux.charAt(i)) * (10 - i);
+        let rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11)
+            rev = 0;
+        if (rev !== parseInt(cpfAux.charAt(9)))
+            return false;
+
+        add = 0;
+        for (let i = 0; i < 10; i++)
+            add += parseInt(cpfAux.charAt(i)) * (11 - i);
+        rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11)
+            rev = 0;
+        if (rev !== parseInt(cpfAux.charAt(10)))
+            return false;
+        return true;
+    }
+
+
+    const isFormError = () => {
+        setEmailError(isEmailError())
+        setSenhaError(isSenhaError())
+        setNomeError(isNomeError())
+        setCepError(isCepError())
+        setEnderecoError(isEnderecoError())
+        setBairroError(isBairroError())
+        setCidadeError(isCidadeError())
+        setEstadoError(isEstadoError())
+        setPaisError(isPaisError())
+        setNumeroError(isNumeroError())
+        setComplementoError(isComplementoError())
+        setTelefoneError(isTelefoneError())
+        setDeficienciaError(isDeficienciaError())
+        setPretensaoError(isPretensaoError())
+        setDescricaoError(isDescricaoError())
+        setCpfError(isCpfError())
+
+        return (
+            emailError &&
+            senhaError &&
+            nomeError &&
+            cepError &&
+            enderecoError &&
+            bairroError &&
+            cidadeError &&
+            estadoError &&
+            paisError &&
+            numeroError &&
+            complementoError &&
+            telefoneError &&
+            generoError &&
+            deficienciaError &&
+            pretensaoError &&
+            descricaoError &&
+            cpfError
+        )
+    }
+
     async function cadastrar(e: FormEvent) {
         e.preventDefault()
+
+        if (!isFormError()) {
+            setFormularioError(true)
+            setOpenSnackbar(true)
+            setSeverity('warning')
+            setMensagem('Campo(s) em branco')
+            return
+        }
 
         await api
             .post('/usuario/cadastro/candidatos', {
@@ -57,7 +233,6 @@ export function CadastroCandidato() {
                 numero,
                 complemento,
                 telefone,
-                sexo,
                 genero,
                 deficiencia,
                 cep
@@ -76,7 +251,6 @@ export function CadastroCandidato() {
                 setNome('')
                 setCpf('')
                 setDescricao('')
-                setSexo('')
                 setGenero('')
                 setDeficiencia('')
                 setCep('')
@@ -100,6 +274,10 @@ export function CadastroCandidato() {
                 setEstado(data.uf)
                 setEndereco(data.logradouro)
                 setBairro(data.bairro)
+                setCidadeError(true)
+                setEstadoError(true)
+                setEnderecoError(true)
+                setBairroError(true)
             })
     }
 
@@ -160,19 +338,25 @@ export function CadastroCandidato() {
                                     <TextField label="E-mail" type="email"
                                         value={email}
                                         onChange={(event) => setEmail(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setEmailError(isEmailError) }}
+                                        error={!emailError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField label="Senha" type="password"
                                         value={senha}
                                         onChange={(event) => setSenha(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setSenhaError(isSenhaError) }}
+                                        error={!senhaError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField label="Nome"
                                         value={nome}
                                         onChange={(event) => setNome(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setNomeError(isNomeError) }}
+                                        error={!nomeError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -183,7 +367,9 @@ export function CadastroCandidato() {
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "999.999.999-99" },
                                         }}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setCpfError(isCpfError) }}
+                                        error={!cpfError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
                                     <TextField
@@ -192,24 +378,9 @@ export function CadastroCandidato() {
                                         onChange={(event) => setDescricao(event.target.value)}
                                         multiline
                                         rows={4}
-                                        fullWidth />
-                                </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="sexo-label">Sexo</InputLabel>
-                                        <Select
-                                            labelId="sexo-label"
-                                            id="sexo"
-                                            value={sexo}
-                                            label="Sexo"
-                                            onChange={(event) => setSexo(event.target.value)}
-                                            fullWidth
-                                        >
-                                            <MenuItem value={"M"}>Masculino</MenuItem>
-                                            <MenuItem value={"F"}>Feminino</MenuItem>
-                                            <MenuItem value={"O"}>Outro</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                        fullWidth
+                                        onBlur={() => { setDescricaoError(isDescricaoError) }}
+                                        error={!descricaoError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <FormControl fullWidth>
@@ -221,6 +392,8 @@ export function CadastroCandidato() {
                                             label="Gênero"
                                             onChange={(event) => setGenero(event.target.value)}
                                             fullWidth
+                                            onBlur={() => { setGeneroError(isGeneroError) }}
+                                            error={!generoError && formularioError}
                                         >
                                             <MenuItem value={"M"}>Masculino</MenuItem>
                                             <MenuItem value={"F"}>Feminino</MenuItem>
@@ -243,6 +416,8 @@ export function CadastroCandidato() {
                                             label="Deficiência"
                                             onChange={(event) => setDeficiencia(event.target.value)}
                                             fullWidth
+                                            onBlur={() => { setDeficienciaError(isDeficienciaError) }}
+                                            error={!deficienciaError && formularioError}
                                         >
                                             <MenuItem value="Visual">Visual</MenuItem>
                                             <MenuItem value="Auditiva">Auditiva</MenuItem>
@@ -253,59 +428,74 @@ export function CadastroCandidato() {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid item xs={12} sm={4}>
                                     <TextField label="País"
                                         value={pais}
                                         onChange={(event) => setPais(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setPaisError(isPaisError) }}
+                                        error={!paisError && formularioError} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid item xs={12} sm={4}>
                                     <TextField label="CEP"
                                         value={cep}
                                         onChange={(event) => setCep(event.target.value)}
-                                        onBlur={checkCEP}
                                         InputProps={{
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "99999-999" },
                                         }}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setCepError(isCepError) }}
+                                        error={!cepError && formularioError} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid item xs={12} sm={4}>
                                     <TextField label="Estado"
                                         value={estado}
                                         onChange={(event) => setEstado(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setEstadoError(isEstadoError) }}
+                                        error={!estadoError && formularioError} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid item xs={12} sm={4}>
                                     <TextField label="Cidade"
                                         value={cidade}
                                         onChange={(event) => setCidade(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setCidadeError(isCidadeError) }}
+                                        error={!cidadeError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField label="Bairro"
                                         value={bairro}
                                         onChange={(event) => setBairro(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setBairroError(isBairroError) }}
+                                        error={!bairroError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={5}>
                                     <TextField label="Endereço"
                                         value={endereco}
                                         onChange={(event) => setEndereco(event.target.value)}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setEnderecoError(isEnderecoError) }}
+                                        error={!enderecoError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <TextField
                                         label="Número"
                                         value={numero}
                                         onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setNumeroError(isNumeroError) }}
+                                        error={!numeroError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField label="Complemento"
                                         value={complemento}
-                                        onChange={(event) => setBairro(event.target.value)}
-                                        fullWidth />
+                                        onChange={(event) => setComplemento(event.target.value)}
+                                        fullWidth
+                                        onBlur={() => { setComplementoError(isComplementoError) }}
+                                        error={!complementoError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField label="Telefone"
@@ -315,14 +505,18 @@ export function CadastroCandidato() {
                                             inputComponent: MaskedInput as any,
                                             inputProps: { mask: "(99) 9999-99999" },
                                         }}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setTelefoneError(isTelefoneError) }}
+                                        error={!telefoneError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12} sm={4}>
                                     <TextField
                                         label="Pretensão salarial"
                                         value={pretensao}
                                         onChange={(event) => setPresensao(event.target.value.replace(/\D/g, ''))}
-                                        fullWidth />
+                                        fullWidth
+                                        onBlur={() => { setPretensaoError(isPretensaoError) }}
+                                        error={!pretensaoError && formularioError} />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button
@@ -336,9 +530,9 @@ export function CadastroCandidato() {
                                 </Grid>
                             </Grid>
                         </form>
-                    </Box>
-                </Box>
-            </Box>
+                    </Box >
+                </Box >
+            </Box >
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={6000}

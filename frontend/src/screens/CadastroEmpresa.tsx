@@ -106,17 +106,17 @@ export function CadastroEmpresa() {
         return telefone.trim() !== '' && telefoneAux.length >= 10
     }
 
+    const isComplementoError = () => {
+        return complemento.trim() !== ''
+    }
+
     const isRamoError = () => {
         return ramo.trim() !== ''
     }
 
     const isCnpjError = () => {
         const cpnjAux = cnpj.replace(/\D/g, '')
-        return cnpj.trim() !== '' && cpnjAux.length === 14
-    }
-
-    const isComplementoError = () => {
-        return complemento.trim() !== ''
+        return cpnjAux.length === 14
     }
 
     const isFormError = () => {
@@ -156,8 +156,8 @@ export function CadastroEmpresa() {
     async function cadastrar(e: FormEvent) {
         e.preventDefault()
 
-        setFormularioError(!isFormError())
-        if (formularioError || !isFormError()) {
+        if (!isFormError()) {
+            setFormularioError(true)
             setOpenSnackbar(true)
             setSeverity('warning')
             setMensagem('Campo(s) em branco')
@@ -215,10 +215,10 @@ export function CadastroEmpresa() {
                 setEstado(data.uf)
                 setEndereco(data.logradouro)
                 setBairro(data.bairro)
-                setCidadeError(isCidadeError)
-                setEstadoError(isEstadoError)
-                setEnderecoError(isEnderecoError)
-                setBairroError(isBairroError)
+                setCidadeError(true)
+                setEstadoError(true)
+                setEnderecoError(true)
+                setBairroError(true)
             })
     }
 
