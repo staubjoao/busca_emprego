@@ -21,10 +21,18 @@ export const CadastroCurriculo = observer(() => {
     setExperiencias,
     setFim,
     setInicio,
+    clearStatesCurriculo,
   } = curriculoStore;
 
-  const { idioma, idiomas, nivel, setIdioma, setIdiomas, setNivel } =
-    idiomaStore;
+  const {
+    idioma,
+    idiomas,
+    nivel,
+    setIdioma,
+    setIdiomas,
+    setNivel,
+    clearStatesIdiomas,
+  } = idiomaStore;
 
   const {
     curso,
@@ -35,6 +43,7 @@ export const CadastroCurriculo = observer(() => {
     setCursos,
     setFimCurso,
     setInicioCurso,
+    clearStatesCursos,
   } = cursoStore;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -42,24 +51,6 @@ export const CadastroCurriculo = observer(() => {
     'success' | 'info' | 'warning' | 'error'
   >('success');
   const navigate = useNavigate();
-
-  const clearStatesExperience = () => {
-    setCargo('');
-    setInicio('');
-    setFim('');
-    setNomeEmpresa('');
-  };
-
-  const clearStatesIdiomas = () => {
-    setIdioma('');
-    setNivel('');
-  };
-
-  const clearStatesCursos = () => {
-    setCurso('');
-    setFimCurso('');
-    setInicioCurso('');
-  };
 
   useEffect(() => {
     if (!experiencias.length) {
@@ -103,7 +94,7 @@ export const CadastroCurriculo = observer(() => {
       fourItem: fim,
     };
     setExperiencias([item, ...experiencias]);
-    clearStatesExperience();
+    clearStatesCurriculo();
   };
 
   const handleSaveIdiomas = () => {
@@ -189,8 +180,6 @@ export const CadastroCurriculo = observer(() => {
       setSeverity('error');
     }
   }, [experiencias, idiomas, cursos]);
-
-  console.log('NOME', nomeEmpresa);
 
   return (
     <Box

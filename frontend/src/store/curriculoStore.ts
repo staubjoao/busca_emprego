@@ -21,6 +21,8 @@ export interface CurriculoStoreType {
 
   experiencias: Array<ItensList>;
   setExperiencias: (experiencias: Array<ItensList>) => void;
+
+  clearStatesCurriculo: () => void;
 }
 
 export class CurriculoStore implements CurriculoStoreType {
@@ -52,4 +54,11 @@ export class CurriculoStore implements CurriculoStoreType {
   setExperiencias(experiencias: Array<ItensList>) {
     this.experiencias = experiencias;
   }
+
+  clearStatesCurriculo = () => {
+    this.setCargo('');
+    this.setInicio('');
+    this.setFim('');
+    this.setNomeEmpresa('');
+  };
 }
