@@ -16,6 +16,7 @@ export interface IdiomasStoreType {
   setIdiomas: (idiomas: Array<ItensList>) => void;
 
   clearStatesIdiomas: () => void;
+  handleSaveIdiomas: () => void;
 }
 
 export class IdiomasStore implements IdiomasStoreType {
@@ -41,5 +42,16 @@ export class IdiomasStore implements IdiomasStoreType {
   clearStatesIdiomas = () => {
     this.setIdioma('');
     this.setNivel('');
+  };
+
+  handleSaveIdiomas = () => {
+    if (this.idioma && this.nivel) {
+      const item = {
+        firstItem: this.idioma,
+        secondItem: this.nivel,
+      };
+      this.setIdiomas([item, ...this.idiomas]);
+      this.clearStatesIdiomas();
+    }
   };
 }
