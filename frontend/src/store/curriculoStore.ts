@@ -75,4 +75,17 @@ export class CurriculoStore implements CurriculoStoreType {
       this.clearStatesCurriculo();
     }
   };
+
+  createNewExperience() {
+    if (!this.experiencias.length) {
+      const experienceItem = {
+        firstItem: this.cargo,
+        secondItem: this.fim,
+        thirdItem: this.inicio,
+        fourItem: this.nomeEmpresa,
+      };
+
+      this.setExperiencias([experienceItem, ...this.experiencias]);
+    }
+  }
 }

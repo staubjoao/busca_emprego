@@ -19,10 +19,10 @@ export const CadastroCurriculo = observer(() => {
     fim,
     inicio,
     setCargo,
-    setExperiencias,
     setFim,
     setInicio,
     handleSaveExperience,
+    createNewExperience,
   } = curriculoStore;
 
   const {
@@ -54,17 +54,7 @@ export const CadastroCurriculo = observer(() => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!experiencias.length) {
-      const experienceItem = {
-        firstItem: cargo,
-        secondItem: fim,
-        thirdItem: inicio,
-        fourItem: nomeEmpresa,
-      };
-
-      setExperiencias([experienceItem, ...experiencias]);
-    }
-
+    createNewExperience();
     if (!idiomas.length) {
       const idiomaItem = {
         firstItem: idioma,
