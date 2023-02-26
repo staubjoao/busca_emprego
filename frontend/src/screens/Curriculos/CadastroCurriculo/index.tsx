@@ -6,6 +6,7 @@ import { createCurriculo } from '../../../service';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ export const CadastroCurriculo = observer(() => {
     setFim,
     setInicio,
     clearStatesCurriculo,
+    handleSaveExperience,
   } = curriculoStore;
 
   const {
@@ -86,17 +88,6 @@ export const CadastroCurriculo = observer(() => {
     console.log(experiencias, cursos, idiomas);
   }, []);
 
-  const handleSaveExperience = () => {
-    const item = {
-      firstItem: nomeEmpresa,
-      secondItem: cargo,
-      thirdItem: inicio,
-      fourItem: fim,
-    };
-    setExperiencias([item, ...experiencias]);
-    clearStatesCurriculo();
-  };
-
   const handleSaveIdiomas = () => {
     const item = {
       firstItem: idioma,
@@ -115,10 +106,6 @@ export const CadastroCurriculo = observer(() => {
     setCursos([item, ...cursos]);
     clearStatesCursos();
   };
-
-  useEffect(() => {
-    if (cargo && inicio && nomeEmpresa && fim) handleSaveExperience();
-  }, [cargo, inicio, nomeEmpresa, fim]);
 
   useEffect(() => {
     if (inicioCurso && curso && fimCurso) handleSaveCursos();
@@ -180,6 +167,8 @@ export const CadastroCurriculo = observer(() => {
       setSeverity('error');
     }
   }, [experiencias, idiomas, cursos]);
+
+  console.log(toJS(experiencias));
 
   return (
     <Box
