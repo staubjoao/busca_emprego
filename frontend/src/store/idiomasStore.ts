@@ -69,7 +69,8 @@ export class IdiomasStore implements IdiomasStoreType {
   };
 
   createIdioma = () => {
-    const newId = uuidv4();
+    const newId = Math.floor(Math.random() * 100);
+    console.log('IDIOMA ID', newId);
 
     return this.idiomas
       .filter((i) => i.firstItem !== '')

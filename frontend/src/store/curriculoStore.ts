@@ -99,7 +99,9 @@ export class CurriculoStore implements CurriculoStoreType {
   }
 
   createExperience() {
-    const newId = uuidv4();
+    const newId = Math.floor(Math.random() * 100);
+    console.log('EXPERIENCIA ID', newId);
+
     const experiencias = this.experiencias
       .filter((i) => i.firstItem !== '')
       .map((i, index) => {
@@ -126,6 +128,8 @@ export class CurriculoStore implements CurriculoStoreType {
     const experiencias = createExperiencias();
     const idiomas = createIdiomas();
     const cursos = createCursos();
+
+    console.log(toJS(experiencias), toJS(idiomas), toJS(cursos));
 
     const response = await createCurriculo(
       id as any,

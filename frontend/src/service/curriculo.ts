@@ -13,5 +13,7 @@ export const createCurriculo = async (
     cursos: cursos,
   });
 
+  console.log('RESPONSE', response);
+
   return { ok: response.statusText };
 };
