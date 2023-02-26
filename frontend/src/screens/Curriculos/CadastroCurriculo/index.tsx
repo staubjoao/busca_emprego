@@ -22,7 +22,6 @@ export const CadastroCurriculo = observer(() => {
     setExperiencias,
     setFim,
     setInicio,
-    clearStatesCurriculo,
     handleSaveExperience,
   } = curriculoStore;
 
@@ -33,7 +32,7 @@ export const CadastroCurriculo = observer(() => {
     setIdioma,
     setIdiomas,
     setNivel,
-    clearStatesIdiomas,
+    handleSaveIdiomas,
   } = idiomaStore;
 
   const {
@@ -45,7 +44,7 @@ export const CadastroCurriculo = observer(() => {
     setCursos,
     setFimCurso,
     setInicioCurso,
-    clearStatesCursos,
+    handleSaveCursos,
   } = cursoStore;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -87,33 +86,6 @@ export const CadastroCurriculo = observer(() => {
 
     console.log(experiencias, cursos, idiomas);
   }, []);
-
-  const handleSaveIdiomas = () => {
-    const item = {
-      firstItem: idioma,
-      secondItem: nivel,
-    };
-    setIdiomas([item, ...idiomas]);
-    clearStatesIdiomas();
-  };
-
-  const handleSaveCursos = () => {
-    const item = {
-      firstItem: curso,
-      secondItem: inicioCurso,
-      thirdItem: fimCurso,
-    };
-    setCursos([item, ...cursos]);
-    clearStatesCursos();
-  };
-
-  useEffect(() => {
-    if (inicioCurso && curso && fimCurso) handleSaveCursos();
-  }, [inicioCurso, curso, fimCurso]);
-
-  useEffect(() => {
-    if (idioma && nivel) handleSaveIdiomas();
-  }, [idioma, nivel]);
 
   const handleCreateCurriculo = useCallback(async () => {
     const experienciasArrayAPI = experiencias
@@ -167,8 +139,6 @@ export const CadastroCurriculo = observer(() => {
       setSeverity('error');
     }
   }, [experiencias, idiomas, cursos]);
-
-  console.log(toJS(experiencias));
 
   return (
     <Box
