@@ -17,6 +17,7 @@ export interface IdiomasStoreType {
 
   clearStatesIdiomas: () => void;
   handleSaveIdiomas: () => void;
+  createNewIdioma: () => void;
 }
 
 export class IdiomasStore implements IdiomasStoreType {
@@ -52,6 +53,17 @@ export class IdiomasStore implements IdiomasStoreType {
       };
       this.setIdiomas([item, ...this.idiomas]);
       this.clearStatesIdiomas();
+    }
+  };
+
+  createNewIdioma = () => {
+    if (!this.idiomas.length) {
+      const idiomaItem = {
+        firstItem: this.idioma,
+        secondItem: this.nivel,
+      };
+
+      this.setIdiomas([idiomaItem, ...this.idiomas]);
     }
   };
 }

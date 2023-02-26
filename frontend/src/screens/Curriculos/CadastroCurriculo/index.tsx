@@ -6,7 +6,6 @@ import { createCurriculo } from '../../../service';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
@@ -30,9 +29,9 @@ export const CadastroCurriculo = observer(() => {
     idiomas,
     nivel,
     setIdioma,
-    setIdiomas,
     setNivel,
     handleSaveIdiomas,
+    createNewIdioma,
   } = idiomaStore;
 
   const {
@@ -41,10 +40,10 @@ export const CadastroCurriculo = observer(() => {
     fimCurso,
     inicioCurso,
     setCurso,
-    setCursos,
     setFimCurso,
     setInicioCurso,
     handleSaveCursos,
+    createNewCurso,
   } = cursoStore;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -55,26 +54,8 @@ export const CadastroCurriculo = observer(() => {
 
   useEffect(() => {
     createNewExperience();
-    if (!idiomas.length) {
-      const idiomaItem = {
-        firstItem: idioma,
-        secondItem: nivel,
-      };
-
-      setIdiomas([idiomaItem, ...idiomas]);
-    }
-
-    if (!cursos.length) {
-      const cursoItem = {
-        firstItem: curso,
-        secondItem: inicioCurso,
-        thirdItem: fimCurso,
-      };
-
-      setCursos([cursoItem, ...cursos]);
-    }
-
-    console.log(experiencias, cursos, idiomas);
+    createNewIdioma();
+    createNewCurso();
   }, []);
 
   const handleCreateCurriculo = useCallback(async () => {

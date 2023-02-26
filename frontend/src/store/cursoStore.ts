@@ -22,6 +22,7 @@ export interface CursoStoreType {
 
   clearStatesCursos: () => void;
   handleSaveCursos: () => void;
+  createNewCurso: () => void;
 }
 
 export class CursoStore implements CursoStoreType {
@@ -64,6 +65,18 @@ export class CursoStore implements CursoStoreType {
       };
       this.setCursos([item, ...this.cursos]);
       this.clearStatesCursos();
+    }
+  };
+
+  createNewCurso = () => {
+    if (!this.cursos.length) {
+      const cursoItem = {
+        firstItem: this.curso,
+        secondItem: this.inicioCurso,
+        thirdItem: this.fimCurso,
+      };
+
+      this.setCursos([cursoItem, ...this.cursos]);
     }
   };
 }
