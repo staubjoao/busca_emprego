@@ -22,6 +22,8 @@ export const CadastroCurriculo = observer(() => {
     setInicio,
     handleSaveExperience,
     createNewExperience,
+    createExperience,
+    handleCreateCurriculo,
   } = curriculoStore;
 
   const {
