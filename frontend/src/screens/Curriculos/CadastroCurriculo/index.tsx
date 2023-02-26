@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const { curriculoStore, idiomaStore, cursoStore } = useStore();
+  const { curriculoStore, idiomaStore, cursoStore, snackbarStore } = useStore();
   const {
     nomeEmpresa,
     setNomeEmpresa,
@@ -49,10 +49,9 @@ export const CadastroCurriculo = observer(() => {
     createCursos,
   } = cursoStore;
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [severity, setSeverity] = useState<
-    'success' | 'info' | 'warning' | 'error'
-  >('success');
+  const { openSnackbar, setOpenSnackbar, severity, showSnackBar } =
+    snackbarStore;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +59,18 @@ export const CadastroCurriculo = observer(() => {
     createNewIdioma();
     createNewCurso();
   }, []);
+
+  const createCurriculo = async () => {
+    const response = await handleCreateCurriculo(
+      id as any,
+      createExperience,
+      createIdioma,
+      createCursos
+    );
+
+    showSnackBar(response.ok);
+    //navigate('candidato/vagas');
+  };
 
   return (
     <Box
@@ -152,14 +163,7 @@ export const CadastroCurriculo = observer(() => {
         <ButtonCreate
           sx={{ marginLeft: 'auto' }}
           variant="contained"
-          onClick={() =>
-            handleCreateCurriculo(
-              id as any,
-              createExperience,
-              createIdioma,
-              createCursos
-            )
-          }
+          onClick={createCurriculo}
         >
           <Typography>Salvar</Typography>
         </ButtonCreate>
@@ -167,7 +171,7 @@ export const CadastroCurriculo = observer(() => {
 
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={1000}
         onClose={() => setOpenSnackbar(!openSnackbar)}
       >
         <Alert

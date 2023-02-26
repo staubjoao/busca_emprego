@@ -90,7 +90,7 @@ export class CursoStore implements CursoStoreType {
           id: newId,
           curso: i.firstItem,
           inicio: i.secondItem,
-          fim: i.thirdItem,
+          termino: i.thirdItem,
         };
       });
   };

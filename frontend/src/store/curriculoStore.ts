@@ -1,6 +1,7 @@
 import { makeAutoObservable, toJS } from 'mobx';
 import { ItensList } from '../types/curriculo';
 import { createCurriculo } from '../service';
+import { SnackbarStore } from './snackbar';
 export interface CurriculoStoreType {
   nomeEmpresa: string;
   setNomeEmpresa: (
@@ -26,6 +27,7 @@ export interface CurriculoStoreType {
   clearStatesCurriculo: () => void;
   handleSaveExperience: () => void;
   createExperience: () => void;
+
   handleCreateCurriculo: (
     id: string,
     createExperiencias: any,
@@ -126,8 +128,6 @@ export class CurriculoStore implements CurriculoStoreType {
     const experiencias = createExperiencias();
     const idiomas = createIdiomas();
     const cursos = createCursos();
-
-    console.log(toJS(experiencias), toJS(idiomas), toJS(cursos));
 
     const response = await createCurriculo(
       id as any,
