@@ -1,7 +1,7 @@
 import { makeAutoObservable, toJS } from 'mobx';
 import { ItensList } from '../types/curriculo';
 import { createCurriculo } from '../service';
-
+import { v4 as uuidv4 } from 'uuid';
 export interface CurriculoStoreType {
   nomeEmpresa: string;
   setNomeEmpresa: (
@@ -99,11 +99,12 @@ export class CurriculoStore implements CurriculoStoreType {
   }
 
   createExperience() {
+    const newId = uuidv4();
     const experiencias = this.experiencias
       .filter((i) => i.firstItem !== '')
       .map((i, index) => {
         return {
-          id: index + 10,
+          id: newId,
           empresa: i.firstItem,
           cargo: i.secondItem,
           inicio: i.thirdItem,

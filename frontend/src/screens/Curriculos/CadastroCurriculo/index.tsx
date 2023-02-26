@@ -62,26 +62,6 @@ export const CadastroCurriculo = observer(() => {
     createNewCurso();
   }, []);
 
-  // const handleCreateCurriculo = useCallback(async () => {
-  //   const response = await createCurriculo(
-  //     id as any,
-  //     createExperience as any,
-  //     createIdioma as any,
-  //     createCursos as any
-  //   );
-
-  //   console.log('RESPONSE', response);
-
-  //   if (response.ok === 'OK') {
-  //     setOpenSnackbar(true);
-  //     setSeverity('success');
-  //     navigate('/candidato/vagas');
-  //   } else {
-  //     setOpenSnackbar(true);
-  //     setSeverity('error');
-  //   }
-  // }, [experiencias, idiomas, cursos]);
-
   return (
     <Box
       display="flex"

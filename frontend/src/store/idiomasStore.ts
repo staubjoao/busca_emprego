@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { ItensList } from '../types/curriculo';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IdiomasStoreType {
   idioma: string;
@@ -68,11 +69,13 @@ export class IdiomasStore implements IdiomasStoreType {
   };
 
   createIdioma = () => {
+    const newId = uuidv4();
+
     return this.idiomas
       .filter((i) => i.firstItem !== '')
       .map((i, index) => {
         return {
-          id: index + 10,
+          id: newId,
           idioma: i.firstItem,
           nivel: i.secondItem,
         };
