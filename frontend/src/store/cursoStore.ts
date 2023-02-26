@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 import { ItensList } from '../types/curriculo';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface CursoStoreType {
   curso: string;
@@ -83,7 +82,6 @@ export class CursoStore implements CursoStoreType {
 
   createCursos = () => {
     const newId = Math.floor(Math.random() * 100);
-    console.log('CURSO ID', newId);
 
     return this.cursos
       .filter((i) => i.firstItem !== '')

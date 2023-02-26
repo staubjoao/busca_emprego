@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 import { ItensList } from '../types/curriculo';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface IdiomasStoreType {
   idioma: string;
@@ -70,7 +69,6 @@ export class IdiomasStore implements IdiomasStoreType {
 
   createIdioma = () => {
     const newId = Math.floor(Math.random() * 100);
-    console.log('IDIOMA ID', newId);
 
     return this.idiomas
       .filter((i) => i.firstItem !== '')
