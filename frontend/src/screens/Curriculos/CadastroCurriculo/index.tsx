@@ -11,11 +11,18 @@ import { observer } from 'mobx-react-lite';
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
   const { curriculoStore } = useStore();
-  const { nomeEmpresa, setNomeEmpresa } = curriculoStore;
-  const [inicio, setInicio] = useState('');
-  const [fim, setFim] = useState('');
-  const [cargo, setCargo] = useState('');
-  const [experiences, setExperiences] = useState<Array<ItensList>>([]);
+  const {
+    nomeEmpresa,
+    setNomeEmpresa,
+    cargo,
+    experiencias,
+    fim,
+    inicio,
+    setCargo,
+    setExperiencias,
+    setFim,
+    setInicio,
+  } = curriculoStore;
 
   const [idioma, setIdioma] = useState('');
   const [nivel, setNivel] = useState('');
@@ -51,7 +58,7 @@ export const CadastroCurriculo = observer(() => {
   };
 
   useEffect(() => {
-    if (!experiences.length) {
+    if (!experiencias.length) {
       const experienceItem = {
         firstItem: cargo,
         secondItem: fim,
@@ -59,7 +66,7 @@ export const CadastroCurriculo = observer(() => {
         fourItem: nomeEmpresa,
       };
 
-      setExperiences([experienceItem, ...experiences]);
+      setExperiencias([experienceItem, ...experiencias]);
     }
 
     if (!idiomas.length) {
@@ -81,7 +88,7 @@ export const CadastroCurriculo = observer(() => {
       setCursos([cursoItem, ...cursos]);
     }
 
-    console.log(experiences, cursos, idiomas);
+    console.log(experiencias, cursos, idiomas);
   }, []);
 
   const handleSaveExperience = () => {
@@ -91,7 +98,7 @@ export const CadastroCurriculo = observer(() => {
       thirdItem: inicio,
       fourItem: fim,
     };
-    setExperiences([item, ...experiences]);
+    setExperiencias([item, ...experiencias]);
     clearStatesExperience();
   };
 
@@ -127,7 +134,7 @@ export const CadastroCurriculo = observer(() => {
   }, [idioma, nivel]);
 
   const handleCreateCurriculo = useCallback(async () => {
-    const experienciasArrayAPI = experiences
+    const experienciasArrayAPI = experiencias
       .filter((i) => i.firstItem !== '')
       .map((i, index) => {
         return {
@@ -177,7 +184,7 @@ export const CadastroCurriculo = observer(() => {
       setOpenSnackbar(true);
       setSeverity('error');
     }
-  }, [experiences, idiomas, cursos]);
+  }, [experiencias, idiomas, cursos]);
 
   console.log('NOME', nomeEmpresa);
 
@@ -191,7 +198,7 @@ export const CadastroCurriculo = observer(() => {
     >
       <Content>
         <SectionCreate
-          array={experiences}
+          array={experiencias}
           title="Experiências profissionais"
           firstItem={{
             xs: 12,
