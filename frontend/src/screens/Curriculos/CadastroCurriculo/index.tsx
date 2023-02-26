@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
