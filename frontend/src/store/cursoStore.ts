@@ -79,4 +79,17 @@ export class CursoStore implements CursoStoreType {
       this.setCursos([cursoItem, ...this.cursos]);
     }
   };
+
+  createCursos = () => {
+    return this.cursos
+      .filter((i) => i.firstItem !== '')
+      .map((i, index) => {
+        return {
+          id: index + 10,
+          curso: i.firstItem,
+          inicio: i.secondItem,
+          fim: i.thirdItem,
+        };
+      });
+  };
 }

@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { api } from './baseURL';
 
 export const createCurriculo = async (

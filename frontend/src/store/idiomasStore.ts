@@ -66,4 +66,16 @@ export class IdiomasStore implements IdiomasStoreType {
       this.setIdiomas([idiomaItem, ...this.idiomas]);
     }
   };
+
+  createIdioma = () => {
+    return this.idiomas
+      .filter((i) => i.firstItem !== '')
+      .map((i, index) => {
+        return {
+          id: index + 10,
+          idioma: i.firstItem,
+          nivel: i.secondItem,
+        };
+      });
+  };
 }

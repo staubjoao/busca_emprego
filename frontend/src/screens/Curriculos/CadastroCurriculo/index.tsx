@@ -34,6 +34,7 @@ export const CadastroCurriculo = observer(() => {
     setNivel,
     handleSaveIdiomas,
     createNewIdioma,
+    createIdioma,
   } = idiomaStore;
 
   const {
@@ -46,6 +47,7 @@ export const CadastroCurriculo = observer(() => {
     setInicioCurso,
     handleSaveCursos,
     createNewCurso,
+    createCursos,
   } = cursoStore;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -60,58 +62,25 @@ export const CadastroCurriculo = observer(() => {
     createNewCurso();
   }, []);
 
-  const handleCreateCurriculo = useCallback(async () => {
-    const experienciasArrayAPI = experiencias
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          empresa: i.firstItem,
-          cargo: i.secondItem,
-          inicio: i.thirdItem,
-          termino: i.fourItem,
-          endereco: 'Rua Palmital',
-          ramo: 'algum',
-        };
-      });
+  // const handleCreateCurriculo = useCallback(async () => {
+  //   const response = await createCurriculo(
+  //     id as any,
+  //     createExperience as any,
+  //     createIdioma as any,
+  //     createCursos as any
+  //   );
 
-    const idiomasArrayAPI = idiomas
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          idioma: i.firstItem,
-          nivel: i.secondItem,
-        };
-      });
+  //   console.log('RESPONSE', response);
 
-    const cursosAPI = cursos
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          curso: i.firstItem,
-          inicio: i.secondItem,
-          fim: i.thirdItem,
-        };
-      });
-
-    const response = await createCurriculo(
-      id as any,
-      experienciasArrayAPI,
-      idiomasArrayAPI,
-      cursosAPI
-    );
-
-    if (response.ok === 'OK') {
-      setOpenSnackbar(true);
-      setSeverity('success');
-      navigate('/candidato/vagas');
-    } else {
-      setOpenSnackbar(true);
-      setSeverity('error');
-    }
-  }, [experiencias, idiomas, cursos]);
+  //   if (response.ok === 'OK') {
+  //     setOpenSnackbar(true);
+  //     setSeverity('success');
+  //     navigate('/candidato/vagas');
+  //   } else {
+  //     setOpenSnackbar(true);
+  //     setSeverity('error');
+  //   }
+  // }, [experiencias, idiomas, cursos]);
 
   return (
     <Box
@@ -204,7 +173,14 @@ export const CadastroCurriculo = observer(() => {
         <ButtonCreate
           sx={{ marginLeft: 'auto' }}
           variant="contained"
-          onClick={handleCreateCurriculo}
+          onClick={() =>
+            handleCreateCurriculo(
+              id as any,
+              createExperience,
+              createIdioma,
+              createCursos
+            )
+          }
         >
           <Typography>Salvar</Typography>
         </ButtonCreate>

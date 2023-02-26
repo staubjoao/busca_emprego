@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, toJS } from 'mobx';
 import { ItensList } from '../types/curriculo';
 import { createCurriculo } from '../service';
 
@@ -29,9 +29,9 @@ export interface CurriculoStoreType {
   createExperience: () => void;
   handleCreateCurriculo: (
     id: string,
-    experiencias: any,
-    idiomas: any,
-    cursos: any
+    createExperiencias: any,
+    createIdiomas: any,
+    createCursos: any
   ) => void;
 }
 
@@ -99,7 +99,7 @@ export class CurriculoStore implements CurriculoStoreType {
   }
 
   createExperience() {
-    return this.experiencias
+    const experiencias = this.experiencias
       .filter((i) => i.firstItem !== '')
       .map((i, index) => {
         return {
@@ -112,14 +112,27 @@ export class CurriculoStore implements CurriculoStoreType {
           ramo: 'algum',
         };
       });
+
+    return experiencias;
   }
 
   async handleCreateCurriculo(
     id: string,
-    experiencias: any,
-    idiomas: any,
-    cursos: any
+    createExperiencias: any,
+    createIdiomas: any,
+    createCursos: any
   ) {
-    return await createCurriculo(id as any, experiencias, idiomas, cursos);
+    const experiencias = createExperiencias();
+    const idiomas = createIdiomas();
+    const cursos = createCursos();
+
+    const response = await createCurriculo(
+      id as any,
+      experiencias,
+      idiomas,
+      cursos
+    );
+
+    return response;
   }
 }
