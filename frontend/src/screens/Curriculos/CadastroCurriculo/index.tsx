@@ -10,7 +10,7 @@ import { observer } from 'mobx-react-lite';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const { curriculoStore } = useStore();
+  const { curriculoStore, idiomaStore } = useStore();
   const {
     nomeEmpresa,
     setNomeEmpresa,
@@ -24,9 +24,8 @@ export const CadastroCurriculo = observer(() => {
     setInicio,
   } = curriculoStore;
 
-  const [idioma, setIdioma] = useState('');
-  const [nivel, setNivel] = useState('');
-  const [idiomas, setIdiomas] = useState<Array<ItensList>>([]);
+  const { idioma, idiomas, nivel, setIdioma, setIdiomas, setNivel } =
+    idiomaStore;
 
   const [curso, setCurso] = useState('');
   const [inicioCurso, setInicioCurso] = useState('');
