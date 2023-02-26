@@ -5,10 +5,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { ItensList } from '../../../types/curriculo';
 import { createCurriculo } from '../../../service';
 import { ButtonCreate, Content } from './styles';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function CadastroCurriculo() {
+export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const [nomeEmpresa, setNomeEmpresa] = useState('');
+  const { curriculoStore } = useStore();
+  const { nomeEmpresa, setNomeEmpresa } = curriculoStore;
   const [inicio, setInicio] = useState('');
   const [fim, setFim] = useState('');
   const [cargo, setCargo] = useState('');
@@ -176,6 +179,8 @@ export function CadastroCurriculo() {
     }
   }, [experiences, idiomas, cursos]);
 
+  console.log('NOME', nomeEmpresa);
+
   return (
     <Box
       display="flex"
@@ -288,4 +293,4 @@ export function CadastroCurriculo() {
       </Snackbar>
     </Box>
   );
-}
+});

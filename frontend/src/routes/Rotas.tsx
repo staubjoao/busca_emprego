@@ -3,13 +3,13 @@ import { Route, Routes } from 'react-router-dom';
 
 import {
   CadastroCandidato,
-  CadastroCurriculo,
   CadastroEmpresa,
   CadastroVaga,
   ListagemCurriculos,
   ListagemVagas,
   LoginCandidato,
   LoginEmpresa,
+  CadastroCurriculo,
 } from '../screens';
 
 export function Rotas() {
