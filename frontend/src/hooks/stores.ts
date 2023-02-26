@@ -1,9 +1,10 @@
-import { CurriculoStore, IdiomasStore } from '../store';
+import { CurriculoStore, IdiomasStore, CursoStore } from '../store';
 import { createContext, useContext } from 'react';
 
 const stores = {
   curriculoStore: new CurriculoStore(),
   idiomaStore: new IdiomasStore(),
+  cursoStore: new CursoStore(),
 };
 
 export const StoreContext = createContext(stores);

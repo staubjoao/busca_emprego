@@ -13,7 +13,7 @@ export interface IdiomasStoreType {
   ) => void | React.Dispatch<React.SetStateAction<string>>;
 
   idiomas: Array<ItensList>;
-  setIdiomas: (experiencias: Array<ItensList>) => void;
+  setIdiomas: (idiomas: Array<ItensList>) => void;
 }
 
 export class IdiomasStore implements IdiomasStoreType {

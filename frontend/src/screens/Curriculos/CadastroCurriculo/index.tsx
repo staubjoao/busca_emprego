@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
 import { useCallback, useEffect, useState } from 'react';
-import { ItensList } from '../../../types/curriculo';
 import { createCurriculo } from '../../../service';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
@@ -10,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const { curriculoStore, idiomaStore } = useStore();
+  const { curriculoStore, idiomaStore, cursoStore } = useStore();
   const {
     nomeEmpresa,
     setNomeEmpresa,
@@ -27,10 +26,16 @@ export const CadastroCurriculo = observer(() => {
   const { idioma, idiomas, nivel, setIdioma, setIdiomas, setNivel } =
     idiomaStore;
 
-  const [curso, setCurso] = useState('');
-  const [inicioCurso, setInicioCurso] = useState('');
-  const [fimCurso, setFimCurso] = useState('');
-  const [cursos, setCursos] = useState<Array<ItensList>>([]);
+  const {
+    curso,
+    cursos,
+    fimCurso,
+    inicioCurso,
+    setCurso,
+    setCursos,
+    setFimCurso,
+    setInicioCurso,
+  } = cursoStore;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [severity, setSeverity] = useState<
