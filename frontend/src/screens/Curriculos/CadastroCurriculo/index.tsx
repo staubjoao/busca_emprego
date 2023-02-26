@@ -1,25 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, Paper, Typography, Snackbar, Alert } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { SectionCreate } from '../components/SectionCreate';
+import { Box, Typography, Snackbar, Alert } from '@mui/material';
+import { SectionCreate } from '../../../components/SectionCreate';
 import { useCallback, useEffect, useState } from 'react';
-import { ItensList } from '../types/curriculo';
-import { createCurriculo } from '../service';
-
-const Content = styled(Paper)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  lineHeight: '60px',
-  padding: theme.spacing(4),
-  width: '50%',
-  borderRadius: 12,
-}));
-
-const ButtonCreate = styled(Button)(({ theme }) => ({
-  backgroundColor: '#5E80BB',
-  display: 'flex',
-  alignSelf: 'flex-end',
-  width: '20%',
-}));
+import { ItensList } from '../../../types/curriculo';
+import { createCurriculo } from '../../../service';
+import { ButtonCreate, Content } from './styles';
 
 export function CadastroCurriculo() {
   const { id } = useParams();
@@ -184,7 +169,7 @@ export function CadastroCurriculo() {
     if (response.ok === 'OK') {
       setOpenSnackbar(true);
       setSeverity('success');
-      navigate('/candidato/vagas')
+      navigate('/candidato/vagas');
     } else {
       setOpenSnackbar(true);
       setSeverity('error');
