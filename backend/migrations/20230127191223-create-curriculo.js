@@ -63,10 +63,6 @@ module.exports = {
         type: Sequelize.DataTypes.STRING(45),
         allowNull: false
       },
-      sexo: {
-        type: Sequelize.DataTypes.CHAR(1),
-        allowNull: false
-      },
       genero: {
         type: Sequelize.DataTypes.CHAR(1),
         allowNull: true

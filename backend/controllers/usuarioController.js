@@ -91,37 +91,6 @@ const usuarioController = {
     });
   },
 
-  cadastroVaga: async (req, res) => {
-    await vaga
-      .create(req.body)
-      .then(() => {
-        return res.json({
-          error: false,
-          message: 'Vaga criada com sucesso!',
-        });
-      })
-      .catch((erro) => {
-        return res.status(400).json({
-          error: true,
-          message: 'Falha na criação da vaga!',
-        });
-      });
-  },
-
-  listarVagas: async (req, res) => {
-    await vaga.findAll().then((vagas) => {
-      return res
-        .json({
-          vagas,
-        })
-        .catch(() => {
-          return res.status(400).json({
-            error: true,
-            message: 'Falha na listagem de vagas!',
-          });
-        });
-    });
-  },
 };
 
 module.exports = usuarioController;

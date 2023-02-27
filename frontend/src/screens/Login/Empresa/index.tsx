@@ -1,36 +1,15 @@
-import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import paper from '../assets/images/paper.png';
-import { api } from '../lib/axios';
+import paper from '../../../assets/images/paper.png';
+import IMaskInput from 'react-input-mask';
+import { useState } from 'react';
+import { autenticacaoLoginEmpresa } from '../../../service/login';
 
-export function LoginCandidato() {
-  const [email, setEmail] = useState('');
+export function LoginEmpresa() {
+  const [cnpj, setCnpj] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
-
-  async function autenticacaoLogin(e: FormEvent) {
-    e.preventDefault();
-
-    if (email === '' || senha === '') {
-      return;
-    }
-
-    await api
-      .post('usuario/login/candidato', {
-        email,
-        senha,
-      })
-      .then((res) => {
-        if (res.data.erro) {
-          setErro(res.data.mensagem);
-        } else {
-          localStorage.setItem('id', res.data.id);
-          localStorage.setItem('token', res.data.token);
-          navigate('/candidato/1/curriculo');
-        }
-      });
-  }
+  const [canNavigate, setCanNavigate] = useState(false);
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
@@ -69,33 +48,39 @@ export function LoginCandidato() {
         <h2 className="text-textColor1 text-center font-semibold text-2xl mb-10 lg:text-3xl md:text-2xl">
           Faça Login
         </h2>
-        <form onSubmit={autenticacaoLogin} className="sm:mx-10 lg:mx-40">
-          <input
+        <form
+          onSubmit={(e) => {
+            autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate);
+            canNavigate && navigate('/empresa/curriculos');
+          }}
+          className="sm:mx-10 lg:mx-40"
+        >
+          <IMaskInput
             className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
-            type="email"
-            placeholder="Email"
-            id="email"
-            value={email}
-            autoFocus
-            onChange={(event) => setEmail(event.target.value)}
+            mask="99.999.999/9999-99"
+            placeholder="CNPJ"
+            value={cnpj}
+            onChange={(event) => setCnpj(event.target.value)}
           />
           <input
             className="block border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
             type="password"
             placeholder="Senha"
-            id="senha"
             value={senha}
             onChange={(event) => setSenha(event.target.value)}
           />
-          <div className="flex justify-between mb-5">
+          <div className="flex justify-between items-center mb-5">
             {erro !== '' ? (
               <span className="text-red-600">{erro}</span>
             ) : (
               <div></div>
             )}
-            <div className="text-left text-background1 ">
-              <button onClick={() => navigate('/')}>Esqueceu a senha?</button>
-            </div>
+            <button
+              onClick={() => navigate('/')}
+              className="text-right text-background1 "
+            >
+              Esqueceu a senha?
+            </button>
           </div>
           <button
             type="submit"
@@ -106,7 +91,7 @@ export function LoginCandidato() {
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button
-            onClick={() => navigate('/cadastro/candidato')}
+            onClick={() => navigate('/cadastro/empresa')}
             className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
           >
             Cadastrar

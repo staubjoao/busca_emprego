@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
-import people from '../assets/images/people.png'
+import people from '../assets/images/people.png';
+import { useNavigate } from 'react-router-dom';
 
 export function TelaInicial() {
+  const navigate = useNavigate();
   return (
     <div className="grid items-center justify-center container max-w-6xl mx-auto px-10 mt-40">
       <div className="flex items-center justify-evenly md:gap-x-10">
@@ -21,16 +22,18 @@ export function TelaInicial() {
         <button
           type="button"
           className="bg-btnColor1 text-white py-5 px-10 rounded lg:text-xl font-semibold hover:bg-btnColor2 transition-colors"
+          onClick={() => navigate('/login/candidato')}
         >
-          <Link to={'/login/candidato'}>Candidato</Link>
+          Candidato
         </button>
         <button
           type="button"
           className="bg-white text-btnColor1 py-5 px-12 rounded lg:text-xl font-semibold hover:bg-btnColor3 transition-colors"
+          onClick={() => navigate('/login/empresa')}
         >
-          <Link to={'/login/empresa'}>Empresa</Link>
+          Empresa
         </button>
       </div>
     </div>
-  )
+  );
 }
