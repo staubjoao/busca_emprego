@@ -2,7 +2,7 @@ export type item = {
   label: string;
   placeholder: string;
   currentValue: any;
-  setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentValue: any;
   xs: number;
 };
 

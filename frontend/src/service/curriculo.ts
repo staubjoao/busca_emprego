@@ -6,11 +6,14 @@ export const createCurriculo = async (
   idiomas: Array<any>,
   cursos: Array<any>
 ) => {
+  console.log('ENTROU');
   const response = await api.post(`/usuario/curriculo/${idCandidato}`, {
     experiencias: experiences,
     idiomas: idiomas,
     cursos: cursos,
   });
+
+  console.log('RESPONSE', response);
 
   return { ok: response.statusText };
 };

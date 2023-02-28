@@ -1,180 +1,76 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
-import { useCallback, useEffect, useState } from 'react';
-import { ItensList } from '../../../types/curriculo';
-import { createCurriculo } from '../../../service';
+import { useEffect, useState } from 'react';
 import { ButtonCreate, Content } from './styles';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function CadastroCurriculo() {
+export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const [nomeEmpresa, setNomeEmpresa] = useState('');
-  const [inicio, setInicio] = useState('');
-  const [fim, setFim] = useState('');
-  const [cargo, setCargo] = useState('');
-  const [experiences, setExperiences] = useState<Array<ItensList>>([]);
+  const { curriculoStore, idiomaStore, cursoStore, snackbarStore } = useStore();
+  const {
+    nomeEmpresa,
+    setNomeEmpresa,
+    cargo,
+    experiencias,
+    fim,
+    inicio,
+    setCargo,
+    setFim,
+    setInicio,
+    handleSaveExperience,
+    createNewExperience,
+    createExperience,
+    handleCreateCurriculo,
+  } = curriculoStore;
 
-  const [idioma, setIdioma] = useState('');
-  const [nivel, setNivel] = useState('');
-  const [idiomas, setIdiomas] = useState<Array<ItensList>>([]);
+  const {
+    idioma,
+    idiomas,
+    nivel,
+    setIdioma,
+    setNivel,
+    handleSaveIdiomas,
+    createNewIdioma,
+    createIdioma,
+  } = idiomaStore;
 
-  const [curso, setCurso] = useState('');
-  const [inicioCurso, setInicioCurso] = useState('');
-  const [fimCurso, setFimCurso] = useState('');
-  const [cursos, setCursos] = useState<Array<ItensList>>([]);
+  const {
+    curso,
+    cursos,
+    fimCurso,
+    inicioCurso,
+    setCurso,
+    setFimCurso,
+    setInicioCurso,
+    handleSaveCursos,
+    createNewCurso,
+    createCursos,
+  } = cursoStore;
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [severity, setSeverity] = useState<
-    'success' | 'info' | 'warning' | 'error'
-  >('success');
+  const { openSnackbar, setOpenSnackbar, severity, showSnackBar } =
+    snackbarStore;
+
   const navigate = useNavigate();
 
-  const clearStatesExperience = () => {
-    setCargo('');
-    setInicio('');
-    setFim('');
-    setNomeEmpresa('');
-  };
-
-  const clearStatesIdiomas = () => {
-    setIdioma('');
-    setNivel('');
-  };
-
-  const clearStatesCursos = () => {
-    setCurso('');
-    setFimCurso('');
-    setInicioCurso('');
-  };
-
   useEffect(() => {
-    if (!experiences.length) {
-      const experienceItem = {
-        firstItem: cargo,
-        secondItem: fim,
-        thirdItem: inicio,
-        fourItem: nomeEmpresa,
-      };
-
-      setExperiences([experienceItem, ...experiences]);
-    }
-
-    if (!idiomas.length) {
-      const idiomaItem = {
-        firstItem: idioma,
-        secondItem: nivel,
-      };
-
-      setIdiomas([idiomaItem, ...idiomas]);
-    }
-
-    if (!cursos.length) {
-      const cursoItem = {
-        firstItem: curso,
-        secondItem: inicioCurso,
-        thirdItem: fimCurso,
-      };
-
-      setCursos([cursoItem, ...cursos]);
-    }
-
-    console.log(experiences, cursos, idiomas);
+    createNewExperience();
+    createNewIdioma();
+    createNewCurso();
   }, []);
 
-  const handleSaveExperience = () => {
-    const item = {
-      firstItem: nomeEmpresa,
-      secondItem: cargo,
-      thirdItem: inicio,
-      fourItem: fim,
-    };
-    setExperiences([item, ...experiences]);
-    clearStatesExperience();
-  };
-
-  const handleSaveIdiomas = () => {
-    const item = {
-      firstItem: idioma,
-      secondItem: nivel,
-    };
-    setIdiomas([item, ...idiomas]);
-    clearStatesIdiomas();
-  };
-
-  const handleSaveCursos = () => {
-    const item = {
-      firstItem: curso,
-      secondItem: inicioCurso,
-      thirdItem: fimCurso,
-    };
-    setCursos([item, ...cursos]);
-    clearStatesCursos();
-  };
-
-  useEffect(() => {
-    if (cargo && inicio && nomeEmpresa && fim) handleSaveExperience();
-  }, [cargo, inicio, nomeEmpresa, fim]);
-
-  useEffect(() => {
-    if (inicioCurso && curso && fimCurso) handleSaveCursos();
-  }, [inicioCurso, curso, fimCurso]);
-
-  useEffect(() => {
-    if (idioma && nivel) handleSaveIdiomas();
-  }, [idioma, nivel]);
-
-  const handleCreateCurriculo = useCallback(async () => {
-    const experienciasArrayAPI = experiences
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          empresa: i.firstItem,
-          cargo: i.secondItem,
-          inicio: i.thirdItem,
-          termino: i.fourItem,
-          endereco: 'Rua Palmital',
-          ramo: 'algum',
-        };
-      });
-
-    const idiomasArrayAPI = idiomas
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          idioma: i.firstItem,
-          nivel: i.secondItem,
-        };
-      });
-
-    const cursosAPI = cursos
-      .filter((i) => i.firstItem !== '')
-      .map((i, index) => {
-        return {
-          id: index + 10,
-          curso: i.firstItem,
-          inicio: i.secondItem,
-          fim: i.thirdItem,
-        };
-      });
-
-    const response = await createCurriculo(
+  const createCurriculo = async () => {
+    const response = await handleCreateCurriculo(
       id as any,
-      experienciasArrayAPI,
-      idiomasArrayAPI,
-      cursosAPI
+      createExperience,
+      createIdioma,
+      createCursos
     );
 
-    if (response.ok === 'OK') {
-      setOpenSnackbar(true);
-      setSeverity('success');
-      navigate('/candidato/vagas');
-    } else {
-      setOpenSnackbar(true);
-      setSeverity('error');
-    }
-  }, [experiences, idiomas, cursos]);
+    showSnackBar(response.ok);
+    //navigate('candidato/vagas');
+  };
 
   return (
     <Box
@@ -186,7 +82,7 @@ export function CadastroCurriculo() {
     >
       <Content>
         <SectionCreate
-          array={experiences}
+          array={experiencias}
           title="Experiências profissionais"
           firstItem={{
             xs: 12,
@@ -267,7 +163,7 @@ export function CadastroCurriculo() {
         <ButtonCreate
           sx={{ marginLeft: 'auto' }}
           variant="contained"
-          onClick={handleCreateCurriculo}
+          onClick={createCurriculo}
         >
           <Typography>Salvar</Typography>
         </ButtonCreate>
@@ -275,7 +171,7 @@ export function CadastroCurriculo() {
 
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={1000}
         onClose={() => setOpenSnackbar(!openSnackbar)}
       >
         <Alert
@@ -288,4 +184,4 @@ export function CadastroCurriculo() {
       </Snackbar>
     </Box>
   );
-}
+});

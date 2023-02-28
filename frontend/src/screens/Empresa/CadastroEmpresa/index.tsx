@@ -1,8 +1,9 @@
-import { useNavigate, Link } from 'react-router-dom'
-import InputMask from "react-input-mask"
-import { api } from '../../../lib/axios'
-import { FormEvent, useState, forwardRef } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
+import { useEffect, useState, FormEvent, forwardRef } from 'react';
+import InputMask from "react-input-mask";
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
 type MaskedInputProps = {
   mask: string
@@ -14,34 +15,52 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
   }
 )
 
-export function CadastroEmpresa() {
-  const [email, setEmail] = useState('')
+export const CadastroEmpresa = observer(() => {
+  const { empresaStore } = useStore();
+  const {
+    email,
+    setEmail,
+    senha,
+    setSenha,
+    nome,
+    setNome,
+    cep,
+    setCep,
+    endereco,
+    setEndereco,
+    bairro,
+    setBairro,
+    cidade,
+    setCidade,
+    estado,
+    setEstado,
+    pais,
+    setPais,
+    numero,
+    setNumero,
+    telefone,
+    setTelefone,
+    ramo,
+    setRamo,
+    cnpj,
+    setCnpj,
+    complemento,
+    setComplemento
+  } = empresaStore;
+
   const [emailError, setEmailError] = useState(false)
-  const [senha, setSenha] = useState('')
   const [senhaError, setSenhaError] = useState(false)
-  const [nome, setNome] = useState('')
   const [nomeError, setNomeError] = useState(false)
-  const [cep, setCep] = useState('')
   const [cepError, setCepError] = useState(false)
-  const [endereco, setEndereco] = useState('')
   const [enderecoError, setEnderecoError] = useState(false)
-  const [bairro, setBairro] = useState('')
   const [bairroError, setBairroError] = useState(false)
-  const [cidade, setCidade] = useState('')
   const [cidadeError, setCidadeError] = useState(false)
-  const [estado, setEstado] = useState('')
   const [estadoError, setEstadoError] = useState(false)
-  const [pais, setPais] = useState('')
   const [paisError, setPaisError] = useState(false)
-  const [numero, setNumero] = useState('')
   const [numeroError, setNumeroError] = useState(false)
-  const [complemento, setComplemento] = useState('')
   const [complementoError, setComplementoError] = useState(false)
-  const [telefone, setTelefone] = useState('')
   const [telefoneError, setTelefoneError] = useState(false)
-  const [ramo, setRamo] = useState('')
   const [ramoError, setRamoError] = useState(false)
-  const [cnpj, setCnpj] = useState('')
   const [cnpjError, setCnpjError] = useState(false)
   const [formularioError, setFormularioError] = useState(false)
 
@@ -50,7 +69,6 @@ export function CadastroEmpresa() {
     'success' | 'info' | 'warning' | 'error'
   >('success')
   const [mensagem, setMensagem] = useState('')
-  const navigate = useNavigate()
 
   const isEmailError = () => {
     if (email.trim() === '')
@@ -153,59 +171,61 @@ export function CadastroEmpresa() {
     )
   }
 
-  async function cadastrar(e: FormEvent) {
-    e.preventDefault()
+  const navigate = useNavigate()
 
-    if (!isFormError()) {
-      setFormularioError(true)
-      setOpenSnackbar(true)
-      setSeverity('warning')
-      setMensagem('Campo(s) em branco')
-      return
-    }
+  // async function cadastrar(e: FormEvent) {
+  //   e.preventDefault()
 
-    await api
-      .post('/usuario/cadastro/empresas', {
-        email,
-        senha,
-        nome,
-        ramo,
-        cnpj,
-        pais,
-        cep,
-        estado,
-        cidade,
-        endereco,
-        numero,
-        bairro,
-        complemento,
-        telefone
-      })
-      .then(res => {
-        setOpenSnackbar(true)
-        setSeverity('success')
-        setMensagem('Empresa cadastrada com sucesso')
-        setTimeout(() => navigate('/'), 2000)
-      }).catch((erro) => {
-        setOpenSnackbar(true)
-        setSeverity('error')
-        setMensagem('Erro ao cadastrar empresa')
-        setEmail('')
-        setSenha('')
-        setNome('')
-        setCep('')
-        setEndereco('')
-        setBairro('')
-        setCidade('')
-        setEstado('')
-        setPais('')
-        setNumero('')
-        setComplemento('')
-        setTelefone('')
-        setRamo('')
-        setCnpj('')
-      })
-  }
+  //   if (!isFormError()) {
+  //     setFormularioError(true)
+  //     setOpenSnackbar(true)
+  //     setSeverity('warning')
+  //     setMensagem('Campo(s) em branco')
+  //     return
+  //   }
+
+  //   await api
+  //     .post('/usuario/cadastro/empresas', {
+  //       email,
+  //       senha,
+  //       nome,
+  //       ramo,
+  //       cnpj,
+  //       pais,
+  //       cep,
+  //       estado,
+  //       cidade,
+  //       endereco,
+  //       numero,
+  //       bairro,
+  //       complemento,
+  //       telefone
+  //     })
+  //     .then(res => {
+  //       setOpenSnackbar(true)
+  //       setSeverity('success')
+  //       setMensagem('Empresa cadastrada com sucesso')
+  //       setTimeout(() => navigate('/'), 2000)
+  //     }).catch((erro) => {
+  //       setOpenSnackbar(true)
+  //       setSeverity('error')
+  //       setMensagem('Erro ao cadastrar empresa')
+  //       setEmail('')
+  //       setSenha('')
+  //       setNome('')
+  //       setCep('')
+  //       setEndereco('')
+  //       setBairro('')
+  //       setCidade('')
+  //       setEstado('')
+  //       setPais('')
+  //       setNumero('')
+  //       setComplemento('')
+  //       setTelefone('')
+  //       setRamo('')
+  //       setCnpj('')
+  //     })
+  // }
 
   const checkCEP = () => {
     const cepApi = cep.replace(/\D/g, '')
@@ -236,23 +256,21 @@ export function CadastroEmpresa() {
         <Button sx={{
           color: '#f5f5f5',
           marginTop: 2
-        }}>
-          <Link to={'/'} className="transition-all">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </Link>
+        }} onClick={() => navigate('/')}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </Button>
         <Typography
           variant="h4"
@@ -273,157 +291,157 @@ export function CadastroEmpresa() {
         <Box sx={{ borderRadius: '50px 0px 0px 50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Box sx={{ m: 10 }}>
             <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
-            <form onSubmit={cadastrar}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="E-mail" type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setEmailError(isEmailError) }}
-                    error={!emailError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Senha" type="password"
-                    value={senha}
-                    onChange={(event) => setSenha(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setSenhaError(isSenhaError) }}
-                    error={!senhaError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Nome da Empresa"
-                    value={nome}
-                    onChange={(event) => setNome(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setNomeError(isNomeError) }}
-                    error={!nomeError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Ramo da Empresa"
-                    value={ramo}
-                    onChange={(event) => setRamo(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setRamoError(isRamoError) }}
-                    error={!ramoError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="CNPJ"
-                    value={cnpj}
-                    onChange={(event) => setCnpj(event.target.value)}
-                    InputProps={{
-                      inputComponent: MaskedInput as any,
-                      inputProps: { mask: "99.999.999/9999-99" },
-                    }}
-                    fullWidth
-                    onBlur={() => { setCnpjError(isCnpjError) }}
-                    error={!cnpjError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="País"
-                    value={pais}
-                    onChange={(event) => setPais(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setPaisError(isPaisError) }}
-                    error={!paisError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="CEP"
-                    value={cep}
-                    onChange={(event) => setCep(event.target.value)}
-                    InputProps={{
-                      inputComponent: MaskedInput as any,
-                      inputProps: { mask: "99999-999" },
-                    }}
-                    fullWidth
-                    onBlur={() => { setCepError(isCepError) }}
-                    error={!cepError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="Estado"
-                    value={estado}
-                    onChange={(event) => setEstado(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setEstadoError(isEstadoError) }}
-                    error={!estadoError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="Cidade"
-                    value={cidade}
-                    onChange={(event) => setCidade(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setCidadeError(isCidadeError) }}
-                    error={!cidadeError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    label="Endereço"
-                    value={endereco}
-                    onChange={(event) => setEndereco(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setEnderecoError(isEnderecoError) }}
-                    error={!enderecoError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    label="Número"
-                    value={numero}
-                    onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
-                    fullWidth
-                    onBlur={() => { setNumeroError(isNumeroError) }}
-                    error={!numeroError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    label="Bairro"
-                    value={bairro}
-                    onChange={(event) => setBairro(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setBairroError(isBairroError) }}
-                    error={!bairroError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    label="Complemento"
-                    value={complemento}
-                    onChange={(event) => setComplemento(event.target.value)}
-                    fullWidth
-                    onBlur={() => { setComplementoError(isComplementoError) }}
-                    error={!complementoError && formularioError} />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    label="Telefone"
-                    value={telefone}
-                    onChange={(event) => setTelefone(event.target.value.replace(/\D/g, ''))}
-                    InputProps={{
-                      inputComponent: MaskedInput as any,
-                      inputProps: { mask: "(99) 9999-99999" },
-                    }}
-                    fullWidth
-                    onBlur={() => { setTelefoneError(isTelefoneError) }}
-                    error={!telefoneError && formularioError} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    style={{ borderRadius: 50 }}
-                    fullWidth>
-                    Cadastrar</Button>
-                </Grid>
+            {/* <form onSubmit={cadastrar}> */}
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="E-mail" type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setEmailError(isEmailError) }}
+                  error={!emailError && formularioError} />
               </Grid>
-            </form>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Senha" type="password"
+                  value={senha}
+                  onChange={(event) => setSenha(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setSenhaError(isSenhaError) }}
+                  error={!senhaError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Nome da Empresa"
+                  value={nome}
+                  onChange={(event) => setNome(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setNomeError(isNomeError) }}
+                  error={!nomeError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Ramo da Empresa"
+                  value={ramo}
+                  onChange={(event) => setRamo(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setRamoError(isRamoError) }}
+                  error={!ramoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="CNPJ"
+                  value={cnpj}
+                  onChange={(event) => setCnpj(event.target.value)}
+                  InputProps={{
+                    inputComponent: MaskedInput as any,
+                    inputProps: { mask: "99.999.999/9999-99" },
+                  }}
+                  fullWidth
+                  onBlur={() => { setCnpjError(isCnpjError) }}
+                  error={!cnpjError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="País"
+                  value={pais}
+                  onChange={(event) => setPais(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setPaisError(isPaisError) }}
+                  error={!paisError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="CEP"
+                  value={cep}
+                  onChange={(event) => setCep(event.target.value)}
+                  InputProps={{
+                    inputComponent: MaskedInput as any,
+                    inputProps: { mask: "99999-999" },
+                  }}
+                  fullWidth
+                  onBlur={() => { setCepError(isCepError) }}
+                  error={!cepError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Estado"
+                  value={estado}
+                  onChange={(event) => setEstado(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setEstadoError(isEstadoError) }}
+                  error={!estadoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Cidade"
+                  value={cidade}
+                  onChange={(event) => setCidade(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setCidadeError(isCidadeError) }}
+                  error={!cidadeError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Endereço"
+                  value={endereco}
+                  onChange={(event) => setEndereco(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setEnderecoError(isEnderecoError) }}
+                  error={!enderecoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  label="Número"
+                  value={numero}
+                  onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
+                  fullWidth
+                  onBlur={() => { setNumeroError(isNumeroError) }}
+                  error={!numeroError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  label="Bairro"
+                  value={bairro}
+                  onChange={(event) => setBairro(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setBairroError(isBairroError) }}
+                  error={!bairroError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  label="Complemento"
+                  value={complemento}
+                  onChange={(event) => setComplemento(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setComplementoError(isComplementoError) }}
+                  error={!complementoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  label="Telefone"
+                  value={telefone}
+                  onChange={(event) => setTelefone(event.target.value.replace(/\D/g, ''))}
+                  InputProps={{
+                    inputComponent: MaskedInput as any,
+                    inputProps: { mask: "(99) 9999-99999" },
+                  }}
+                  fullWidth
+                  onBlur={() => { setTelefoneError(isTelefoneError) }}
+                  error={!telefoneError && formularioError} />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  style={{ borderRadius: 50 }}
+                  fullWidth>
+                  Cadastrar</Button>
+              </Grid>
+            </Grid>
+            {/* </form> */}
           </Box>
         </Box>
       </Box>
@@ -440,7 +458,6 @@ export function CadastroEmpresa() {
           {mensagem}
         </Alert>
       </Snackbar>
-    </Box>
-
+    </Box >
   )
 }
