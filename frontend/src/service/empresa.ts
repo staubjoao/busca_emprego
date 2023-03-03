@@ -11,7 +11,7 @@ export const createEmpresa = async (
     estado: string,
     cidade: string,
     endereco: string,
-    numero: number,
+    numero: string,
     bairro: string,
     complemento: string,
     telefone: string

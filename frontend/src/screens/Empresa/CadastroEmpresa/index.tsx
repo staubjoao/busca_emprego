@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
 import { useEffect, useState, FormEvent, forwardRef } from 'react';
 import InputMask from "react-input-mask";
+import { validateGenerico, validadeEmpresa } from '../../../utils';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
 
@@ -16,7 +17,24 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
 )
 
 export const CadastroEmpresa = observer(() => {
-  const { empresaStore } = useStore();
+  const { empresaStore, snackbarStore } = useStore();
+  const {
+    isEmailError,
+    isSenhaError,
+    isNomeError,
+    isEnderecoError,
+    isBairroError,
+    isCidadeError,
+    isEstadoError,
+    isPaisError,
+    isNumeroError,
+    isTelefoneError,
+    isComplementoError,
+  } = validateGenerico;
+  const {
+    isCnpjError,
+    isRamoError
+  } = validadeEmpresa;
   const {
     email,
     setEmail,
@@ -45,113 +63,58 @@ export const CadastroEmpresa = observer(() => {
     cnpj,
     setCnpj,
     complemento,
-    setComplemento
+    setComplemento,
+    handleCreateEmpresa,
+    emailError,
+    setEmailError,
+    senhaError,
+    setSenhaError,
+    nomeError,
+    setNomeError,
+    cepError,
+    setCepError,
+    enderecoError,
+    setEnderecoError,
+    bairroError,
+    setBairroError,
+    cidadeError,
+    setCidadeError,
+    estadoError,
+    setEstadoError,
+    paisError,
+    setPaisError,
+    numeroError,
+    setNumeroError,
+    complementoError,
+    setComplementoError,
+    telefoneError,
+    setTelefoneError,
+    ramoError,
+    setRamoError,
+    cnpjError,
+    setCnpjError,
   } = empresaStore;
 
-  const [emailError, setEmailError] = useState(false)
-  const [senhaError, setSenhaError] = useState(false)
-  const [nomeError, setNomeError] = useState(false)
-  const [cepError, setCepError] = useState(false)
-  const [enderecoError, setEnderecoError] = useState(false)
-  const [bairroError, setBairroError] = useState(false)
-  const [cidadeError, setCidadeError] = useState(false)
-  const [estadoError, setEstadoError] = useState(false)
-  const [paisError, setPaisError] = useState(false)
-  const [numeroError, setNumeroError] = useState(false)
-  const [complementoError, setComplementoError] = useState(false)
-  const [telefoneError, setTelefoneError] = useState(false)
-  const [ramoError, setRamoError] = useState(false)
-  const [cnpjError, setCnpjError] = useState(false)
+  const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
+    snackbarStore;
+
   const [formularioError, setFormularioError] = useState(false)
 
-  const [openSnackbar, setOpenSnackbar] = useState(false)
-  const [severity, setSeverity] = useState<
-    'success' | 'info' | 'warning' | 'error'
-  >('success')
-  const [mensagem, setMensagem] = useState('')
-
-  const isEmailError = () => {
-    if (email.trim() === '')
-      return false
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  const isSenhaError = () => {
-    return senha.trim() !== ''
-  }
-
-  const isNomeError = () => {
-    return nome.trim() !== ''
-  }
-
-  const isCepError = () => {
-    const cepApi = cep.replace(/\D/g, '')
-    if (cep.trim() === '')
-      return false
-    if (cepApi.length !== 8)
-      return false
-    checkCEP()
-    return true
-  }
-
-  const isEnderecoError = () => {
-    return endereco.trim() !== ''
-  }
-
-  const isBairroError = () => {
-    return bairro.trim() !== ''
-  }
-
-  const isCidadeError = () => {
-    return cidade.trim() !== ''
-  }
-
-  const isEstadoError = () => {
-    return estado.trim() !== ''
-  }
-
-  const isPaisError = () => {
-    return pais.trim() !== ''
-  }
-
-  const isNumeroError = () => {
-    return numero.trim() !== ''
-  }
-
-  const isTelefoneError = () => {
-    const telefoneAux = telefone.replace(/\D/g, '')
-    return telefone.trim() !== '' && telefoneAux.length >= 10
-  }
-
-  const isComplementoError = () => {
-    return complemento.trim() !== ''
-  }
-
-  const isRamoError = () => {
-    return ramo.trim() !== ''
-  }
-
-  const isCnpjError = () => {
-    const cpnjAux = cnpj.replace(/\D/g, '')
-    return cpnjAux.length === 14
-  }
-
   const isFormError = () => {
-    setEmailError(isEmailError())
-    setSenhaError(isSenhaError())
-    setNomeError(isNomeError())
+    setEmailError(isEmailError(email))
+    setSenhaError(isSenhaError(senha))
+    setNomeError(isNomeError(nome))
+    setEnderecoError(isEnderecoError(endereco))
+    setBairroError(isBairroError(bairro))
+    setCidadeError(isCidadeError(cidade))
+    setEstadoError(isEstadoError(estado))
+    setPaisError(isPaisError(pais))
+    setNumeroError(isNumeroError(numero))
+    setComplementoError(isComplementoError(complemento))
+    setTelefoneError(isTelefoneError(telefone))
+    setRamoError(isRamoError(ramo))
+    setCnpjError(isCnpjError(cnpj))
     setCepError(isCepError())
-    setEnderecoError(isEnderecoError())
-    setBairroError(isBairroError())
-    setCidadeError(isCidadeError())
-    setEstadoError(isEstadoError())
-    setPaisError(isPaisError())
-    setNumeroError(isNumeroError())
-    setComplementoError(isComplementoError())
-    setTelefoneError(isTelefoneError())
-    setRamoError(isRamoError())
-    setCnpjError(isCnpjError())
 
     return (
       emailError &&
@@ -171,18 +134,65 @@ export const CadastroEmpresa = observer(() => {
     )
   }
 
+  const isCepError = () => {
+    const cepApi = cep.replace(/\D/g, '')
+    if (cep.trim() === '')
+      return false
+    if (cepApi.length !== 8)
+      return false
+    fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
+      .then(res => res.json()).then(data => {
+        setCidade(data.localidade)
+        setEstado(data.uf)
+        setEndereco(data.logradouro)
+        setBairro(data.bairro)
+        if (cidade !== '') {
+          setCidadeError(true)
+        }
+        if (estado !== '') {
+          setEstadoError(true)
+        }
+        if (endereco !== '') {
+          setEnderecoError(true)
+        }
+        if (bairro !== '') {
+          setBairroError(true)
+        }
+      })
+    return true
+  }
+
   const navigate = useNavigate()
 
+  const createEmpresa = async () => {
+    if (!isFormError()) {
+      setFormularioError(true)
+      setOpenSnackbar(true)
+      setSeverity('warning')
+      // setMessage('Campo(s) em branco')
+      return
+    }
+    const response = await handleCreateEmpresa(
+      email,
+      senha,
+      nome,
+      ramo,
+      cnpj,
+      pais,
+      cep,
+      estado,
+      cidade,
+      endereco,
+      numero,
+      bairro,
+      complemento,
+      telefone
+    );
+    showSnackBar(response.ok);
+  };
   // async function cadastrar(e: FormEvent) {
   //   e.preventDefault()
 
-  //   if (!isFormError()) {
-  //     setFormularioError(true)
-  //     setOpenSnackbar(true)
-  //     setSeverity('warning')
-  //     setMensagem('Campo(s) em branco')
-  //     return
-  //   }
 
   //   await api
   //     .post('/usuario/cadastro/empresas', {
@@ -226,21 +236,6 @@ export const CadastroEmpresa = observer(() => {
   //       setCnpj('')
   //     })
   // }
-
-  const checkCEP = () => {
-    const cepApi = cep.replace(/\D/g, '')
-    fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
-      .then(res => res.json()).then(data => {
-        setCidade(data.localidade)
-        setEstado(data.uf)
-        setEndereco(data.logradouro)
-        setBairro(data.bairro)
-        setCidadeError(true)
-        setEstadoError(true)
-        setEnderecoError(true)
-        setBairroError(true)
-      })
-  }
 
   return (
     <Box
@@ -299,7 +294,7 @@ export const CadastroEmpresa = observer(() => {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEmailError(isEmailError) }}
+                  onBlur={() => { setEmailError(isEmailError(email)) }}
                   error={!emailError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -308,7 +303,7 @@ export const CadastroEmpresa = observer(() => {
                   value={senha}
                   onChange={(event) => setSenha(event.target.value)}
                   fullWidth
-                  onBlur={() => { setSenhaError(isSenhaError) }}
+                  onBlur={() => { setSenhaError(isSenhaError(senha)) }}
                   error={!senhaError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -317,7 +312,7 @@ export const CadastroEmpresa = observer(() => {
                   value={nome}
                   onChange={(event) => setNome(event.target.value)}
                   fullWidth
-                  onBlur={() => { setNomeError(isNomeError) }}
+                  onBlur={() => { setNomeError(isNomeError(nome)) }}
                   error={!nomeError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -326,7 +321,7 @@ export const CadastroEmpresa = observer(() => {
                   value={ramo}
                   onChange={(event) => setRamo(event.target.value)}
                   fullWidth
-                  onBlur={() => { setRamoError(isRamoError) }}
+                  onBlur={() => { setRamoError(isRamoError(ramo)) }}
                   error={!ramoError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -339,7 +334,7 @@ export const CadastroEmpresa = observer(() => {
                     inputProps: { mask: "99.999.999/9999-99" },
                   }}
                   fullWidth
-                  onBlur={() => { setCnpjError(isCnpjError) }}
+                  onBlur={() => { setCnpjError(isCnpjError(cnpj)) }}
                   error={!cnpjError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -348,7 +343,7 @@ export const CadastroEmpresa = observer(() => {
                   value={pais}
                   onChange={(event) => setPais(event.target.value)}
                   fullWidth
-                  onBlur={() => { setPaisError(isPaisError) }}
+                  onBlur={() => { setPaisError(isPaisError(pais)) }}
                   error={!paisError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -361,7 +356,7 @@ export const CadastroEmpresa = observer(() => {
                     inputProps: { mask: "99999-999" },
                   }}
                   fullWidth
-                  onBlur={() => { setCepError(isCepError) }}
+                  onBlur={() => { setCepError(isCepError()) }}
                   error={!cepError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -370,7 +365,7 @@ export const CadastroEmpresa = observer(() => {
                   value={estado}
                   onChange={(event) => setEstado(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEstadoError(isEstadoError) }}
+                  onBlur={() => { setEstadoError(isEstadoError(estado)) }}
                   error={!estadoError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -379,7 +374,7 @@ export const CadastroEmpresa = observer(() => {
                   value={cidade}
                   onChange={(event) => setCidade(event.target.value)}
                   fullWidth
-                  onBlur={() => { setCidadeError(isCidadeError) }}
+                  onBlur={() => { setCidadeError(isCidadeError(cidade)) }}
                   error={!cidadeError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -388,7 +383,7 @@ export const CadastroEmpresa = observer(() => {
                   value={endereco}
                   onChange={(event) => setEndereco(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEnderecoError(isEnderecoError) }}
+                  onBlur={() => { setEnderecoError(isEnderecoError(endereco)) }}
                   error={!enderecoError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -397,7 +392,7 @@ export const CadastroEmpresa = observer(() => {
                   value={numero}
                   onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
                   fullWidth
-                  onBlur={() => { setNumeroError(isNumeroError) }}
+                  onBlur={() => { setNumeroError(isNumeroError(numero)) }}
                   error={!numeroError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -406,7 +401,7 @@ export const CadastroEmpresa = observer(() => {
                   value={bairro}
                   onChange={(event) => setBairro(event.target.value)}
                   fullWidth
-                  onBlur={() => { setBairroError(isBairroError) }}
+                  onBlur={() => { setBairroError(isBairroError(bairro)) }}
                   error={!bairroError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -415,7 +410,7 @@ export const CadastroEmpresa = observer(() => {
                   value={complemento}
                   onChange={(event) => setComplemento(event.target.value)}
                   fullWidth
-                  onBlur={() => { setComplementoError(isComplementoError) }}
+                  onBlur={() => { setComplementoError(isComplementoError(complemento)) }}
                   error={!complementoError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -428,7 +423,7 @@ export const CadastroEmpresa = observer(() => {
                     inputProps: { mask: "(99) 9999-99999" },
                   }}
                   fullWidth
-                  onBlur={() => { setTelefoneError(isTelefoneError) }}
+                  onBlur={() => { setTelefoneError(isTelefoneError(telefone)) }}
                   error={!telefoneError && formularioError} />
               </Grid>
               <Grid item xs={12}>
@@ -436,6 +431,7 @@ export const CadastroEmpresa = observer(() => {
                   variant="contained"
                   color="primary"
                   type="submit"
+                  onClick={createEmpresa}
                   style={{ borderRadius: 50 }}
                   fullWidth>
                   Cadastrar</Button>
@@ -455,9 +451,9 @@ export const CadastroEmpresa = observer(() => {
           severity={severity}
           sx={{ width: '100%' }}
         >
-          {mensagem}
+          {message}
         </Alert>
       </Snackbar>
     </Box >
   )
-}
+});
