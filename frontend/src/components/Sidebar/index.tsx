@@ -71,6 +71,9 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
             {open ? <ChevronRight /> : <ChevronLeft />}
           </IconButton>
         </Styled.DrawerHeader>
+        <Styled.Avatar />
+        {open && <Styled.NameAvatar>Maria Cecília</Styled.NameAvatar>}
+
         <Divider />
         <List>
           {screens.map((text, index) => (

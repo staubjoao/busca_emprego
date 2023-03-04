@@ -3,6 +3,7 @@ import {
   Drawer as MuiDrawer,
   Button as MuiButton,
   Typography as MuiTypography,
+  Avatar as MuiAvatar,
 } from '@mui/material';
 
 const drawerWidth = 240;
@@ -22,9 +23,9 @@ export const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(10)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(10)} + 1px)`,
   },
 });
 
@@ -52,7 +53,7 @@ export const Drawer = styled(MuiDrawer, {
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
-  backgroundColor: '#eee',
+  backgroundColor: '#F4F6FF',
 }));
 
 export const Button = styled(MuiButton)(({ theme }) => ({
@@ -70,4 +71,19 @@ export const Typography = styled(MuiTypography)(({ theme }) => ({
   fontWeight: 'bold',
   marginLeft: theme.spacing(1),
   fontSize: 12,
+}));
+
+export const Avatar = styled(MuiAvatar)(({ theme }) => ({
+  alignSelf: 'center',
+  width: 60,
+  height: 60,
+  marginBottom: theme.spacing(2),
+}));
+
+export const NameAvatar = styled(MuiTypography)(({ theme }) => ({
+  color: '#5E80BB',
+  fontWeight: 'bold',
+  fontSize: 16,
+  alignSelf: 'center',
+  marginBottom: theme.spacing(2),
 }));
