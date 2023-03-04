@@ -1,19 +1,25 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Dashboard, PermContactCalendar, ListAlt } from '@mui/icons-material';
+import {
+  Box,
+  List,
+  CssBaseline,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from '@mui/material';
+import {
+  Dashboard,
+  PermContactCalendar,
+  ListAlt,
+  ChevronLeft,
+  ChevronRight,
+  Logout,
+} from '@mui/icons-material';
 
 import * as Styled from './styles';
 
@@ -64,17 +70,13 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
       <Styled.Drawer variant="permanent" open={open}>
         <Styled.DrawerHeader>
           <IconButton onClick={() => handleDrawerOpen(open)}>
-            {theme.direction === 'rtl' ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            {open ? <ChevronRight /> : <ChevronLeft />}
           </IconButton>
         </Styled.DrawerHeader>
         <Divider />
         <List>
           {screens.map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -99,6 +101,16 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
           ))}
         </List>
         <Divider />
+        {open ? (
+          <Styled.Button>
+            <Logout sx={{ color: '#eee' }} fontSize="small" />
+            <Styled.Typography>Sair</Styled.Typography>
+          </Styled.Button>
+        ) : (
+          <Styled.Button>
+            <Logout sx={{ color: '#eee' }} fontSize="small" />
+          </Styled.Button>
+        )}
       </Styled.Drawer>
     </Box>
   );

@@ -1,5 +1,9 @@
 import { styled, Theme, CSSObject } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
+import {
+  Drawer as MuiDrawer,
+  Button as MuiButton,
+  Typography as MuiTypography,
+} from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -48,4 +52,22 @@ export const Drawer = styled(MuiDrawer, {
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
+  backgroundColor: '#eee',
+}));
+
+export const Button = styled(MuiButton)(({ theme }) => ({
+  flex: 1,
+  position: 'absolute',
+  bottom: 10,
+  backgroundColor: '#5E80BB',
+  alignSelf: 'center',
+  width: '40%',
+  flexDirection: 'row',
+}));
+
+export const Typography = styled(MuiTypography)(({ theme }) => ({
+  color: '#eee',
+  fontWeight: 'bold',
+  marginLeft: theme.spacing(1),
+  fontSize: 12,
 }));
