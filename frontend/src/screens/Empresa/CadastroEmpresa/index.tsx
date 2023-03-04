@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
 import { useEffect, useState, FormEvent, forwardRef } from 'react';
 import InputMask from "react-input-mask";
-import { validateGenerico, validadeEmpresa } from '../../../utils';
+import { validateGenerico, validateEmpresa } from '../../../utils';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
 
@@ -34,7 +34,7 @@ export const CadastroEmpresa = observer(() => {
   const {
     isCnpjError,
     isRamoError
-  } = validadeEmpresa;
+  } = validateEmpresa;
   const {
     email,
     setEmail,

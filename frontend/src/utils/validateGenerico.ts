@@ -57,5 +57,5 @@ export {
     isPaisError,
     isNumeroError,
     isTelefoneError,
-    isComplementoError
+    isComplementoError,
 }

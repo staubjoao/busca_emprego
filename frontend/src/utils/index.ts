@@ -1,2 +1,3 @@
 export * as validateGenerico from './validateGenerico';
-export * as validadeEmpresa from './validateEmpresa';
+export * as validateEmpresa from './validateEmpresa';
+export * as validateCandidato from './validateCandidato';
