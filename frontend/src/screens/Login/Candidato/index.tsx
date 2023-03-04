@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paper from '../../../assets/images/paper.png';
 import { autenticacaoLoginCandidato } from '../../../service/login';
+import { useStore } from '../../../hooks/stores';
 
 export function LoginCandidato() {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ export function LoginCandidato() {
   const [erro, setErro] = useState('');
   const [canNavigate, setCanNavigate] = useState(false);
   const navigate = useNavigate();
+  const { loginStore } = useStore();
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
@@ -96,7 +98,10 @@ export function LoginCandidato() {
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button
-            onClick={() => navigate('/cadastro/candidato')}
+            onClick={() => {
+              navigate('/cadastro/candidato');
+              loginStore.setTypeUser('candidato');
+            }}
             className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
           >
             Cadastrar

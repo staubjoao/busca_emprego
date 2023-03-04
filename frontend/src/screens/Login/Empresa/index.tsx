@@ -3,6 +3,7 @@ import paper from '../../../assets/images/paper.png';
 import IMaskInput from 'react-input-mask';
 import { useState } from 'react';
 import { autenticacaoLoginEmpresa } from '../../../service/login';
+import { useStore } from '../../../hooks/stores';
 
 export function LoginEmpresa() {
   const [cnpj, setCnpj] = useState('');
@@ -10,6 +11,7 @@ export function LoginEmpresa() {
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
   const [canNavigate, setCanNavigate] = useState(false);
+  const { loginStore } = useStore();
 
   return (
     <div className="flex mx-auto justify-evenly items-center gap-20">
@@ -91,7 +93,10 @@ export function LoginEmpresa() {
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button
-            onClick={() => navigate('/cadastro/empresa')}
+            onClick={() => {
+              navigate('/cadastro/empresa');
+              loginStore.setTypeUser('empresa');
+            }}
             className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
           >
             Cadastrar
