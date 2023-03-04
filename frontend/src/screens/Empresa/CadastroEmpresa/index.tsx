@@ -146,16 +146,16 @@ export const CadastroEmpresa = observer(() => {
         setEstado(data.uf)
         setEndereco(data.logradouro)
         setBairro(data.bairro)
-        if (cidade !== '') {
+        if (data.localidade !== '') {
           setCidadeError(true)
         }
-        if (estado !== '') {
+        if (data.uf !== '') {
           setEstadoError(true)
         }
-        if (endereco !== '') {
+        if (data.logradouro !== '') {
           setEnderecoError(true)
         }
-        if (bairro !== '') {
+        if (data.bairro !== '') {
           setBairroError(true)
         }
       })
