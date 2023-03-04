@@ -18,5 +18,3 @@ export const StoreContext = createContext(stores);
 export const useStore = () => {
   return useContext<typeof stores>(StoreContext);
 };
-
-export const useCurriculoStore = () => new CurriculoStore();

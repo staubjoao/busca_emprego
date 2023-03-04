@@ -49,8 +49,14 @@ export const CadastroCurriculo = observer(() => {
     createCursos,
   } = cursoStore;
 
-  const { openSnackbar, setOpenSnackbar, severity, showSnackBar } =
-    snackbarStore;
+  const {
+    openSnackbar,
+    setOpenSnackbar,
+    severity,
+    showSnackBar,
+    message,
+    setMessage,
+  } = snackbarStore;
 
   const navigate = useNavigate();
 
@@ -68,6 +74,7 @@ export const CadastroCurriculo = observer(() => {
       createCursos
     );
 
+    setMessage('Currículo salvo com sucesso');
     showSnackBar(response.ok);
     //navigate('candidato/vagas');
   };
@@ -179,7 +186,7 @@ export const CadastroCurriculo = observer(() => {
           severity={severity}
           sx={{ width: '100%' }}
         >
-          Currículo salvo com sucesso
+          {message}
         </Alert>
       </Snackbar>
     </Box>
