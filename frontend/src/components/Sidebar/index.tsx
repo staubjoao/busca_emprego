@@ -21,6 +21,7 @@ import {
 } from '@mui/icons-material';
 
 import * as Styled from './styles';
+import { useParams } from 'react-router-dom';
 
 interface SideBarProps {
   typeUser: string;
@@ -41,14 +42,15 @@ const empresaScreens = [
     navigateTo: '/empresa/vagas',
   },
 ];
-const candidatoScreens = [
+
+const candidatoScreens = (idCandidato: string | undefined) => [
   {
     name: 'Vagas',
     navigateTo: '/candidato/vagas',
   },
   {
     name: 'Cadastrar currículo',
-    navigateTo: '/candidato/:idCandidato/curriculo',
+    navigateTo: `/candidato/${idCandidato}/curriculo`,
   },
 ];
 
@@ -78,7 +80,9 @@ const candidatoIcons = (screen: string) => {
 
 export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
   const [open, setOpen] = React.useState(false);
-  const screens = typeUser === 'empresa' ? empresaScreens : candidatoScreens;
+  const { id } = useParams();
+  const screens =
+    typeUser === 'empresa' ? empresaScreens : candidatoScreens(id);
 
   const handleDrawerOpen = (open: boolean) => {
     setOpen(!open);

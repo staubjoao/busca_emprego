@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
-import Sidebar from '../../../components/Sidebar';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
@@ -91,9 +90,9 @@ export const CadastroCurriculo = observer(() => {
       minHeight="100vh"
       marginY={8}
     >
-      {loginStore.typeUser && (
+      {/* {loginStore.typeUser && (
         <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
-      )}
+      )} */}
 
       <Content>
         <SectionCreate
