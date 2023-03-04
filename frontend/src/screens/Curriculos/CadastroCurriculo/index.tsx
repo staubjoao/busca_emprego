@@ -91,7 +91,9 @@ export const CadastroCurriculo = observer(() => {
       minHeight="100vh"
       marginY={8}
     >
-      {loginStore.typeUser && <Sidebar typeUser={loginStore.typeUser} />}
+      {loginStore.typeUser && (
+        <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
+      )}
 
       <Content>
         <SectionCreate

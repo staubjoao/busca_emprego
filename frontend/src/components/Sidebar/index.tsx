@@ -24,10 +24,33 @@ import * as Styled from './styles';
 
 interface SideBarProps {
   typeUser: string;
+  navigate: any;
 }
 
-const empresaScreens = ['Curriculos', 'Cadastrar vagas', 'Vagas'];
-const candidatoScreens = ['Vagas', 'Cadastrar currículo'];
+const empresaScreens = [
+  {
+    name: 'Curriculos',
+    navigateTo: '/empresa/curriculos',
+  },
+  {
+    name: 'Cadastrar vagas',
+    navigateTo: '/empresa/cadastro-vagas',
+  },
+  {
+    name: 'Vagas',
+    navigateTo: '/empresa/vagas',
+  },
+];
+const candidatoScreens = [
+  {
+    name: 'Vagas',
+    navigateTo: '/candidato/vagas',
+  },
+  {
+    name: 'Cadastrar currículo',
+    navigateTo: '/candidato/:idCandidato/curriculo',
+  },
+];
 
 const empresaIcons = (screen: string) => {
   switch (screen) {
@@ -53,7 +76,7 @@ const candidatoIcons = (screen: string) => {
   }
 };
 
-export default function MiniDrawer({ typeUser }: SideBarProps) {
+export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
   const [open, setOpen] = React.useState(false);
   const screens = typeUser === 'empresa' ? empresaScreens : candidatoScreens;
 
@@ -76,7 +99,7 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
 
         <Divider />
         <List>
-          {screens.map((text, index) => (
+          {screens.map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -84,6 +107,7 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={() => navigate(item.navigateTo)}
               >
                 <ListItemIcon
                   sx={{
@@ -93,10 +117,13 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
                   }}
                 >
                   {typeUser === 'empresa'
-                    ? empresaIcons(text)
-                    : candidatoIcons(text)}
+                    ? empresaIcons(item.name)
+                    : candidatoIcons(item.name)}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary={item.name}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
