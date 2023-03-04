@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import paper from '../../../assets/images/paper.png';
 import { autenticacaoLoginCandidato } from '../../../service/login';
 import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function LoginCandidato() {
+export const LoginCandidato = observer(() => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -99,8 +100,8 @@ export function LoginCandidato() {
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button
             onClick={() => {
-              navigate('/cadastro/candidato');
               loginStore.setTypeUser('candidato');
+              navigate('/cadastro/candidato');
             }}
             className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
           >
@@ -110,4 +111,4 @@ export function LoginCandidato() {
       </div>
     </div>
   );
-}
+});

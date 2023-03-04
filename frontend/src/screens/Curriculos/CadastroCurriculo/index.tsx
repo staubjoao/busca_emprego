@@ -5,10 +5,13 @@ import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+import Sidebar from '../../../components/Sidebar';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const { curriculoStore, idiomaStore, cursoStore, snackbarStore } = useStore();
+  const { curriculoStore, idiomaStore, cursoStore, snackbarStore, loginStore } =
+    useStore();
+
   const {
     nomeEmpresa,
     setNomeEmpresa,
@@ -64,6 +67,7 @@ export const CadastroCurriculo = observer(() => {
     createNewExperience();
     createNewIdioma();
     createNewCurso();
+    loginStore.setTypeUser('candidato');
   }, []);
 
   const createCurriculo = async () => {
@@ -87,6 +91,8 @@ export const CadastroCurriculo = observer(() => {
       minHeight="100vh"
       marginY={8}
     >
+      {loginStore.typeUser && <Sidebar typeUser={loginStore.typeUser} />}
+
       <Content>
         <SectionCreate
           array={experiencias}

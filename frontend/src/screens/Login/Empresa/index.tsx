@@ -4,8 +4,9 @@ import IMaskInput from 'react-input-mask';
 import { useState } from 'react';
 import { autenticacaoLoginEmpresa } from '../../../service/login';
 import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function LoginEmpresa() {
+export const LoginEmpresa = observer(() => {
   const [cnpj, setCnpj] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -105,4 +106,4 @@ export function LoginEmpresa() {
       </div>
     </div>
   );
-}
+});

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   List,
@@ -10,8 +9,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Button,
 } from '@mui/material';
+
 import {
   Dashboard,
   PermContactCalendar,
@@ -28,7 +27,7 @@ interface SideBarProps {
 }
 
 const empresaScreens = ['Curriculos', 'Cadastrar vagas', 'Vagas'];
-const candidatoScreens = ['Curriculos', 'Cadastrar vagas', 'Vagas'];
+const candidatoScreens = ['Vagas', 'Cadastrar currículo'];
 
 const empresaIcons = (screen: string) => {
   switch (screen) {
@@ -45,9 +44,9 @@ const empresaIcons = (screen: string) => {
 
 const candidatoIcons = (screen: string) => {
   switch (screen) {
-    case 'Curriculos':
-      return <Dashboard />;
     case 'Vagas':
+      return <Dashboard />;
+    case 'Cadastrar currículo':
       return <PermContactCalendar />;
     default:
       break;
@@ -55,7 +54,6 @@ const candidatoIcons = (screen: string) => {
 };
 
 export default function MiniDrawer({ typeUser }: SideBarProps) {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const screens = typeUser === 'empresa' ? empresaScreens : candidatoScreens;
 
@@ -100,7 +98,6 @@ export default function MiniDrawer({ typeUser }: SideBarProps) {
             </ListItem>
           ))}
         </List>
-        <Divider />
         {open ? (
           <Styled.Button>
             <Logout sx={{ color: '#eee' }} fontSize="small" />
