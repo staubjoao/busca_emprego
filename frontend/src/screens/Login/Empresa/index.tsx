@@ -88,16 +88,17 @@ export const LoginEmpresa = observer(() => {
           <button
             type="submit"
             className="bg-background1 text-white w-full py-1 rounded-3xl hover:bg-btnColor2 transition-colors"
+            onClick={() => {
+              navigate('empresa/curriculos');
+              loginStore.setTypeUser('empresa');
+            }}
           >
             Entrar
           </button>
           <p className="text-center mb-4 mt-2">Ou</p>
           <p className="text-center mb-4">Ainda não tem uma conta?</p>
           <button
-            onClick={() => {
-              navigate('/cadastro/empresa');
-              loginStore.setTypeUser('empresa');
-            }}
+            onClick={() => navigate('/cadastro/empresa')}
             className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
           >
             Cadastrar
