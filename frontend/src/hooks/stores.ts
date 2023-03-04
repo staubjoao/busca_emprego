@@ -3,6 +3,7 @@ import {
   IdiomasStore,
   CursoStore,
   SnackbarStore,
+  LoginStore,
 } from '../store';
 import { createContext, useContext } from 'react';
 
@@ -11,6 +12,7 @@ const stores = {
   idiomaStore: new IdiomasStore(),
   cursoStore: new CursoStore(),
   snackbarStore: new SnackbarStore(),
+  loginStore: new LoginStore(),
 };
 
 export const StoreContext = createContext(stores);
