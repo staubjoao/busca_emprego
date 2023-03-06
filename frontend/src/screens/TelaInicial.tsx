@@ -1,39 +1,72 @@
-import people from '../assets/images/people.png';
-import { useNavigate } from 'react-router-dom';
+import people from '../assets/images/people.svg'
+import { useNavigate } from 'react-router-dom'
+import { Box, ButtonBase, Container, Typography } from '@mui/material'
 
 export function TelaInicial() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
-    <div className="grid items-center justify-center container max-w-6xl mx-auto px-10 mt-40">
-      <div className="flex items-center justify-evenly md:gap-x-10">
-        <div className="flex flex-col lg:gap-y-16 md:gap-y-10">
-          <h1 className="text-white lg:text-6xl md:text-4xl font-bold">
-            buscaEmpregos
-          </h1>
-          <p className="text-white lg:text-4xl md:text-2xl">
-            Sua plataforma de empregos online
-          </p>
-        </div>
-        <div>
-          <img src={people}></img>
-        </div>
-      </div>
-      <div className="flex gap-3 items-center">
-        <button
-          type="button"
-          className="bg-btnColor1 text-white py-5 px-10 rounded lg:text-xl font-semibold hover:bg-btnColor2 transition-colors"
-          onClick={() => navigate('/login/candidato')}
+    <Container>
+      <Box display="grid" gap="5rem" marginTop="5rem">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap="10rem"
         >
-          Candidato
-        </button>
-        <button
-          type="button"
-          className="bg-white text-btnColor1 py-5 px-12 rounded lg:text-xl font-semibold hover:bg-btnColor3 transition-colors"
-          onClick={() => navigate('/login/empresa')}
-        >
-          Empresa
-        </button>
-      </div>
-    </div>
-  );
+          <Box color="#FFFFFF">
+            <Typography variant="h2" fontWeight="bolder">
+              buscaEmpregos
+            </Typography>
+            <Typography variant="h4">
+              Sua plataforma de empregos online
+            </Typography>
+          </Box>
+          <div>
+            <img src={people} />
+          </div>
+        </Box>
+
+        <Box display="flex" gap="1rem" maxWidth="100%">
+          <ButtonBase
+            type="button"
+            onClick={() => navigate('/login/candidato')}
+            sx={{
+              display: 'inline-block',
+              bgcolor: '#4766AC',
+              color: '#FFFFFF',
+              paddingInline: '3.5rem',
+              paddingBlock: '1.24rem',
+              borderRadius: '0.25rem',
+              fontSize: '1.5rem',
+              ':hover': {
+                bgcolor: '#3F5E9B',
+                transition: '0.5s'
+              }
+            }}
+          >
+            Candidato
+          </ButtonBase>
+          <ButtonBase
+            type="button"
+            onClick={() => navigate('/login/empresa')}
+            sx={{
+              display: 'inline-block',
+              bgcolor: '#FFFFFF',
+              color: '#4766AC',
+              paddingInline: '3.9rem',
+              paddingBlock: '1.24rem',
+              borderRadius: '0.25rem',
+              fontSize: '1.5rem',
+              ':hover': {
+                bgcolor: '#EAEAEA',
+                transition: '0.5s'
+              }
+            }}
+          >
+            Empresa
+          </ButtonBase>
+        </Box>
+      </Box>
+    </Container>
+  )
 }

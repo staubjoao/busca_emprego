@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       descricao: DataTypes.TEXT,
       periodo: DataTypes.STRING(45),
       salario: DataTypes.FLOAT,
+      visualizar: DataTypes.BOOLEAN,
       EmpresaId: DataTypes.INTEGER
     },
     {
