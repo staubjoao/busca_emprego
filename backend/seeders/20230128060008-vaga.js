@@ -13,6 +13,7 @@ module.exports = {
           descricao: 'Mimir',
           salario: '2475.75',
           EmpresaId: 1,
+          visualizar: false,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -23,6 +24,7 @@ module.exports = {
           descricao: 'Mimir',
           salario: '29475.75',
           EmpresaId: 2,
+          visualizar: true,
           createdAt: new Date(),
           updatedAt: new Date()
         }
