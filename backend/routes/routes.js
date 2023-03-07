@@ -23,4 +23,7 @@ router.post('/curriculo/:idCandidato', curriculoController.createCurriculo);
 router.post('/cadastro/vaga',  vagaController.cadastroVaga);
 router.get('/listar/vagas',  vagaController.listarVagas);
 
+// listar candidatos
+router.get('/vagas/:idVaga/curriculos', curriculoController.listarCurriculos);
+
 module.exports = router;
