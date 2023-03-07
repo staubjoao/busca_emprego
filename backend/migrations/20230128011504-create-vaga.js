@@ -27,13 +27,14 @@ module.exports = {
       },
       visualizar: {
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
         allowNull: false
       },
       EmpresaId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'empresas',
+          model: 'Empresas',
           key: 'id'
         },
         onDelete: 'CASCADE',

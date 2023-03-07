@@ -25,7 +25,6 @@ export function Rotas() {
       <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
       <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
       <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
-      <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
       <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
       <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />
     </Routes>

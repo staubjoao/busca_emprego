@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { ButtonBase, FormLabel, Typography } from '@mui/material'
 import { InputSalario, InputVaga } from './styles'
 import warning from '../../../assets/images/warning.svg'
+import { getInfoVaga } from '../../../service/vagas'
+import { alteracaoVaga } from '../../../service/vagas'
 
 export function AlterarVaga() {
   const [erro, setErro] = useState('')
@@ -12,21 +14,36 @@ export function AlterarVaga() {
   const [salario, setSalario] = useState(0)
   const [descricao, setDescricao] = useState('')
   const [canNavigate, setCanNavigate] = useState(false)
+  const [objVaga, setObjVaga] = useState(Object)
 
   const EmpresaId = localStorage.getItem('id')
+  const idVaga = useParams()
   const navigate = useNavigate()
+
+  function loadDadosVaga() {
+    getInfoVaga(idVaga.id).then(res => setObjVaga(res))
+
+    setTitulo(objVaga.titulo)
+    setPeriodo(objVaga.periodo)
+    setSalario(objVaga.salario)
+    setDescricao(objVaga.descricao)
+  }
+
+  useEffect(() => {
+    loadDadosVaga()
+  }, [])
 
   return (
     <div>
       <Box width="100%" marginX="auto" maxWidth="32rem" marginBottom="4rem">
         <Typography color="#FFFFFF" fontSize="1.5rem" marginTop="1.5rem">
-          Alteração de vaga
+          Alteração de vaga "{objVaga.titulo}"
         </Typography>
         <Typography color="rgb(209 213 219)" marginTop="1rem">
           Preencha o formulário de vagas abaixo
         </Typography>
       </Box>
-      <Box bgcolor="rgb(245 245 244)" height="82.2vh">
+      <Box bgcolor="rgb(245 245 244)" minHeight="82.2vh">
         <Box
           width="100%"
           marginX="auto"
@@ -37,7 +54,21 @@ export function AlterarVaga() {
           bottom="2.5rem"
           borderRadius="0.5rem"
         >
-          <form>
+          <form
+            onSubmit={e => {
+              alteracaoVaga(
+                idVaga.id,
+                e,
+                titulo,
+                periodo,
+                descricao,
+                salario,
+                EmpresaId,
+                setErro
+              )
+              // navigate('/empresa/vagas/' + localStorage.getItem('id'))
+            }}
+          >
             <Typography
               fontSize="1.25rem"
               fontWeight="600"
@@ -59,11 +90,10 @@ export function AlterarVaga() {
               <InputVaga
                 type="text"
                 id="titulo"
-                value={titulo}
+                value={titulo || objVaga.titulo}
                 onChange={event => setTitulo(event.target.value)}
               />
             </Box>
-
             <Box marginTop="1rem">
               <FormLabel
                 className="rgb(107 114 128)"
@@ -75,7 +105,7 @@ export function AlterarVaga() {
               <InputVaga
                 type="text"
                 id="periodo"
-                value={periodo}
+                value={periodo || objVaga.periodo}
                 onChange={event => setPeriodo(event.target.value)}
               />
             </Box>
@@ -92,7 +122,7 @@ export function AlterarVaga() {
                 mask="R$ 99999999999"
                 id="salario"
                 maskChar={''}
-                value={salario}
+                value={salario || objVaga.salario}
                 onChange={event =>
                   setSalario(parseFloat(event.target.value.slice(3)))
                 }
@@ -119,7 +149,7 @@ export function AlterarVaga() {
                   height: '16rem'
                 }}
                 id="descricao"
-                value={descricao}
+                value={descricao || objVaga.descricao}
                 onChange={event => setDescricao(event.target.value)}
               />
             </Box>
@@ -140,9 +170,9 @@ export function AlterarVaga() {
               <div>
                 <ButtonBase
                   type="submit"
-                  onClick={() => {
-                    navigate('/empresa/vagas/' + EmpresaId)
-                  }}
+                  // onClick={() => {
+                  //   navigate('/empresa/vagas/' + EmpresaId)
+                  // }}
                   sx={{
                     backgroundColor: '#5E80BB',
                     color: '#FFFFFF',

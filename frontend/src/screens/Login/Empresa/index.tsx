@@ -93,7 +93,7 @@ export function LoginEmpresa() {
           <form
             onSubmit={e => {
               autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate)
-              canNavigate && navigate('/candidato/1/curriculo')
+              navigate('/empresa/vagas/' + localStorage.getItem('id'))
             }}
           >
             <Box position="relative">
@@ -164,14 +164,7 @@ export function LoginEmpresa() {
               </Link>
             </Box>
 
-            <LoginButton
-              type="submit"
-              onClick={() => {
-                navigate('/empresa/curriculos') //colocar a rota de listagem de curriculos
-              }}
-            >
-              Entrar
-            </LoginButton>
+            <LoginButton type="submit">Entrar</LoginButton>
             <Box textAlign="center" margin="0.5rem">
               <Typography
                 color="#828282"

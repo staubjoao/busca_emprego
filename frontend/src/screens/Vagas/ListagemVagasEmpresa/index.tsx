@@ -22,7 +22,8 @@ export function ListagemVagasEmpresa() {
   >([])
 
   const handleVagas = async () => {
-    const newList = await getVagasEmpresa()
+    const id = localStorage.getItem('id')
+    const newList = await getVagasEmpresa(Number(id))
     setLista(newList)
   }
 
@@ -35,8 +36,6 @@ export function ListagemVagasEmpresa() {
       <Box
         maxWidth="100%"
         bgcolor="#5E80BB"
-        marginBottom="4rem"
-        marginTop="0"
         sx={{
           paddingBlock: '3.6rem'
         }}
@@ -51,7 +50,7 @@ export function ListagemVagasEmpresa() {
           Estas são suas vagas...
         </Typography>
       </Box>
-      <Box maxHeight="100%">
+      <Box minHeight="84.2vh" position="relative" bottom="30px">
         <Lista listagem={lista} />
       </Box>
     </Box>

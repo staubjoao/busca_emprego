@@ -1,21 +1,21 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class CurriculoVaga extends Model {
+  class CurriculosVagas extends Model {
     static associate(models) {
-      CurriculoVaga.belongsTo(models.Curriculo)
-      CurriculoVaga.belongsTo(models.Vaga)
+      CurriculosVagas.belongsTo(models.Curriculo)
+      CurriculosVagas.belongsTo(models.Vaga)
     }
   }
-  CurriculoVaga.init(
+  CurriculosVagas.init(
     {
       VagaId: DataTypes.INTEGER,
       CurriculoId: DataTypes.INTEGER
     },
     {
       sequelize,
-      modelName: 'CurriculoVaga'
+      modelName: 'CurriculosVagas'
     }
   )
-  return CurriculoVaga
+  return CurriculosVagas
 }
