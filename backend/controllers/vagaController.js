@@ -65,10 +65,10 @@ const vagaController = {
           }
         }
       )
-      .then(vaga =>
+      .then(() =>
         res.json({
           error: false,
-          message: 'Alterado com sucesso',
+          message: 'Alterado com sucesso :)',
           newVisualizar: newVisualizar
         })
       )
@@ -84,20 +84,33 @@ const vagaController = {
     vaga
       .update(req.body, {
         where: {
-          id: req.body.id
+          id: req.params.idVaga
         }
       })
-      .then(vaga =>
+      .then(() =>
         res.json({
           error: false,
-          message: 'Alterado com sucesso',
-          vaga: vaga
+          message: 'Alterado com sucesso :)'
         })
       )
       .catch(error => {
         return res.status(400).json({
           error: true,
           message: error
+        })
+      })
+  },
+
+  exibirDadosVaga: async (req, res) => {
+    await vaga
+      .findOne({
+        where: { id: req.params.id }
+      })
+      .then(vagas => res.json({ vagas }))
+      .catch(erro => {
+        return res.status(400).json({
+          error: true,
+          message: erro
         })
       })
   }

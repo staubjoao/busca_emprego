@@ -1,13 +1,18 @@
 import { api } from '../lib/axios';
 import { FormEvent } from 'react';
 
-export const getVagasEmpresa = async () => {
-  const response = await api.get('usuario/empresa/vagas/'+2);
+export const getVagasEmpresa = async (id: Number) => {
+  const response = await api.get('usuario/empresa/vagas/'+id);
   return response.data.vagas;
 };
 
 export const getVagasCandidato = async () => {
   const response = await api.get('usuario/candidato/vagas');
+  return response.data.vagas;
+};
+
+export const getInfoVaga = async (id: any) => {
+  const response = await api.get('usuario/vagas/exibir/'+id);
   return response.data.vagas;
 };
 
@@ -53,14 +58,14 @@ export async function cadastroVaga(
 }
 
 export async function alteracaoVaga(
+  idVaga: any,
   e: FormEvent,
   titulo: string,
   periodo: string,
   descricao: string,
   salario: number,
   EmpresaId: string | null,
-  setError: (error: string) => void,
-  setCanNavigate: (canNavigat: boolean) => void
+  setError: (error: string) => void
 ) {
   e.preventDefault();
 
@@ -69,7 +74,7 @@ export async function alteracaoVaga(
   }
 
   await api
-    .post('usuario/alterar/vaga', {
+    .put('usuario/alterar/vaga/'+idVaga, {
       titulo,
       periodo,
       salario,
@@ -79,8 +84,6 @@ export async function alteracaoVaga(
     .then((res) => {
       if (res.data.erro) {
         setError(res.data.mensagem);
-      } else {
-        setCanNavigate(true);
       }
     });
 }

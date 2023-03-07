@@ -17,8 +17,7 @@ export const InputLogin = styled(InputBase)(()=>({
    width: '100%',
    paddingRight: '0.75rem',
    paddingLeft: '2.2rem',
-   border: 'solid',
-   borderColor: '#E7E7E7',
+   borderWidth: '1px',
    borderRadius: '0.375rem',
 }))
 
@@ -29,8 +28,7 @@ export const InputCnpj = styled(IMaskInput)(()=>({
    paddingRight: '0.75rem',
    paddingLeft: '2.2rem',
    paddingBlock: '0.3rem',
-   border: 'solid',
-   borderColor: '#E7E7E7',
+   borderWidth: '1px',
    borderRadius: '0.375rem',
 }))
 
