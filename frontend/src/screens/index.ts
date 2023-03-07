@@ -9,4 +9,4 @@ export * from './Login/Candidato';
 export * from './Login/Empresa';
 
 export * from './Vagas/CadastroVaga';
-export * from './Vagas/ListagemVagas';
+export * from './Vagas/ListagemVagasCandidato';
