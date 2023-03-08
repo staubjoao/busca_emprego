@@ -5,8 +5,8 @@ import {
   VisibilityOffOutlined
 } from '@mui/icons-material'
 import { toggleVaga } from '../../../service/vagas'
-import { useState } from 'react'
-//import Visibility from '../../VisibilityOnOff/Visibility'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface ListaProps {
   listagem: {
@@ -26,13 +26,14 @@ interface ListaProps {
 
 export function Lista(props: ListaProps) {
   const { listagem } = props
-
+  const navigate = useNavigate()
   const [changeIcon, setChangeIcon] = useState(Boolean)
 
   function toggle(id: number, visualizar: boolean) {
     const retToggle = toggleVaga(id, visualizar)
     retToggle.then(res => {
       res == 1 ? setChangeIcon(true) : setChangeIcon(false)
+      console.log(res)
     })
   }
 
@@ -44,8 +45,9 @@ export function Lista(props: ListaProps) {
           marginX="auto"
           maxWidth="32rem"
           bgcolor="#FFFFFF"
-          border="solid #E6E7EB "
+          border-width="px"
           borderRadius="0.25rem"
+          marginBottom="20px"
         >
           <Box
             display="flex"
@@ -79,7 +81,16 @@ export function Lista(props: ListaProps) {
                 </Typography>
               </Box>
             </Box>
-            <div onClick={e => toggle(element.id, element.visualizar)}></div>
+            <div onClick={e => toggle(element.id, element.visualizar)}>
+              <input type="hidden" value={element.id}></input>
+              <IconButton>
+                {element.visualizar === true ? (
+                  <RemoveRedEyeOutlined />
+                ) : (
+                  <VisibilityOffOutlined />
+                )}
+              </IconButton>
+            </div>
           </Box>
 
           <Box
@@ -99,7 +110,7 @@ export function Lista(props: ListaProps) {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              borderTop="solid #E6E7EB "
+              border-width="2px"
             >
               <Typography variant="subtitle2" color="rgb(148 163 184)">
                 {element.periodo}
@@ -116,8 +127,12 @@ export function Lista(props: ListaProps) {
                   borderRadius: '0.25rem',
                   fontSize: '0.875rem',
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  ':hover': {
+                    backgroundColor: '#4766AC'
+                  }
                 }}
+                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
               >
                 <Box component="span">Alterar Vaga</Box>
               </ButtonBase>
@@ -127,7 +142,4 @@ export function Lista(props: ListaProps) {
       ))}
     </Box>
   )
-}
-function handleToggleVagas() {
-  throw new Error('Function not implemented.')
 }

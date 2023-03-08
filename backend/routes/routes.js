@@ -18,8 +18,14 @@ router.post('/login/empresa', usuarioController.loginEmpresa)
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo)
 
+//rota de funcionalidades candidato
+router.get('/candidato/vagas', usuarioController.listarVagas)
+
 //rota de cadastro e listagem das vagas
-router.post('/cadastro/vaga',  vagaController.cadastroVaga);
-router.get('/listar/vagas',  vagaController.listarVagas);
+router.post('/cadastro/vaga', vagaController.cadastroVaga)
+router.post('/alterar/vaga', vagaController.alterarVaga)
+router.get('/candidato/vagas', usuarioController.listarVagas)
+router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas)
+router.put('/empresa/vagas/toggle', vagaController.toggleVaga)
 
 module.exports = router

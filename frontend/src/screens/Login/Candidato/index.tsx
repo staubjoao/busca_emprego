@@ -91,7 +91,7 @@ export function LoginCandidato() {
                 setErro,
                 setCanNavigate
               )
-              canNavigate && navigate('/candidato/1/curriculo')
+              navigate('/candidato/1/curriculo')
             }}
           >
             <Box position="relative">
