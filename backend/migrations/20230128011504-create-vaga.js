@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: true
       },
+      visualizar: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
       EmpresaId: {
         allowNull: false,
         type: Sequelize.INTEGER,

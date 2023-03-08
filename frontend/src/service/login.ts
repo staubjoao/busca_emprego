@@ -6,7 +6,7 @@ export const autenticacaoLoginCandidato = async (
   email: string,
   senha: string,
   setError: (error: string) => void,
-  setCanNavigate: (canNavigat: boolean) => void
+  setCanNavigate: (canNavigate: boolean) => void
 ) => {
   e.preventDefault();
 
@@ -22,9 +22,7 @@ export const autenticacaoLoginCandidato = async (
     .then((res) => {
       if (res.data.erro) {
         setError(res.data.mensagem);
-        console.log('ENTROU AQUI 1');
       } else {
-        console.log('ENTROU AQUI');
         localStorage.setItem('id', res.data.id);
         localStorage.setItem('token', res.data.token);
         setCanNavigate(true);
@@ -34,20 +32,20 @@ export const autenticacaoLoginCandidato = async (
 
 export const autenticacaoLoginEmpresa = async (
   e: FormEvent,
-  email: string,
+  cnpj: string,
   senha: string,
   setError: (error: string) => void,
   setCanNavigate: (canNavigat: boolean) => void
 ) => {
   e.preventDefault();
 
-  if (email === '' || senha === '') {
+  if (cnpj === '' || senha === '') {
     return;
   }
 
   await api
     .post('usuario/login/empresa', {
-      email,
+      cnpj,
       senha,
     })
     .then((res) => {
