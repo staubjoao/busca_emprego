@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 let empresa = models.Empresa
 let candidato = models.Curriculo
 const vaga = models.Vaga
-const curriculovaga = models.CurriculosVagas
 
 const usuarioController = {
   cadastroEmpresa: async (req, res) => {
@@ -112,26 +111,6 @@ const usuarioController = {
       })
   }
 
-  //Esse aqui é o certo :D
-  // listarCurriculo: async (req, res) => {
-  //   await curriculovaga
-  //     .findAll({
-  //       where: { VagaId: req.params.id },
-  //       include: [
-  //         {
-  //           model: candidato,
-  //           required: true
-  //         }
-  //       ]
-  //     })
-  //     .then(vagas => res.json({ vagas }))
-  //     .catch(erro => {
-  //       return res.status(400).json({
-  //         error: true,
-  //         message: erro
-  //       })
-  //     })
-  // }
 
   //Select em casos de dar td errado
   //   await sequelize

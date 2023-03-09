@@ -18,6 +18,9 @@ router.post('/login/empresa', usuarioController.loginEmpresa)
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo)
 
+//listar currículos
+router.get('/vagas/:idVaga/curriculos', curriculoController.listarCurriculos)
+
 //rota de funcionalidades candidato
 router.get('/candidato/vagas', usuarioController.listarVagas)
 

@@ -5,7 +5,6 @@ import {
   SnackbarStore,
   EmpresaStore,
   CandidatoStore,
->>>>>>>>> Temporary merge branch 2
 } from '../store';
 import { createContext, useContext } from 'react';
 
@@ -16,7 +15,6 @@ const stores = {
   snackbarStore: new SnackbarStore(),
   empresaStore: new EmpresaStore(),
   candidatoStore: new CandidatoStore(),
->>>>>>>>> Temporary merge branch 2
 };
 
 export const StoreContext = createContext(stores);

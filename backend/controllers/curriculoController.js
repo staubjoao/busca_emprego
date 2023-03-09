@@ -1,5 +1,7 @@
 const models = require('../models');
 const { campos, getJSON } = require('../utils/curriculos');
+const { sequelize } = require('../models');
+const { query } = require('express');
 
 const createItensModels = async (req, valueBody, model, value, candidato) => {
   const getModel = models[`${model}`];
@@ -38,45 +40,26 @@ const curriculo = {
   },
 
   listarCurriculos: async (req, res) => {
-    const { idVaga } = req.params;
-    const curriculo = models.Curriculo;
-    const vaga = models.Vaga;
-    const teste = models.CurriculoVaga;
+    const curriculovaga = models.CurriculosVagas
+    const candidato = models.Curriculo
 
-    await curriculo.findByPk(req.params.idVaga, {
-      include: [{
-        all: true,
-        association: 'CurriculosVagas',
-      }]
-    })
-      .then(curr => {
-        return res.json({ curr });
-      }).catch(erro => {
+    await curriculovaga
+      .findAll({
+        where: { VagaId: req.params.idVaga },
+        include: [
+          {
+            model: candidato,
+            required: true
+          }
+        ]
+      })
+      .then(curriculos => res.json({ curriculos }))
+      .catch(erro => {
         return res.status(400).json({
-          erro: true,
+          error: true,
           message: erro
         })
       })
-
-    // await vaga.findAll(
-    //   {
-    //     where: { id: idVaga },
-    //     include: [
-    //       {
-    //         model: curriculo, 
-    //         association: 'CurriculosVagas',
-    //         require: true,
-    //         attributes: ['nome', 'email']
-    //       }
-    //     ]
-    //   }
-    // ).then(curriculos => res.json({ curriculos }))
-    //   .catch(erro => {
-    //     return res.status(400).json({
-    //       erro: true,
-    //       message: erro
-    //     })
-    //   })
   },
 };
 
