@@ -16,6 +16,7 @@ export function ListagemCurriculos() {
 
   const [lista, setLista] = useState<
     {
+      id: string,
       perfil: string
       nome: string
       areaAtuacao: string
@@ -52,7 +53,7 @@ export function ListagemCurriculos() {
         <CardHeader
           title={nome}
           subheader={areaAtuacao}
-          avatar={<Avatar src={perfil} alt="Foto de perfil" />}
+          avatar={<Avatar src={perfil} sx={{ width: 150, height: 150 }} alt="Foto de perfil" />}
           titleTypographyProps={{ variant: 'h5' }}
           subheaderTypographyProps={{ variant: 'body1' }}
         />
@@ -93,38 +94,64 @@ export function ListagemCurriculos() {
     )
   }
 
-  const handleCurriculos = async () => {
-    // const id = localStorage.getItem('id')
-    const newList = await getCurriculosVaga('1')
-    setLista(newList)
-    const { perfil, nome } = newList
-  }
+  // const handleCurriculos = async () => {
+  //   // const id = localStorage.getItem('id')
+  //   const newList = await getCurriculosVaga('1')
 
+  //   const chaves = Object.keys(newList)
+  //   const tamanho = chaves.length
+
+  //   for (let i = 0; i < tamanho; i++) {
+  //     const curriculo = newList[i].Curriculo
+  //     const id = curriculo.id
+  //     const nome = curriculo.nome || ""
+  //     const perfil = curriculo.perfil || ""
+  //     const descricao = curriculo.descricao || "nsei"
+  //     const areaAtuacao = curriculo.areaAtuacao || "Teste"
+
+  //     setLista((prevList) => [
+  //       ...prevList,
+  //       {
+  //         id,
+  //         perfil,
+  //         nome,
+  //         areaAtuacao,
+  //         descricao,
+  //       },
+  //     ]);
+  //   }
+  // }
 
   useEffect(() => {
+    async function handleCurriculos() {
+      // const id = localStorage.getItem('id')
+      const newList = await getCurriculosVaga('1')
+
+      const chaves = Object.keys(newList)
+      const tamanho = chaves.length
+
+      for (let i = 0; i < tamanho; i++) {
+        const curriculo = newList[i].Curriculo
+        const id = curriculo.id
+        const nome = curriculo.nome || ""
+        const perfil = curriculo.perfil || ""
+        const descricao = curriculo.descricao || "nsei"
+        const areaAtuacao = curriculo.areaAtuacao || "Teste"
+
+        setLista((prevList) => [
+          ...prevList,
+          {
+            id,
+            perfil,
+            nome,
+            areaAtuacao,
+            descricao,
+          },
+        ]);
+      }
+    }
     handleCurriculos()
   }, [])
-
-  const cartoes = [
-    {
-      perfil: 'https://via.placeholder.com/150',
-      nome: 'Fulano de Tal',
-      areaAtuacao: 'Desenvolvedor web',
-      descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis malesuada velit et nibh bibendum laoreet. Donec volutpat, ex ut vestibulum blandit, eros mi maximus ante, vel auctor justo nunc ac est.'
-    },
-    {
-      perfil: 'https://via.placeholder.com/150',
-      nome: 'Beltrano da Silva',
-      areaAtuacao: 'Designer gráfico',
-      descricao: 'Praesent luctus ornare augue, at facilisis tellus faucibus in. Donec ut venenatis erat. Duis faucibus enim sit amet purus tincidunt auctor. Donec efficitur rhoncus ligula, ut tristique felis mattis ac. Cras pellentesque, ex at ullamcorper tincidunt, ipsum arcu elementum elit, vitae finibus sapien odio sit amet elit.'
-    },
-    {
-      perfil: 'https://via.placeholder.com/150',
-      nome: 'Sicrano da Silva',
-      areaAtuacao: 'Marketing digital',
-      descricao: 'Aenean at erat lectus. Nulla facilisi. Fusce dapibus massa vel tellus eleifend, a ultrices tellus volutpat. Sed in mauris semper, tincidunt velit ac, consectetur mauris. Vivamus hendrerit mauris non felis finibus, sit amet blandit nibh laoreet. In vel lacinia augue. Suspendisse vitae orci augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
-    }
-  ]
 
   return (
     <Box
