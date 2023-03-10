@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurriculosVaga } from '../../../service/curriculo';
+import { ListarCurriculos } from '../../../components/Curriculo/ListaCurriculo';
 import { Typography, styled, Box, Card, CardHeader, CardContent, CardActions, Button } from '@mui/material';
 
 export function ListagemCurriculos() {
@@ -47,30 +48,30 @@ export function ListagemCurriculos() {
     setSelecionado(!selecionado);
   }
 
-  function Cartao({ perfil, nome, areaAtuacao, descricao }: CartaoProps) {
-    return (
-      <CartaoContainer sx={{ borderRadius: "20px", border: 'none', boxShadow: 'none' }}>
-        <CardHeader
-          title={nome}
-          subheader={areaAtuacao}
-          avatar={<Avatar src={perfil} sx={{ width: 150, height: 150 }} alt="Foto de perfil" />}
-          titleTypographyProps={{ variant: 'h5' }}
-          subheaderTypographyProps={{ variant: 'body1' }}
-        />
-        <CardContent>
-          {descricao}
-        </CardContent>
-        <AcoesContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            style={{ borderRadius: 50 }}>
-            Ver currículo</Button>
-        </AcoesContainer>
-      </CartaoContainer>
-    )
-  }
+  // function Cartao({ perfil, nome, areaAtuacao, descricao }: CartaoProps) {
+  //   return (
+  //     <CartaoContainer sx={{ borderRadius: "20px", border: 'none', boxShadow: 'none' }}>
+  //       <CardHeader
+  //         title={nome}
+  //         subheader={areaAtuacao}
+  //         avatar={<Avatar src={perfil} sx={{ width: 150, height: 150 }} alt="Foto de perfil" />}
+  //         titleTypographyProps={{ variant: 'h5' }}
+  //         subheaderTypographyProps={{ variant: 'body1' }}
+  //       />
+  //       <CardContent>
+  //         {descricao}
+  //       </CardContent>
+  //       <AcoesContainer>
+  //         <Button
+  //           variant="contained"
+  //           color="primary"
+  //           type="submit"
+  //           style={{ borderRadius: 50 }}>
+  //           Ver currículo</Button>
+  //       </AcoesContainer>
+  //     </CartaoContainer>
+  //   )
+  // }
 
   const EmpresaCard = ({ nome, descricao, perfil }: EmpresaCardProps) => {
     return (
@@ -94,61 +95,23 @@ export function ListagemCurriculos() {
     )
   }
 
-  // const handleCurriculos = async () => {
-  //   // const id = localStorage.getItem('id')
-  //   const newList = await getCurriculosVaga('1')
-
-  //   const chaves = Object.keys(newList)
-  //   const tamanho = chaves.length
-
-  //   for (let i = 0; i < tamanho; i++) {
-  //     const curriculo = newList[i].Curriculo
-  //     const id = curriculo.id
-  //     const nome = curriculo.nome || ""
-  //     const perfil = curriculo.perfil || ""
-  //     const descricao = curriculo.descricao || "nsei"
-  //     const areaAtuacao = curriculo.areaAtuacao || "Teste"
-
-  //     setLista((prevList) => [
-  //       ...prevList,
-  //       {
-  //         id,
-  //         perfil,
-  //         nome,
-  //         areaAtuacao,
-  //         descricao,
-  //       },
-  //     ]);
-  //   }
-  // }
-
   useEffect(() => {
     async function handleCurriculos() {
       // const id = localStorage.getItem('id')
-      const newList = await getCurriculosVaga('1')
+      const newList = await getCurriculosVaga('1');
 
-      const chaves = Object.keys(newList)
-      const tamanho = chaves.length
+      const curriculos = newList.map((item: { Curriculo: any; }) => {
+        const curriculo = item.Curriculo;
+        return {
+          id: curriculo.id,
+          nome: curriculo.nome || "",
+          perfil: curriculo.perfil || "",
+          descricao: curriculo.descricao || "nsei",
+          areaAtuacao: curriculo.areaAtuacao || "Teste",
+        };
+      });
 
-      for (let i = 0; i < tamanho; i++) {
-        const curriculo = newList[i].Curriculo
-        const id = curriculo.id
-        const nome = curriculo.nome || ""
-        const perfil = curriculo.perfil || ""
-        const descricao = curriculo.descricao || "nsei"
-        const areaAtuacao = curriculo.areaAtuacao || "Teste"
-
-        setLista((prevList) => [
-          ...prevList,
-          {
-            id,
-            perfil,
-            nome,
-            areaAtuacao,
-            descricao,
-          },
-        ]);
-      }
+      setLista(curriculos);
     }
     handleCurriculos()
   }, [])
@@ -183,9 +146,10 @@ export function ListagemCurriculos() {
         </Box>
       </Box>
       <Box sx={{ gridArea: 'main' }}>
-        {lista.map((cartao, index) => (
+        <ListarCurriculos listagem={lista} />
+        {/* {lista.map((cartao, index) => (
           <Cartao key={index} {...cartao} />
-        ))}
+        ))} */}
       </Box>
     </Box>
   )
