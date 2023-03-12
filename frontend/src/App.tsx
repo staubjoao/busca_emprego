@@ -6,12 +6,10 @@ import { useNavigate } from 'react-router-dom';
 function App() {
   const { loginStore } = useStore();
   const navigate = useNavigate();
-
+  console.log('TYPE --->', loginStore.typeUser);
   return (
     <div className="App">
-      {loginStore.typeUser && (
-        <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
-      )}
+      <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
       <Rotas />
     </div>
   );

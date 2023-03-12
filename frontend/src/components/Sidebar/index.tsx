@@ -87,6 +87,7 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
       : candidatoScreens(loginStore.idUser);
 
   const handleDrawerOpen = (open: boolean) => {
+    console.log('OPEN', open);
     setOpen(!open);
   };
 
