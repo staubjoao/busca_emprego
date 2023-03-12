@@ -84,7 +84,7 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
   const screens =
     typeUser === 'empresa'
       ? empresaScreens
-      : candidatoScreens(loginStore.idUser);
+      : candidatoScreens(loginStore.user.id);
 
   const handleDrawerOpen = (open: boolean) => {
     setOpen(!open);
@@ -101,7 +101,7 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
           </IconButton>
         </Styled.DrawerHeader>
         <Styled.Avatar />
-        {open && <Styled.NameAvatar>Maria Cecília</Styled.NameAvatar>}
+        {open && <Styled.NameAvatar>{loginStore.user.nome}</Styled.NameAvatar>}
 
         <Divider />
         <List>

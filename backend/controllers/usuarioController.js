@@ -59,8 +59,10 @@ const usuarioController = {
       { _id: usuario._id, _cpf: usuario._cpf },
       `${process.env.SECRET}`
     );
+    console.log('NAME USER', usuario);
     res.json({
       id: usuario.id,
+      nome: usuario.nome,
       token: token,
     });
   },

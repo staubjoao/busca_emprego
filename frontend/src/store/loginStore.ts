@@ -13,8 +13,8 @@ export interface LoginStoreType {
   setError: (error: string) => void;
   token: string;
   setToken: (token: string) => void;
-  idUser: string;
-  setIdUser: (idUser: string) => void;
+  user: { nome: string; id: string };
+  setUser: (nome: string, id: string) => void;
   logout: () => void;
 }
 
@@ -53,9 +53,9 @@ export class LoginStore implements LoginStoreType {
     this.token = token;
   };
 
-  idUser: string = '';
-  setIdUser = (idUser: string) => {
-    this.idUser = idUser;
+  user: { nome: string; id: string } = { nome: '', id: '' };
+  setUser = (nome: string, id: string) => {
+    this.user = { nome, id };
   };
 
   authCandidato = async () => {
@@ -65,8 +65,8 @@ export class LoginStore implements LoginStoreType {
       this.setError(response.data.mensagem);
       return { ok: false };
     } else {
+      this.setUser(response?.data.nome, response?.data.id);
       this.setToken(response?.data.token);
-      this.setIdUser(response?.data.id);
       this.setTypeUser('candidato');
       return { ok: true };
     }
@@ -74,7 +74,7 @@ export class LoginStore implements LoginStoreType {
 
   logout = () => {
     this.setToken('');
-    this.setIdUser('');
+    this.setUser('', '');
   };
 
   getPersistedStore = () => {
