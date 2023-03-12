@@ -1,6 +1,6 @@
 import IMaskInput from 'react-input-mask';
 import { useEffect, useState } from 'react';
-import { Lista } from '../../../components/Lista';
+import { Lista } from '../../../components/ListaVagas/Candidato/ListaCandidato';
 import { getVagas } from '../../../service/vagas';
 import { useStore } from '../../../hooks/stores';
 
@@ -8,18 +8,18 @@ export function ListagemVagas() {
   const { loginStore } = useStore();
   const [lista, setLista] = useState<
     {
-      id: number
-      titulo: string
-      descricao: string
-      periodo: string
-      salario: number
-      EmpresaId: number
+      id: number;
+      titulo: string;
+      descricao: string;
+      periodo: string;
+      salario: number;
+      EmpresaId: number;
       Empresa: {
-        nome: string
-        logo: string | null
-      }
+        nome: string;
+        logo: string | null;
+      };
     }[]
-  >([])
+  >([]);
 
   const handleVagas = async () => {
     const newList = await getVagas(loginStore.token);
@@ -27,8 +27,8 @@ export function ListagemVagas() {
   };
 
   useEffect(() => {
-    handleVagas()
-  }, [])
+    handleVagas();
+  }, []);
 
   return (
     <div>
@@ -94,5 +94,5 @@ export function ListagemVagas() {
         <Lista listagem={lista} />
       </div>
     </div>
-  )
+  );
 }
