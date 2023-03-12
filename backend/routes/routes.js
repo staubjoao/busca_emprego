@@ -19,19 +19,17 @@ router.use(authCandidato);
 
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo);
+router.post('/candidatar', curriculoController.candidatar);
 
-//rota de funcionalidades candidato
-router.get('/candidato/vagas', usuarioController.listarVagas);
+// //rota de funcionalidades candidato
+// router.get('/candidato/vagas', usuarioController.listarVagas);
 
-//rota de cadastro e listagem das vagas
-router.get('/listar/vagas', vagaController.listarVagas);
-
-router.use(authEmpresa);
-router.post('/cadastro/vaga', vagaController.cadastroVaga);
-router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga);
-router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas);
-router.put('/empresa/vagas/toggle', vagaController.toggleVaga);
-router.get('/vagas/exibir/:id', vagaController.exibirDadosVaga);
-// router.get('/empresa/vaga/curriculos/:id', usuarioController.listarCurriculo) --> a rota da listagem de curriculos
+// router.use(authEmpresa);
+// router.post('/cadastro/vaga', vagaController.cadastroVaga);
+// router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga);
+// router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas);
+// router.put('/empresa/vagas/toggle', vagaController.toggleVaga);
+// router.get('/vagas/exibir/:id', vagaController.exibirDadosVaga);
+// router.get('/empresa/vaga/curriculos/:id', usuarioController.listarCurriculo);
 
 module.exports = router;
