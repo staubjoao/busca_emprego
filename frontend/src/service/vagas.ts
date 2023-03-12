@@ -1,8 +1,12 @@
 import { api } from '../lib/axios';
 import { FormEvent } from 'react';
 
-export const getVagas = async () => {
-  const response = await api.get('usuario/listar/vagas', {});
+export const getVagas = async (token: string) => {
+  const response = await api.get('usuario/listar/vagas', {
+    headers: {
+      'authorization-token': token,
+    },
+  });
 
   return response.data.vagas;
 };

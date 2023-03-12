@@ -2,8 +2,10 @@ import IMaskInput from 'react-input-mask';
 import { useEffect, useState } from 'react';
 import { Lista } from '../../../components/Lista';
 import { getVagas } from '../../../service/vagas';
+import { useStore } from '../../../hooks/stores';
 
 export function ListagemVagas() {
+  const { loginStore } = useStore();
   const [lista, setLista] = useState<
     {
       id: number;
@@ -20,7 +22,7 @@ export function ListagemVagas() {
   >([]);
 
   const handleVagas = async () => {
-    const newList = await getVagas();
+    const newList = await getVagas(loginStore.token);
     setLista(newList);
   };
 
