@@ -1,26 +1,26 @@
-import { Box, Typography, Link, FormControl } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useStore } from '../../../hooks/stores'
-import { observer } from 'mobx-react-lite'
+import { Box, Typography, Link, FormControl } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 import {
   ExitButton,
   InputCnpj,
   InputLogin,
   LoginButton,
-  RegisterButton
-} from './styles'
-import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material'
-import paper from '../../../assets/images/paper.svg'
-import line from '../../../assets/icons/line.svg'
-import { autenticacaoLoginEmpresa } from '../../../service/login'
-import { useState } from 'react'
+  RegisterButton,
+} from './styles';
+import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
+import paper from '../../../assets/images/paper.svg';
+import line from '../../../assets/icons/line.svg';
+import { autenticacaoLoginEmpresa } from '../../../service/login';
+import { useState } from 'react';
 
 export function LoginEmpresa() {
-  const [cnpj, setCnpj] = useState('')
-  const [senha, setSenha] = useState('')
-  const [erro, setErro] = useState('')
-  const [canNavigate, setCanNavigate] = useState(false)
-  const navigate = useNavigate()
+  const [cnpj, setCnpj] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [canNavigate, setCanNavigate] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -35,7 +35,7 @@ export function LoginEmpresa() {
       <Box
         marginX="auto"
         sx={{
-          maxWidth: { sm: 384 }
+          maxWidth: { sm: 384 },
         }}
         display="flex"
         flexDirection="column"
@@ -75,7 +75,7 @@ export function LoginEmpresa() {
         width="40vw"
         sx={{
           borderTopLeftRadius: '5rem',
-          borderBottomLeftRadius: '5rem'
+          borderBottomLeftRadius: '5rem',
         }}
         display="flex"
         flexDirection="column"
@@ -91,9 +91,9 @@ export function LoginEmpresa() {
         </Typography>
         <Box sx={{ width: '55%', margin: '0 auto' }}>
           <form
-            onSubmit={e => {
-              autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate)
-              navigate('/empresa/vagas/' + localStorage.getItem('id'))
+            onSubmit={(e) => {
+              autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate);
+              navigate('/empresa/vagas/' + localStorage.getItem('id'));
             }}
           >
             <Box position="relative">
@@ -102,7 +102,7 @@ export function LoginEmpresa() {
                   position: 'absolute',
                   top: 14,
                   left: 9,
-                  color: '#E7E7E7'
+                  color: '#E7E7E7',
                 }}
               />
               <InputCnpj
@@ -111,7 +111,7 @@ export function LoginEmpresa() {
                 id="cnpj"
                 value={cnpj}
                 autoFocus
-                onChange={event => setCnpj(event.target.value)}
+                onChange={(event) => setCnpj(event.target.value)}
                 mask="99.999.999/9999-99"
               />
             </Box>
@@ -122,7 +122,7 @@ export function LoginEmpresa() {
                   position: 'absolute',
                   top: 14,
                   left: 9,
-                  color: '#E7E7E7'
+                  color: '#E7E7E7',
                 }}
               />
               <InputLogin
@@ -132,7 +132,7 @@ export function LoginEmpresa() {
                 id="senha"
                 value={senha}
                 autoFocus
-                onChange={event => setSenha(event.target.value)}
+                onChange={(event) => setSenha(event.target.value)}
               />
             </Box>
             <Box
@@ -155,8 +155,8 @@ export function LoginEmpresa() {
                 sx={{
                   textDecoration: 'none',
                   ':hover': {
-                    cursor: 'pointer'
-                  }
+                    cursor: 'pointer',
+                  },
                 }}
                 onClick={() => navigate('/')}
               >
@@ -186,5 +186,5 @@ export function LoginEmpresa() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }

@@ -5,6 +5,7 @@ import {
   SnackbarStore,
   EmpresaStore,
   CandidatoStore,
+  LoginStore,
 } from '../store';
 import { createContext, useContext } from 'react';
 
@@ -15,6 +16,7 @@ const stores = {
   snackbarStore: new SnackbarStore(),
   empresaStore: new EmpresaStore(),
   candidatoStore: new CandidatoStore(),
+  loginStore: new LoginStore(),
 };
 
 export const StoreContext = createContext(stores);
@@ -22,5 +24,3 @@ export const StoreContext = createContext(stores);
 export const useStore = () => {
   return useContext<typeof stores>(StoreContext);
 };
-
-export const useCurriculoStore = () => new CurriculoStore();

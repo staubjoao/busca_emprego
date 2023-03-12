@@ -1,14 +1,16 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
-  const { curriculoStore, idiomaStore, cursoStore, snackbarStore } = useStore();
+  const { curriculoStore, idiomaStore, cursoStore, snackbarStore, loginStore } =
+    useStore();
+
   const {
     nomeEmpresa,
     setNomeEmpresa,
@@ -49,8 +51,14 @@ export const CadastroCurriculo = observer(() => {
     createCursos,
   } = cursoStore;
 
-  const { openSnackbar, setOpenSnackbar, severity, showSnackBar } =
-    snackbarStore;
+  const {
+    openSnackbar,
+    setOpenSnackbar,
+    severity,
+    showSnackBar,
+    message,
+    setMessage,
+  } = snackbarStore;
 
   const navigate = useNavigate();
 
@@ -58,6 +66,7 @@ export const CadastroCurriculo = observer(() => {
     createNewExperience();
     createNewIdioma();
     createNewCurso();
+    loginStore.setTypeUser('candidato');
   }, []);
 
   const createCurriculo = async () => {
@@ -68,6 +77,7 @@ export const CadastroCurriculo = observer(() => {
       createCursos
     );
 
+    setMessage('Currículo salvo com sucesso');
     showSnackBar(response.ok);
     //navigate('candidato/vagas');
   };
@@ -80,6 +90,10 @@ export const CadastroCurriculo = observer(() => {
       minHeight="100vh"
       marginY={8}
     >
+      {/* {loginStore.typeUser && (
+        <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
+      )} */}
+
       <Content>
         <SectionCreate
           array={experiencias}
@@ -179,7 +193,7 @@ export const CadastroCurriculo = observer(() => {
           severity={severity}
           sx={{ width: '100%' }}
         >
-          Currículo salvo com sucesso
+          {message}
         </Alert>
       </Snackbar>
     </Box>
