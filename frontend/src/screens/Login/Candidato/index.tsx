@@ -13,7 +13,10 @@ export const LoginCandidato = observer(() => {
 
   const handleLogin = async () => {
     const response = await loginStore.authCandidato();
-    response.ok && navigate('/candidato/vagas');
+    if (response.ok) {
+      loginStore.getPersistedStore();
+      navigate('/candidato/vagas');
+    }
   };
 
   return (

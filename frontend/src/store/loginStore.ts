@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { autenticacaoLoginCandidato } from '../service/login';
-
+import { makePersistable, getPersistedStore } from 'mobx-persist-store';
 export interface LoginStoreType {
   typeUser: string;
   setTypeUser: (typeUser: string) => void;
@@ -21,6 +21,11 @@ export interface LoginStoreType {
 export class LoginStore implements LoginStoreType {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makePersistable(this, {
+      name: 'LoginStore',
+      properties: ['token'],
+      storage: window.localStorage,
+    });
   }
 
   typeUser: string = '';
@@ -70,5 +75,9 @@ export class LoginStore implements LoginStoreType {
   logout = () => {
     this.setToken('');
     this.setIdUser('');
+  };
+
+  getPersistedStore = () => {
+    return getPersistedStore(this);
   };
 }

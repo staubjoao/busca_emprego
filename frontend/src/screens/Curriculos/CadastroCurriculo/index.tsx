@@ -66,7 +66,6 @@ export const CadastroCurriculo = observer(() => {
     createNewExperience();
     createNewIdioma();
     createNewCurso();
-    loginStore.setTypeUser('candidato');
   }, []);
 
   const createCurriculo = async () => {
