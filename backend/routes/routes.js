@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
-const authCandidato = require('../controllers/authCandidatoController'); //controller de autenticação de candidato
-const authEmpresa = require('../controllers/authEmpresaController'); //controller de autenticação de empresa
+const authCandidato = require('../middleware/authCandidatoController'); //controller de autenticação de candidato
+const authEmpresa = require('../middleware/authEmpresaController'); //controller de autenticação de empresa
 const curriculoController = require('../controllers/curriculoController');
 const vagaController = require('../controllers/vagaController');
 //arquivo para colocar as rotas
@@ -16,11 +16,14 @@ router.post('/login/candidato', usuarioController.loginCandidato);
 
 router.post('/login/empresa', usuarioController.loginEmpresa);
 
+router.use(authCandidato);
+//router.use(authEmpresa);
+
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo);
 
 //rota de cadastro e listagem das vagas
-router.post('/cadastro/vaga',  vagaController.cadastroVaga);
-router.get('/listar/vagas',  vagaController.listarVagas);
+router.post('/cadastro/vaga', vagaController.cadastroVaga);
+router.get('/listar/vagas', vagaController.listarVagas);
 
 module.exports = router;

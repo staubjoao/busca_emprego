@@ -57,9 +57,8 @@ const usuarioController = {
 
     const token = jwt.sign(
       { _id: usuario._id, _cpf: usuario._cpf },
-      process.env.TOKEN_SECRET_CANDIDATO
+      `${process.env.SECRET}`
     );
-    res.header('authorization-token', token);
     res.json({
       id: usuario.id,
       token: token,
@@ -81,7 +80,7 @@ const usuarioController = {
 
     const token = jwt.sign(
       { _id: usuario._id, _cnpj: usuario._cnpj },
-      process.env.TOKEN_SECRET_EMPRESA
+      process.env.SECRET
     );
 
     res.header('authorization-token', token);
@@ -90,7 +89,6 @@ const usuarioController = {
       token: token,
     });
   },
-
 };
 
 module.exports = usuarioController;
