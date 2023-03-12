@@ -85,10 +85,10 @@ const usuarioController = {
       process.env.SECRET
     );
 
-    res.header('authorization-token', token);
     res.json({
       id: usuario.id,
       token: token,
+      nome: usuario.nome,
     });
   },
 };

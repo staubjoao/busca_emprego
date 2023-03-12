@@ -17,7 +17,6 @@ router.post('/login/candidato', usuarioController.loginCandidato);
 router.post('/login/empresa', usuarioController.loginEmpresa);
 
 router.use(authCandidato);
-//router.use(authEmpresa);
 
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo);
@@ -25,5 +24,7 @@ router.post('/curriculo/:idCandidato', curriculoController.createCurriculo);
 //rota de cadastro e listagem das vagas
 router.post('/cadastro/vaga', vagaController.cadastroVaga);
 router.get('/listar/vagas', vagaController.listarVagas);
+
+router.use(authEmpresa);
 
 module.exports = router;

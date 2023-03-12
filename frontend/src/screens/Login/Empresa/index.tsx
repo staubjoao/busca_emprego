@@ -1,110 +1,190 @@
+import { Box, Typography, Link, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import paper from '../../../assets/images/paper.png';
-import IMaskInput from 'react-input-mask';
-import { useState } from 'react';
-import { autenticacaoLoginEmpresa } from '../../../service/login';
 import { useStore } from '../../../hooks/stores';
+import {
+  ExitButton,
+  InputCnpj,
+  InputLogin,
+  LoginButton,
+  RegisterButton,
+} from './styles';
+import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
+import paper from '../../../assets/images/paper.svg';
+import line from '../../../assets/icons/line.svg';
+import { autenticacaoLoginEmpresa } from '../../../service/login';
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 export const LoginEmpresa = observer(() => {
-  const [cnpj, setCnpj] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
   const navigate = useNavigate();
-  const [canNavigate, setCanNavigate] = useState(false);
   const { loginStore } = useStore();
 
+  const handleLogin = async () => {
+    const response = await loginStore.authEmpresa();
+    if (response.ok) {
+      loginStore.getPersistedStore();
+      navigate('/empresa/curriculos');
+    }
+  };
+
   return (
-    <div className="flex mx-auto justify-evenly items-center gap-20">
-      <button
-        onClick={() => navigate('/')}
-        className="text-white absolute top-0 left-0 text-2xl p-5"
+    <Box
+      display="flex"
+      justifyContent="space-evenly"
+      alignItems="center"
+      gap="5rem"
+    >
+      <ExitButton onClick={() => navigate('/')}>
+        <Close />
+      </ExitButton>
+      <Box
+        marginX="auto"
+        sx={{
+          maxWidth: { sm: 384 },
+        }}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="5rem"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          className="w-6 h-6"
+        <Box
+          bgcolor="#00227B"
+          maxWidth={221}
+          maxHeight={221}
+          padding={5}
+          display="flex"
+          borderRadius={30}
+          justifyContent="center"
+          boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-      <div className="mx-auto max-w-sm">
-        <img src={paper} className="mx-auto my-5" />
-        <div className="flex flex-col gap-3 text-center">
-          <h2 className="text-white font-semibold lg:text-2xl md:text-xl">
-            Bem vindo(a)
-          </h2>
-          <p className="text-white text-base">
+          <img src={paper} />
+        </Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          textAlign="center"
+          gap="0.75rem"
+        >
+          <Typography variant="h5" color="#FFFFFF" fontWeight="bold">
+            Bem vindo (a)
+          </Typography>
+          <Typography variant="subtitle1" color="#FFFFFF">
             O buscaEmprego ajuda você a se conectar e compartilhar seus
             objetivos.
-          </p>
-        </div>
-      </div>
-      <div className="bg-white h-screen w-2/5 rounded-l-4xl flex flex-col justify-center">
-        <h2 className="text-textColor1 text-center font-semibold text-2xl mb-10 lg:text-3xl md:text-2xl">
-          Faça Login
-        </h2>
-        <form
-          onSubmit={(e) => {
-            autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate);
-            canNavigate && navigate('/empresa/curriculos');
-          }}
-          className="sm:mx-10 lg:mx-40"
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        bgcolor="#FFFFFF"
+        height="100vh"
+        width="40vw"
+        sx={{
+          borderTopLeftRadius: '5rem',
+          borderBottomLeftRadius: '5rem',
+        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          textAlign="center"
+          marginBottom="2.5rem"
         >
-          <IMaskInput
-            className="block mb-4 border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
-            mask="99.999.999/9999-99"
-            placeholder="CNPJ"
-            value={cnpj}
-            onChange={(event) => setCnpj(event.target.value)}
-          />
-          <input
-            className="block border border-borderColor1 w-full py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-background1 px-3"
-            type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(event) => setSenha(event.target.value)}
-          />
-          <div className="flex justify-between items-center mb-5">
-            {erro !== '' ? (
-              <span className="text-red-600">{erro}</span>
+          Faça Login
+        </Typography>
+        <Box sx={{ width: '55%', margin: '0 auto' }}>
+          <Box position="relative">
+            <EmailOutlined
+              sx={{
+                position: 'absolute',
+                top: 14,
+                left: 9,
+                color: '#E7E7E7',
+              }}
+            />
+            <InputCnpj
+              required
+              placeholder="CNPJ"
+              id="cnpj"
+              value={loginStore.cnpj}
+              autoFocus
+              onChange={(event) => loginStore.setCnpj(event.target.value)}
+              mask="99.999.999/9999-99"
+            />
+          </Box>
+
+          <Box position="relative">
+            <LockOutlined
+              sx={{
+                position: 'absolute',
+                top: 14,
+                left: 9,
+                color: '#E7E7E7',
+              }}
+            />
+            <InputLogin
+              required
+              type="password"
+              placeholder="Senha"
+              id="senha"
+              value={loginStore.senha}
+              autoFocus
+              onChange={(event) => loginStore.setSenha(event.target.value)}
+            />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginTop="0.5rem"
+            marginBottom="1rem"
+          >
+            {loginStore.error !== '' ? (
+              <Box component="span" color="red" textAlign="left">
+                {loginStore.error}
+              </Box>
             ) : (
               <div></div>
             )}
-            <button
+            <Link
+              display="inline-block"
+              textAlign="right"
+              color="#6F74DD"
+              sx={{
+                textDecoration: 'none',
+                ':hover': {
+                  cursor: 'pointer',
+                },
+              }}
               onClick={() => navigate('/')}
-              className="text-right text-background1 "
             >
               Esqueceu a senha?
-            </button>
-          </div>
-          <button
-            type="submit"
-            className="bg-background1 text-white w-full py-1 rounded-3xl hover:bg-btnColor2 transition-colors"
-            onClick={() => {
-              navigate('empresa/curriculos');
-              loginStore.setTypeUser('empresa');
-            }}
-          >
+            </Link>
+          </Box>
+
+          <LoginButton type="submit" onClick={handleLogin}>
             Entrar
-          </button>
-          <p className="text-center mb-4 mt-2">Ou</p>
-          <p className="text-center mb-4">Ainda não tem uma conta?</p>
-          <button
-            onClick={() => navigate('/cadastro/empresa')}
-            className="border border-background1 w-full py-1 rounded-3xl  text-background1 hover:bg-background1 hover:text-white hover:border-background1 transition-colors "
-          >
+          </LoginButton>
+          <Box textAlign="center" margin="0.5rem">
+            <Typography
+              color="#828282"
+              marginBottom="2rem"
+              display="flex"
+              justifyContent="center"
+              gap="0.5rem"
+            >
+              <img src={line} />
+              Ou
+              <img src={line} />
+            </Typography>
+            <Typography color="#828282">Ainda não tem uma conta?</Typography>
+          </Box>
+          <RegisterButton onClick={() => navigate('/cadastro/empresa')}>
             Cadastrar
-          </button>
-        </form>
-      </div>
-    </div>
+          </RegisterButton>
+        </Box>
+      </Box>
+    </Box>
   );
 });

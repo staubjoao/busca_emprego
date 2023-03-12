@@ -1,5 +1,8 @@
 import { makeAutoObservable } from 'mobx';
-import { autenticacaoLoginCandidato } from '../service/login';
+import {
+  autenticacaoLoginCandidato,
+  autenticacaoLoginEmpresa,
+} from '../service/login';
 import { makePersistable, getPersistedStore } from 'mobx-persist-store';
 export interface LoginStoreType {
   typeUser: string;
@@ -9,6 +12,7 @@ export interface LoginStoreType {
   senha: string;
   setSenha: (senha: string) => void;
   authCandidato: () => void;
+  authEmpresa: () => void;
   error: string;
   setError: (error: string) => void;
   token: string;
@@ -16,6 +20,8 @@ export interface LoginStoreType {
   user: { nome: string; id: string };
   setUser: (nome: string, id: string) => void;
   logout: () => void;
+  cnpj: string;
+  setCnpj: (cnpj: string) => void;
 }
 
 export class LoginStore implements LoginStoreType {
@@ -36,6 +42,11 @@ export class LoginStore implements LoginStoreType {
   email: string = '';
   setEmail = (email: string) => {
     this.email = email;
+  };
+
+  cnpj: string = '';
+  setCnpj = (cnpj: string) => {
+    this.cnpj = cnpj;
   };
 
   senha: string = '';
@@ -72,9 +83,26 @@ export class LoginStore implements LoginStoreType {
     }
   };
 
+  authEmpresa = async () => {
+    const response = await autenticacaoLoginEmpresa(this.cnpj, this.senha);
+
+    if (response?.data.erro) {
+      this.setError(response.data.mensagem);
+      return { ok: false };
+    } else {
+      this.setUser(response?.data.nome, response?.data.id);
+      this.setToken(response?.data.token);
+      this.setTypeUser('empresa');
+      return { ok: true };
+    }
+  };
+
   logout = () => {
     this.setToken('');
     this.setUser('', '');
+    this.setSenha('');
+    this.setCnpj('');
+    this.setEmail('');
   };
 
   getPersistedStore = () => {
