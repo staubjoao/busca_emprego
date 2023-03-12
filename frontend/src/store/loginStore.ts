@@ -15,6 +15,7 @@ export interface LoginStoreType {
   setToken: (token: string) => void;
   idUser: string;
   setIdUser: (idUser: string) => void;
+  logout: () => void;
 }
 
 export class LoginStore implements LoginStoreType {
@@ -59,12 +60,15 @@ export class LoginStore implements LoginStoreType {
       this.setError(response.data.mensagem);
       return { ok: false };
     } else {
-      localStorage.setItem('id', response?.data.id);
-      localStorage.setItem('token', response?.data.token);
       this.setToken(response?.data.token);
       this.setIdUser(response?.data.id);
       this.setTypeUser('candidato');
       return { ok: true };
     }
+  };
+
+  logout = () => {
+    this.setToken('');
+    this.setIdUser('');
   };
 }

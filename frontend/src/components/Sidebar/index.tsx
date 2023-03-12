@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 
 import * as Styled from './styles';
-import { useParams } from 'react-router-dom';
+import { useStore } from '../../hooks/stores';
 
 interface SideBarProps {
   typeUser: string;
@@ -80,9 +80,11 @@ const candidatoIcons = (screen: string) => {
 
 export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
   const [open, setOpen] = React.useState(false);
-  const { id } = useParams();
+  const { loginStore } = useStore();
   const screens =
-    typeUser === 'empresa' ? empresaScreens : candidatoScreens(id);
+    typeUser === 'empresa'
+      ? empresaScreens
+      : candidatoScreens(loginStore.idUser);
 
   const handleDrawerOpen = (open: boolean) => {
     setOpen(!open);
@@ -133,12 +135,12 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
           ))}
         </List>
         {open ? (
-          <Styled.Button>
+          <Styled.Button onClick={loginStore.logout}>
             <Logout sx={{ color: '#eee' }} fontSize="small" />
             <Styled.Typography>Sair</Styled.Typography>
           </Styled.Button>
         ) : (
-          <Styled.Button>
+          <Styled.Button onClick={loginStore.logout}>
             <Logout sx={{ color: '#eee' }} fontSize="small" />
           </Styled.Button>
         )}
