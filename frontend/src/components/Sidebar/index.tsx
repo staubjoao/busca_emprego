@@ -87,7 +87,6 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
       : candidatoScreens(loginStore.idUser);
 
   const handleDrawerOpen = (open: boolean) => {
-    console.log('OPEN', open);
     setOpen(!open);
   };
 
@@ -136,12 +135,22 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
           ))}
         </List>
         {open ? (
-          <Styled.Button onClick={loginStore.logout}>
+          <Styled.Button
+            onClick={() => {
+              loginStore.logout();
+              navigate('/');
+            }}
+          >
             <Logout sx={{ color: '#eee' }} fontSize="small" />
             <Styled.Typography>Sair</Styled.Typography>
           </Styled.Button>
         ) : (
-          <Styled.Button onClick={loginStore.logout}>
+          <Styled.Button
+            onClick={() => {
+              loginStore.logout();
+              navigate('/');
+            }}
+          >
             <Logout sx={{ color: '#eee' }} fontSize="small" />
           </Styled.Button>
         )}

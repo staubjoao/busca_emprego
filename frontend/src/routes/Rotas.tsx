@@ -1,10 +1,10 @@
 import { AppRoutes } from './AppRoutes';
 import { AuthRoutes } from './AuthRoutes';
 import { useStore } from '../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function Rotas() {
+export const Rotas = observer(() => {
   const { loginStore } = useStore();
   const isLogged = loginStore.token !== '';
-  console.log('LOGGED', isLogged);
   return !isLogged ? <AuthRoutes /> : <AppRoutes />;
-}
+});
