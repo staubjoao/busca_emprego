@@ -44,6 +44,48 @@ const curriculo = {
       });
     }
   },
+
+  listarCurriculos: async (req, res) => {
+    const { idVaga } = req.params;
+    const curriculo = models.Curriculo;
+    const vaga = models.Vaga;
+    const teste = models.CurriculoVaga;
+
+    await curriculo.findByPk(req.params.idVaga, {
+      include: [{
+        all: true,
+        association: 'CurriculosVagas',
+      }]
+    })
+      .then(curr => {
+        return res.json({ curr });
+      }).catch(erro => {
+        return res.status(400).json({
+          erro: true,
+          message: erro
+        })
+      })
+
+    // await vaga.findAll(
+    //   {
+    //     where: { id: idVaga },
+    //     include: [
+    //       {
+    //         model: curriculo, 
+    //         association: 'CurriculosVagas',
+    //         require: true,
+    //         attributes: ['nome', 'email']
+    //       }
+    //     ]
+    //   }
+    // ).then(curriculos => res.json({ curriculos }))
+    //   .catch(erro => {
+    //     return res.status(400).json({
+    //       erro: true,
+    //       message: erro
+    //     })
+    //   })
+  },
 };
 
 module.exports = curriculo;

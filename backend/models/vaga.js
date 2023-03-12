@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Vaga extends Model {
     static associate(models) {
       Vaga.belongsToMany(models.Curriculo, {
-        through: 'CurriculoVaga'
+        through: 'CurriculosVagas'
       })
       Vaga.belongsTo(models.Empresa)
     }
@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       descricao: DataTypes.TEXT,
       periodo: DataTypes.STRING(45),
       salario: DataTypes.FLOAT,
+      visualizar: DataTypes.BOOLEAN,
       EmpresaId: DataTypes.INTEGER
     },
     {

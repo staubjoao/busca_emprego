@@ -1,11 +1,11 @@
 const models = require('../models');
 const jwt = require('jsonwebtoken');
+//const { sequelize } = require('../models') coisa do select em tempos sombrios
 
 let empresa = models.Empresa;
 let candidato = models.Curriculo;
 const vaga = models.Vaga;
-
-//controller de usuario
+const curriculovaga = models.CurriculosVagas;
 
 const usuarioController = {
   cadastroEmpresa: async (req, res) => {
@@ -92,5 +92,42 @@ const usuarioController = {
     });
   },
 };
+
+//Esse aqui é o certo :D
+// listarCurriculo: async (req, res) => {
+//   await curriculovaga
+//     .findAll({
+//       where: { VagaId: req.params.id },
+//       include: [
+//         {
+//           model: candidato,
+//           required: true
+//         }
+//       ]
+//     })
+//     .then(vagas => res.json({ vagas }))
+//     .catch(erro => {
+//       return res.status(400).json({
+//         error: true,
+//         message: erro
+//       })
+//     })
+// }
+
+//Select em casos de dar td errado
+//   await sequelize
+//     .query(
+//       'SELECT * FROM curriculosvagas cv INNER JOIN curriculos cu ON cu.id = cv.CurriculoId WHERE cv.VagaId = ' +
+//         req.params.id,
+//       { type: sequelize.QueryTypes.SELECT }
+//     )
+//     .then(vagas => res.json({ vagas }))
+//     .catch(erro => {
+//       return res.status(400).json({
+//         error: true,
+//         message: erro
+//       })
+//     })
+// }
 
 module.exports = usuarioController;

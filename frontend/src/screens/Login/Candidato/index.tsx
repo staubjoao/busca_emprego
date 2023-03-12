@@ -9,7 +9,6 @@ import { observer } from 'mobx-react-lite';
 
 export const LoginCandidato = observer(() => {
   const navigate = useNavigate();
-  const { loginStore } = useStore();
 
   const handleLogin = async () => {
     const response = await loginStore.authCandidato();
@@ -87,6 +86,7 @@ export const LoginCandidato = observer(() => {
           Faça Login
         </Typography>
         <Box sx={{ width: '55%', margin: '0 auto' }}>
+<<<<<<< HEAD
           <Box position="relative">
             <EmailOutlined
               sx={{
@@ -175,8 +175,109 @@ export const LoginCandidato = observer(() => {
           <RegisterButton onClick={() => navigate('/cadastro/candidato')}>
             Cadastrar
           </RegisterButton>
+=======
+          <form
+            onSubmit={(e) => {
+              autenticacaoLoginCandidato(
+                e,
+                email,
+                senha,
+                setErro,
+                setCanNavigate
+              );
+              navigate('/candidato/1/curriculo');
+            }}
+          >
+            <Box position="relative">
+              <EmailOutlined
+                sx={{
+                  position: 'absolute',
+                  top: 14,
+                  left: 9,
+                  color: '#E7E7E7',
+                }}
+              />
+              <InputLogin
+                type="email"
+                required
+                placeholder="Email"
+                id="email"
+                value={email}
+                autoFocus
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </Box>
+
+            <Box position="relative">
+              <LockOutlined
+                sx={{
+                  position: 'absolute',
+                  top: 14,
+                  left: 9,
+                  color: '#E7E7E7',
+                }}
+              />
+              <InputLogin
+                required
+                type="password"
+                placeholder="Senha"
+                id="senha"
+                value={senha}
+                autoFocus
+                onChange={(event) => setSenha(event.target.value)}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginTop="0.5rem"
+              marginBottom="1rem"
+            >
+              {erro !== '' ? (
+                <Box component="span" color="red" textAlign="left">
+                  {erro}
+                </Box>
+              ) : (
+                <div></div>
+              )}
+              <Link
+                display="inline-block"
+                textAlign="right"
+                color="#6F74DD"
+                sx={{
+                  textDecoration: 'none',
+                  ':hover': {
+                    cursor: 'pointer',
+                  },
+                }}
+                onClick={() => navigate('/')}
+              >
+                Esqueceu a senha?
+              </Link>
+            </Box>
+
+            <LoginButton type="submit">Entrar</LoginButton>
+            <Box textAlign="center" margin="0.5rem">
+              <Typography
+                color="#828282"
+                marginBottom="2rem"
+                display="flex"
+                justifyContent="center"
+                gap="0.5rem"
+              >
+                <img src={line} />
+                Ou
+                <img src={line} />
+              </Typography>
+              <Typography color="#828282">Ainda não tem uma conta?</Typography>
+            </Box>
+            <RegisterButton onClick={() => navigate('/cadastro/candidato')}>
+              Cadastrar
+            </RegisterButton>
+          </form>
+>>>>>>> main
         </Box>
       </Box>
     </Box>
   );
-});
+}

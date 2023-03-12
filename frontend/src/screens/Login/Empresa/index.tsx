@@ -14,6 +14,18 @@ import line from '../../../assets/icons/line.svg';
 import { autenticacaoLoginEmpresa } from '../../../service/login';
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import {
+  ExitButton,
+  InputCnpj,
+  InputLogin,
+  LoginButton,
+  RegisterButton,
+} from './styles';
+import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
+import paper from '../../../assets/images/paper.svg';
+import line from '../../../assets/icons/line.svg';
+import { autenticacaoLoginEmpresa } from '../../../service/login';
+import { useState } from 'react';
 
 export const LoginEmpresa = observer(() => {
   const navigate = useNavigate();
@@ -95,6 +107,7 @@ export const LoginEmpresa = observer(() => {
           Faça Login
         </Typography>
         <Box sx={{ width: '55%', margin: '0 auto' }}>
+<<<<<<< HEAD
           <Box position="relative">
             <EmailOutlined
               sx={{
@@ -183,8 +196,103 @@ export const LoginEmpresa = observer(() => {
           <RegisterButton onClick={() => navigate('/cadastro/empresa')}>
             Cadastrar
           </RegisterButton>
+=======
+          <form
+            onSubmit={(e) => {
+              autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate);
+              navigate('/empresa/vagas/' + localStorage.getItem('id'));
+            }}
+          >
+            <Box position="relative">
+              <EmailOutlined
+                sx={{
+                  position: 'absolute',
+                  top: 14,
+                  left: 9,
+                  color: '#E7E7E7',
+                }}
+              />
+              <InputCnpj
+                required
+                placeholder="CNPJ"
+                id="cnpj"
+                value={cnpj}
+                autoFocus
+                onChange={(event) => setCnpj(event.target.value)}
+                mask="99.999.999/9999-99"
+              />
+            </Box>
+
+            <Box position="relative">
+              <LockOutlined
+                sx={{
+                  position: 'absolute',
+                  top: 14,
+                  left: 9,
+                  color: '#E7E7E7',
+                }}
+              />
+              <InputLogin
+                required
+                type="password"
+                placeholder="Senha"
+                id="senha"
+                value={senha}
+                autoFocus
+                onChange={(event) => setSenha(event.target.value)}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginTop="0.5rem"
+              marginBottom="1rem"
+            >
+              {erro !== '' ? (
+                <Box component="span" color="red" textAlign="left">
+                  {erro}
+                </Box>
+              ) : (
+                <div></div>
+              )}
+              <Link
+                display="inline-block"
+                textAlign="right"
+                color="#6F74DD"
+                sx={{
+                  textDecoration: 'none',
+                  ':hover': {
+                    cursor: 'pointer',
+                  },
+                }}
+                onClick={() => navigate('/')}
+              >
+                Esqueceu a senha?
+              </Link>
+            </Box>
+
+            <LoginButton type="submit">Entrar</LoginButton>
+            <Box textAlign="center" margin="0.5rem">
+              <Typography
+                color="#828282"
+                marginBottom="2rem"
+                display="flex"
+                justifyContent="center"
+                gap="0.5rem"
+              >
+                <img src={line} />
+                Ou
+                <img src={line} />
+              </Typography>
+              <Typography color="#828282">Ainda não tem uma conta?</Typography>
+            </Box>
+            <RegisterButton onClick={() => navigate('/cadastro/empresa')}>
+              Cadastrar
+            </RegisterButton>
+          </form>
+>>>>>>> main
         </Box>
       </Box>
     </Box>
   );
-});
+}
