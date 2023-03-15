@@ -20,6 +20,7 @@ router.post('/curriculo/:idCandidato', curriculoController.createCurriculo)
 
 //listar currículos
 router.get('/vagas/:idVaga/curriculos', curriculoController.listarCurriculos)
+router.get('/curriculo/:idCurriculo', curriculoController.listarCurriculo)
 
 //rota de funcionalidades candidato
 router.get('/candidato/vagas', usuarioController.listarVagas)

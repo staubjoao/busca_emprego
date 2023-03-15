@@ -69,6 +69,53 @@ const curriculo = {
         })
       })
   },
+
+  listarCurriculo: async(req, res) => {
+    const curriculo = models.Curriculo
+    const cursos = models.Cursos
+    const experiencias = models.Experiencias
+    const idiomas = models.Idiomas
+    const idiomasCurriculo = models.CurriculosIdiomas
+    const cursosCurriculo = models.CurriculosCursos
+    const experienciasCurriculo = models.CurriculosExperiencias
+
+    await curriculo.findOne({
+      where: { id: req.params.idCurriculo },
+      include: [
+        {
+          model: idiomas,
+          attributes: ['idioma'],
+          through: {
+            model: idiomasCurriculo,
+            attributes: ['nivel']
+          }
+        },
+        {
+          model: cursos,
+          attributes: ['curso'],
+          through: {
+            model: cursosCurriculo,
+            attributes: ['inicio', 'termino']
+          }
+        },
+        {
+          model: experiencias,
+          attributes: ['empresa', 'endereco', 'ramo'],
+          through: {
+            model: experienciasCurriculo,
+            attributes: ['inicio', 'termino', 'cidade', 'pais', 'salario', 'cargo']
+          }
+        }
+      ]
+    })
+    .then(curriculo => res.json({ curriculo }))
+      .catch(erro => {
+        return res.status(400).json({
+          error: true,
+          message: erro
+        })
+      })
+  }
 };
 
 module.exports = curriculo;
