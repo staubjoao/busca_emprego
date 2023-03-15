@@ -6,6 +6,7 @@ import {
   CadastroEmpresa,
   CadastroVaga,
   ListagemCurriculos,
+  ListagemCurriculoCompleto,
   ListagemVagasCandidato,
   LoginCandidato,
   LoginEmpresa,
@@ -26,6 +27,7 @@ export function Rotas() {
       <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
       <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
       <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
+      <Route path="empresa/curriculo/:id" element={<ListagemCurriculoCompleto />} />
       <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
       <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />
     </Routes>

@@ -48,31 +48,6 @@ export function ListagemCurriculos() {
     setSelecionado(!selecionado);
   }
 
-  // function Cartao({ perfil, nome, areaAtuacao, descricao }: CartaoProps) {
-  //   return (
-  //     <CartaoContainer sx={{ borderRadius: "20px", border: 'none', boxShadow: 'none' }}>
-  //       <CardHeader
-  //         title={nome}
-  //         subheader={areaAtuacao}
-  //         avatar={<Avatar src={perfil} sx={{ width: 150, height: 150 }} alt="Foto de perfil" />}
-  //         titleTypographyProps={{ variant: 'h5' }}
-  //         subheaderTypographyProps={{ variant: 'body1' }}
-  //       />
-  //       <CardContent>
-  //         {descricao}
-  //       </CardContent>
-  //       <AcoesContainer>
-  //         <Button
-  //           variant="contained"
-  //           color="primary"
-  //           type="submit"
-  //           style={{ borderRadius: 50 }}>
-  //           Ver currículo</Button>
-  //       </AcoesContainer>
-  //     </CartaoContainer>
-  //   )
-  // }
-
   const EmpresaCard = ({ nome, descricao, perfil }: EmpresaCardProps) => {
     return (
       <Card sx={{ maxWidth: 400, border: 'none', boxShadow: 'none', borderRadius: 0 }} >

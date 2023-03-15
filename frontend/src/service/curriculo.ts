@@ -22,3 +22,8 @@ export const getCurriculosVaga = async (IdVaga: string) => {
   const response = await api.get(`usuario/vagas/${IdVaga}/curriculos`);
   return response.data.curriculos;
 };
+
+export const getCurriculo = async(IdCurriculo: string) => {
+  const response = await api.get(`usuario/curriculo/${IdCurriculo}`);
+  return response.data.curriculo;
+}

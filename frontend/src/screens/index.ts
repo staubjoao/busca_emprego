@@ -1,7 +1,8 @@
 export * from './Candidato/CadastroCandidato';
 
 export * from './Curriculos/CadastroCurriculo';
-export * from './Curriculos/ListagemCurriculo';
+export * from './Curriculos/ListagemCurriculos';
+export * from './Curriculos/ListagemCurriculoCompleto';
 
 export * from './Empresa/CadastroEmpresa';
 
