@@ -110,44 +110,20 @@ const usuarioController = {
           message: erro
         })
       })
+  },
+  exibirDadosVaga: async (req, res) => {
+    await vaga
+      .findOne({
+        where: { id: req.params.id }
+      })
+      .then(vagas => res.json({ vagas }))
+      .catch(erro => {
+        return res.status(400).json({
+          error: true,
+          message: erro
+        })
+      })
   }
-
-  //Esse aqui é o certo :D
-  // listarCurriculo: async (req, res) => {
-  //   await curriculovaga
-  //     .findAll({
-  //       where: { VagaId: req.params.id },
-  //       include: [
-  //         {
-  //           model: candidato,
-  //           required: true
-  //         }
-  //       ]
-  //     })
-  //     .then(vagas => res.json({ vagas }))
-  //     .catch(erro => {
-  //       return res.status(400).json({
-  //         error: true,
-  //         message: erro
-  //       })
-  //     })
-  // }
-
-  //Select em casos de dar td errado
-  //   await sequelize
-  //     .query(
-  //       'SELECT * FROM curriculosvagas cv INNER JOIN curriculos cu ON cu.id = cv.CurriculoId WHERE cv.VagaId = ' +
-  //         req.params.id,
-  //       { type: sequelize.QueryTypes.SELECT }
-  //     )
-  //     .then(vagas => res.json({ vagas }))
-  //     .catch(erro => {
-  //       return res.status(400).json({
-  //         error: true,
-  //         message: erro
-  //       })
-  //     })
-  // }
 }
 
 module.exports = usuarioController
