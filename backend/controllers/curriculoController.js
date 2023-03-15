@@ -25,18 +25,26 @@ const curriculo = {
       },
     });
 
-    const itemsModels = await Promise.all(
-      campos.map(async (item) => {
-        return await createItensModels(
-          req,
-          item.valueBody,
-          item.model,
-          item.value,
-          candidato
-        );
-      })
-    );
-    return res.json(itemsModels);
+    try {
+      const itemsModels = await Promise.all(
+        campos.map(async (item) => {
+          return await createItensModels(
+            req,
+            item.valueBody,
+            item.model,
+            item.value,
+            candidato
+          );
+        })
+      );
+      return res.json(itemsModels);
+    } catch (e) {
+      res.status(500);
+      return res.json({
+        message: e,
+        ok: false,
+      });
+    }
   },
 
   listarCurriculos: async (req, res) => {

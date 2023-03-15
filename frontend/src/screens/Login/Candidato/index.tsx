@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { Box, Typography, Link, FormControl } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { ExitButton, InputLogin, LoginButton, RegisterButton } from './styles'
-import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material'
-import paper from '../../../assets/images/paper.svg'
-import line from '../../../assets/icons/line.svg'
-import { autenticacaoLoginCandidato } from '../../../service/login'
+import { useState } from 'react';
+import { Box, Typography, Link, FormControl } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { ExitButton, InputLogin, LoginButton, RegisterButton } from './styles';
+import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
+import paper from '../../../assets/images/paper.svg';
+import line from '../../../assets/icons/line.svg';
+import { autenticacaoLoginCandidato } from '../../../service/login';
 
 export function LoginCandidato() {
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [erro, setErro] = useState('')
-  const [canNavigate, setCanNavigate] = useState(false)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [canNavigate, setCanNavigate] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -27,7 +27,7 @@ export function LoginCandidato() {
       <Box
         marginX="auto"
         sx={{
-          maxWidth: { sm: 384 }
+          maxWidth: { sm: 384 },
         }}
         display="flex"
         flexDirection="column"
@@ -67,7 +67,7 @@ export function LoginCandidato() {
         width="40vw"
         sx={{
           borderTopLeftRadius: '5rem',
-          borderBottomLeftRadius: '5rem'
+          borderBottomLeftRadius: '5rem',
         }}
         display="flex"
         flexDirection="column"
@@ -83,15 +83,15 @@ export function LoginCandidato() {
         </Typography>
         <Box sx={{ width: '55%', margin: '0 auto' }}>
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               autenticacaoLoginCandidato(
                 e,
                 email,
                 senha,
                 setErro,
                 setCanNavigate
-              )
-              navigate('/candidato/1/curriculo')
+              );
+              navigate('/candidato/1/curriculo');
             }}
           >
             <Box position="relative">
@@ -100,7 +100,7 @@ export function LoginCandidato() {
                   position: 'absolute',
                   top: 14,
                   left: 9,
-                  color: '#E7E7E7'
+                  color: '#E7E7E7',
                 }}
               />
               <InputLogin
@@ -110,7 +110,7 @@ export function LoginCandidato() {
                 id="email"
                 value={email}
                 autoFocus
-                onChange={event => setEmail(event.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </Box>
 
@@ -120,7 +120,7 @@ export function LoginCandidato() {
                   position: 'absolute',
                   top: 14,
                   left: 9,
-                  color: '#E7E7E7'
+                  color: '#E7E7E7',
                 }}
               />
               <InputLogin
@@ -130,7 +130,7 @@ export function LoginCandidato() {
                 id="senha"
                 value={senha}
                 autoFocus
-                onChange={event => setSenha(event.target.value)}
+                onChange={(event) => setSenha(event.target.value)}
               />
             </Box>
             <Box
@@ -153,8 +153,8 @@ export function LoginCandidato() {
                 sx={{
                   textDecoration: 'none',
                   ':hover': {
-                    cursor: 'pointer'
-                  }
+                    cursor: 'pointer',
+                  },
                 }}
                 onClick={() => navigate('/')}
               >
@@ -184,5 +184,5 @@ export function LoginCandidato() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
