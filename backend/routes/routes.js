@@ -25,14 +25,17 @@ router.post('/candidatar', curriculoController.candidatar);
 router.get('/candidato/vagas', vagaController.listarVagas);
 
 router.use(authEmpresa);
-router.post('/cadastro/vaga', vagaController.cadastroVaga);
-router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga);
-router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas);
-router.put('/empresa/vagas/toggle', vagaController.toggleVaga);
-router.get('/vagas/exibir/:id', vagaController.exibirDadosVaga);
 router.get(
   '/empresa/vaga/curriculos/:id',
   curriculoController.listarCurriculos
 );
+//rota de funcionalidades candidato
+router.get('/candidato/vagas/:id', usuarioController.exibirDadosVaga);
+
+//rota de cadastro e listagem das vagas
+router.post('/cadastro/vaga', vagaController.cadastroVaga);
+router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga);
+router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas);
+router.put('/empresa/vagas/toggle', vagaController.toggleVaga);
 
 module.exports = router;

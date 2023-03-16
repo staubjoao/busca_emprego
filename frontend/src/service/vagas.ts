@@ -21,17 +21,17 @@ export const getVagasCandidato = async () => {
   return response.data.vagas;
 };
 
-export const getInfoVaga = async (id: any) => {
-  const response = await api.get('usuario/vagas/exibir/' + id);
+export const getInfoVaga = async (id: Number) => {
+  const response = await api.get('usuario/empresa/exibir/vaga/' + id);
   return response.data.vagas;
 };
 
-export const toggleVaga = async (id: number, visualizar: boolean) => {
+export const toggleVaga = async (id: number, visualizar: number) => {
   const response = await api.put('usuario/empresa/vagas/toggle', {
     id,
     visualizar,
   });
-  return response.data.newVisualizar;
+  return response.data;
 };
 
 export async function cadastroVaga(
@@ -96,4 +96,9 @@ export async function alteracaoVaga(
         setError(res.data.mensagem);
       }
     });
+}
+
+export async function exibirVaga(id: Number) {
+  const response = await api.get('/usuario/candidato/vagas/' + id);
+  return response.data.vaga;
 }
