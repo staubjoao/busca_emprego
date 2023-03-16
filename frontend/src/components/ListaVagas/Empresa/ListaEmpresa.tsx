@@ -1,11 +1,11 @@
-import { Box, ButtonBase, IconButton, Typography } from '@mui/material'
+import { Box, ButtonBase, IconButton, Switch, Typography } from '@mui/material'
 import empresaIcon from '../../../assets/icons/empresaIcon.svg'
 import {
   RemoveRedEyeOutlined,
-  VisibilityOffOutlined
+  VisibilityOffOutlined,
+  EditOutlined
 } from '@mui/icons-material'
 import { toggleVaga } from '../../../service/vagas'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface ListaProps {
@@ -27,11 +27,10 @@ interface ListaProps {
 export function Lista(props: ListaProps) {
   const { listagem } = props
   const navigate = useNavigate()
-  const [changeIcon, setChangeIcon] = useState(Number)
 
   async function toggle(id: number, visualizar: number) {
     const retToggle = await toggleVaga(id, visualizar)
-    setChangeIcon(retToggle.visualizar)
+    console.log(retToggle)
   }
 
   return (
@@ -45,7 +44,6 @@ export function Lista(props: ListaProps) {
           border-width="px"
           borderRadius="0.25rem"
           marginBottom="20px"
-          onChange={() => setChangeIcon(element.visualizar)}
         >
           <Box
             display="flex"
@@ -79,13 +77,18 @@ export function Lista(props: ListaProps) {
                 </Typography>
               </Box>
             </Box>
-            <IconButton onClick={() => toggle(element.id, element.visualizar)}>
-              {changeIcon === 0 ? (
+            <Box display="flex">
+              <IconButton
+                onClick={() => toggle(element.id, element.visualizar)}
+              >
                 <RemoveRedEyeOutlined />
-              ) : (
-                <VisibilityOffOutlined />
-              )}
-            </IconButton>
+              </IconButton>
+              <IconButton
+                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
+              >
+                <EditOutlined />
+              </IconButton>
+            </Box>
           </Box>
 
           <Box
@@ -129,9 +132,8 @@ export function Lista(props: ListaProps) {
                     backgroundColor: '#4766AC'
                   }
                 }}
-                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
               >
-                <Box component="span">Alterar Vaga</Box>
+                <Box component="span">Listar Currículos</Box>
               </ButtonBase>
             </Box>
           </Box>
