@@ -13,6 +13,7 @@ import {
 } from '../screens'
 import { ListagemVagasEmpresa } from '../screens/Vagas/ListagemVagasEmpresa'
 import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga'
+import { ExibirVaga } from '../screens/Vagas/ExibirVaga'
 
 export function Rotas() {
   return (
@@ -24,6 +25,7 @@ export function Rotas() {
       <Route path="cadastro/candidato" element={<CadastroCandidato />} />
       <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
       <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
+      <Route path="candidato/vagas/:id" element={<ExibirVaga />} />
       <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
       <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
       <Route path="empresateste/curriculos" element={<ListagemCurriculos />} />
