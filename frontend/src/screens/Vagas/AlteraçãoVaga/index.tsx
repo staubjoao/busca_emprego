@@ -4,7 +4,7 @@ import { Box } from '@mui/system'
 import { ButtonBase, FormLabel, Typography } from '@mui/material'
 import { InputSalario, InputVaga } from './styles'
 import warning from '../../../assets/images/warning.svg'
-import { alteracaoVaga, exibirVaga } from '../../../service/vagas'
+import { alteracaoVaga, getInfoVaga } from '../../../service/vagas'
 
 export function AlterarVaga() {
   const [erro, setErro] = useState('')
@@ -20,11 +20,12 @@ export function AlterarVaga() {
   const navigate = useNavigate()
 
   function loadDadosVaga() {
-    exibirVaga(Number(idVaga.id)).then(res => setObjVaga(res))
+    getInfoVaga(Number(idVaga.id)).then(res => setObjVaga(res))
     setTitulo(objVaga.titulo)
     setPeriodo(objVaga.periodo)
     setSalario(objVaga.salario)
     setDescricao(objVaga.descricao)
+    console.log(objVaga)
   }
 
   useEffect(() => {

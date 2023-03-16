@@ -11,6 +11,11 @@ export const getVagasCandidato = async () => {
   return response.data.vagas;
 };
 
+export const getInfoVaga = async (id: Number) => {
+  const response =await api.get('usuario/empresa/exibir/vaga/'+id);
+  return response.data.vagas;
+};
+
 export const toggleVaga = async (id:number, visualizar:number) => {
   const response = await api.put('usuario/empresa/vagas/toggle', {
     id,
