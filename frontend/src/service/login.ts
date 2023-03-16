@@ -3,59 +3,34 @@ import { api } from '../lib/axios';
 import { useNavigate } from 'react-router-dom'
 
 export const autenticacaoLoginCandidato = async (
-  e: FormEvent,
   email: string,
-  senha: string,
-  setError: (error: string) => void,
-  setCanNavigate: (canNavigate: boolean) => void
+  senha: string
 ) => {
-  e.preventDefault();
-
   if (email === '' || senha === '') {
     return;
   }
 
-  await api
-    .post('usuario/login/candidato', {
-      email,
-      senha,
-    })
-    .then((res) => {
-      if (res.data.erro) {
-        setError(res.data.mensagem);
-      } else {
-        localStorage.setItem('id', res.data.id);
-        localStorage.setItem('token', res.data.token);
-        setCanNavigate(true);
-      }
-    });
+  const response = await api.post('usuario/login/candidato', {
+    email,
+    senha,
+  });
+
+  return response;
 };
 
-export const autenticacaoLoginEmpresa = async (
-  e: FormEvent,
-  cnpj: string,
-  senha: string,
-  setError: (error: string) => void,
-  setCanNavigate: (canNavigat: boolean) => void
-) => {
-  e.preventDefault();
+export const autenticacaoLoginEmpresa = async (cnpj: string, senha: string) => {
+  console.log('CNPJ', cnpj);
 
   if (cnpj === '' || senha === '') {
     return;
   }
 
-  await api
-    .post('usuario/login/empresa', {
-      cnpj,
-      senha,
-    })
-    .then((res) => {
-      if (res.data.erro) {
-        setError(res.data.mensagem);
-      } else {
-        localStorage.setItem('id', res.data.id);
-        localStorage.setItem('token', res.data.token);
-        setCanNavigate(true);
-      }
-    });
+  const response = await api.post('usuario/login/empresa', {
+    cnpj,
+    senha,
+  });
+
+  console.log('RESPONSE', response);
+
+  return response;
 };

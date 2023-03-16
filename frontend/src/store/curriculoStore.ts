@@ -29,6 +29,7 @@ export interface CurriculoStoreType {
   createExperience: () => void;
 
   handleCreateCurriculo: (
+    token: string,
     id: string,
     createExperiencias: any,
     createIdiomas: any,
@@ -120,6 +121,7 @@ export class CurriculoStore implements CurriculoStoreType {
   }
 
   async handleCreateCurriculo(
+    token: string,
     id: string,
     createExperiencias: any,
     createIdiomas: any,
@@ -130,6 +132,7 @@ export class CurriculoStore implements CurriculoStoreType {
     const cursos = createCursos();
 
     const response = await createCurriculo(
+      token,
       id as any,
       experiencias,
       idiomas,
