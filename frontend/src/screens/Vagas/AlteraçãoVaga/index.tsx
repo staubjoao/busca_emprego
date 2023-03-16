@@ -4,8 +4,7 @@ import { Box } from '@mui/system'
 import { ButtonBase, FormLabel, Typography } from '@mui/material'
 import { InputSalario, InputVaga } from './styles'
 import warning from '../../../assets/images/warning.svg'
-import { getInfoVaga } from '../../../service/vagas'
-import { alteracaoVaga } from '../../../service/vagas'
+import { alteracaoVaga, exibirVaga } from '../../../service/vagas'
 
 export function AlterarVaga() {
   const [erro, setErro] = useState('')
@@ -21,8 +20,7 @@ export function AlterarVaga() {
   const navigate = useNavigate()
 
   function loadDadosVaga() {
-    getInfoVaga(idVaga.id).then(res => setObjVaga(res))
-
+    exibirVaga(Number(idVaga.id)).then(res => setObjVaga(res))
     setTitulo(objVaga.titulo)
     setPeriodo(objVaga.periodo)
     setSalario(objVaga.salario)
@@ -66,7 +64,7 @@ export function AlterarVaga() {
                 EmpresaId,
                 setErro
               )
-              // navigate('/empresa/vagas/' + localStorage.getItem('id'))
+              navigate('/empresa/vagas/' + EmpresaId)
             }}
           >
             <Typography
@@ -170,9 +168,6 @@ export function AlterarVaga() {
               <div>
                 <ButtonBase
                   type="submit"
-                  // onClick={() => {
-                  //   navigate('/empresa/vagas/' + EmpresaId)
-                  // }}
                   sx={{
                     backgroundColor: '#5E80BB',
                     color: '#FFFFFF',

@@ -1,51 +1,52 @@
-import { Box, ButtonBase, IconButton, Typography } from '@mui/material'
-import empresaIcon from '../../../assets/icons/empresaIcon.svg'
-import {
-  RemoveRedEyeOutlined,
-  VisibilityOffOutlined
-} from '@mui/icons-material'
-import { toggleVaga } from '../../../service/vagas'
+import { Box, ButtonBase, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { exibirVaga } from '../../../service/vagas'
+import empresaIcon from '../../../assets/icons/empresaIcon.svg'
 
-interface ListaProps {
-  listagem: {
+export function ExibirVaga() {
+  const id = useParams()
+
+  const [vaga, setVaga] = useState<{
     id: number
     titulo: string
     descricao: string
     periodo: string
     salario: number
-    visualizar: number
+    visualizar: boolean
     EmpresaId: number
     Empresa: {
       nome: string
       logo: string | null
     }
-  }[]
-}
+  }>()
 
-export function Lista(props: ListaProps) {
-  const { listagem } = props
-  const navigate = useNavigate()
-  const [changeIcon, setChangeIcon] = useState(Number)
-
-  async function toggle(id: number, visualizar: number) {
-    const retToggle = await toggleVaga(id, visualizar)
-    setChangeIcon(retToggle.visualizar)
+  const handleVagas = async () => {
+    const especVaga = await exibirVaga(Number(id.id))
+    setVaga(especVaga)
   }
 
+  useEffect(() => {
+    handleVagas()
+  }, [])
+
   return (
-    <Box>
-      {listagem.map(element => (
+    <Box bgcolor="rgb(245 245 244)">
+      <Box
+        maxWidth="100%"
+        bgcolor="#5E80BB"
+        sx={{
+          paddingBlock: '3.6rem'
+        }}
+      />
+      <Box minHeight="87.5vh" position="relative" bottom="30px" marginX="auto">
         <Box
-          key={element.id}
           marginX="auto"
           maxWidth="32rem"
           bgcolor="#FFFFFF"
           border-width="px"
           borderRadius="0.25rem"
           marginBottom="20px"
-          onChange={() => setChangeIcon(element.visualizar)}
         >
           <Box
             display="flex"
@@ -55,7 +56,7 @@ export function Lista(props: ListaProps) {
             justifyContent="space-between"
           >
             <Box display="flex">
-              {element.Empresa.logo === null ? (
+              {vaga?.Empresa.logo === null ? (
                 <Box
                   component="img"
                   src={empresaIcon}
@@ -65,40 +66,23 @@ export function Lista(props: ListaProps) {
               ) : (
                 <Box
                   component="img"
-                  src={element.Empresa.logo}
+                  src={vaga?.Empresa.logo}
                   width="4rem"
                   alt="Foto da empresa"
                 />
               )}
               <Box component="span" paddingTop="0.5rem" marginLeft="1rem">
                 <Typography variant="h5" fontWeight="bold" fontSize="0.875rem">
-                  {element.titulo}
+                  {vaga?.titulo}
                 </Typography>
                 <Typography fontSize="0.875rem">
-                  {element.Empresa.nome}
+                  {vaga?.Empresa.nome}
                 </Typography>
               </Box>
             </Box>
-            <IconButton onClick={() => toggle(element.id, element.visualizar)}>
-              {changeIcon === 0 ? (
-                <RemoveRedEyeOutlined />
-              ) : (
-                <VisibilityOffOutlined />
-              )}
-            </IconButton>
           </Box>
-
-          <Box
-            marginX="0.5rem"
-            fontSize="0.875rem"
-            marginTop="0.5rem"
-            paddingX="1.25rem"
-            paddingBottom="1.25rem"
-            color="rgb(107 114 128 / var(--tw-text-opacity))"
-          >
-            {element.descricao.length < 250
-              ? element.descricao
-              : element.descricao.substring(0, 50) + ' ...'}
+          <Box component="h5" padding="2rem">
+            {vaga?.descricao}
           </Box>
           <Box bgcolor="rgb(250 250 249)">
             <Box
@@ -110,10 +94,10 @@ export function Lista(props: ListaProps) {
               border-width="2px"
             >
               <Typography variant="subtitle2" color="rgb(148 163 184)">
-                {element.periodo}
+                {vaga?.periodo}
               </Typography>
               <Typography variant="subtitle2" color="#5E80BB" fontWeight="bold">
-                R$ {element.salario.toString().replace('.', ',')}
+                R$ {vaga?.salario.toString().replace('.', ',')}
               </Typography>
               <ButtonBase
                 sx={{
@@ -129,14 +113,13 @@ export function Lista(props: ListaProps) {
                     backgroundColor: '#4766AC'
                   }
                 }}
-                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
               >
-                <Box component="span">Alterar Vaga</Box>
+                <Box component="span">Candidatar-se</Box>
               </ButtonBase>
             </Box>
           </Box>
         </Box>
-      ))}
+      </Box>
     </Box>
   )
 }
