@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react'
 import { getVagasEmpresa, toggleVaga } from '../../../service/vagas'
 import { Box, Pagination, Typography } from '@mui/material'
 import { Lista } from '../../../components/ListaVagas/Empresa/ListaEmpresa'
+import { useStore } from '../../../hooks/stores'
 
 const pageSize = 3
 
 export function ListagemVagasEmpresa() {
+  const { loginStore } = useStore()
+  const [id, setId] = useState('')
   const [lista, setLista] = useState<
     {
       id: number
@@ -34,8 +37,9 @@ export function ListagemVagasEmpresa() {
   })
 
   const handleVagas = async () => {
-    const id = localStorage.getItem('id')
-    const newList = await getVagasEmpresa(Number(id))
+    setId(loginStore.user.id)
+    console.log(id)
+    const newList = await getVagasEmpresa(id, loginStore.token)
     const data = {
       count: newList.length,
       data: newList.slice(pagination.from, pagination.to)

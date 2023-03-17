@@ -66,11 +66,11 @@ export const CadastroCurriculo = observer(() => {
     createNewExperience();
     createNewIdioma();
     createNewCurso();
-    loginStore.setTypeUser('candidato');
   }, []);
 
   const createCurriculo = async () => {
     const response = await handleCreateCurriculo(
+      loginStore.token,
       id as any,
       createExperience,
       createIdioma,
@@ -79,7 +79,6 @@ export const CadastroCurriculo = observer(() => {
 
     setMessage('Currículo salvo com sucesso');
     showSnackBar(response.ok);
-    //navigate('candidato/vagas');
   };
 
   return (
@@ -90,10 +89,6 @@ export const CadastroCurriculo = observer(() => {
       minHeight="100vh"
       marginY={8}
     >
-      {/* {loginStore.typeUser && (
-        <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
-      )} */}
-
       <Content>
         <SectionCreate
           array={experiencias}

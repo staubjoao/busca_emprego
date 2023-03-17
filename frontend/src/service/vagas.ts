@@ -1,28 +1,38 @@
 import { api } from '../lib/axios';
 import { FormEvent } from 'react';
 
-export const getVagasEmpresa = async (id: Number) => {
-  const response = await api.get('usuario/empresa/vagas/'+id);
+export const getVagasCandidato = async (token: string) => {
+  const response = await api.get('usuario/candidato/vagas', {
+    headers: {
+      'authorization-token': token,
+    },
+  });
+
   return response.data.vagas;
 };
 
-export const getVagasCandidato = async () => {
-  const response = await api.get('usuario/candidato/vagas');
+export const getVagasEmpresa = async (id: string, token: string) => {
+  const response = await api.get('usuario/empresa/vagas/'+id, {
+    headers: {
+      'authorization-token': token,
+    },
+  });
+  console.log(response)
   return response.data.vagas;
 };
 
 export const getInfoVaga = async (id: Number) => {
-  const response =await api.get('usuario/empresa/exibir/vaga/'+id);
+  const response = await api.get('usuario/empresa/exibir/vaga/' + id);
   return response.data.vagas;
 };
 
-export const toggleVaga = async (id:number, visualizar:number) => {
+export const toggleVaga = async (id: number, visualizar: number) => {
   const response = await api.put('usuario/empresa/vagas/toggle', {
     id,
-    visualizar
-  })
-  return response.data
-}
+    visualizar,
+  });
+  return response.data;
+};
 
 export async function cadastroVaga(
   e: FormEvent,
@@ -74,7 +84,7 @@ export async function alteracaoVaga(
   }
 
   await api
-    .put('usuario/alterar/vaga/'+idVaga, {
+    .put('usuario/alterar/vaga/' + idVaga, {
       titulo,
       periodo,
       salario,
@@ -88,7 +98,7 @@ export async function alteracaoVaga(
     });
 }
 
-export async function exibirVaga(id: Number){
-  const response =  await api.get('/usuario/candidato/vagas/'+id)
-  return response.data.vaga
+export async function exibirVaga(id: Number) {
+  const response = await api.get('/usuario/candidato/vagas/' + id);
+  return response.data.vaga;
 }
