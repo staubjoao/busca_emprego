@@ -12,12 +12,11 @@ export function AlterarVaga() {
   const [periodo, setPeriodo] = useState('')
   const [salario, setSalario] = useState(0)
   const [descricao, setDescricao] = useState('')
-  const [canNavigate, setCanNavigate] = useState(false)
   const [objVaga, setObjVaga] = useState(Object)
 
-  const EmpresaId = localStorage.getItem('id')
   const idVaga = useParams()
   const navigate = useNavigate()
+  const EmpresaId = localStorage.getItem('id')
 
   function loadDadosVaga() {
     getInfoVaga(Number(idVaga.id)).then(res => setObjVaga(res))
@@ -25,7 +24,6 @@ export function AlterarVaga() {
     setPeriodo(objVaga.periodo)
     setSalario(objVaga.salario)
     setDescricao(objVaga.descricao)
-    console.log(objVaga)
   }
 
   useEffect(() => {
