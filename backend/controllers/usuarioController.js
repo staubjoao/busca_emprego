@@ -126,6 +126,7 @@ const usuarioController = {
   },
 };
 
+
   //Esse aqui é o certo :D
   // listarCurriculo: async (req, res) => {
   //   await curriculovaga
@@ -162,6 +163,6 @@ const usuarioController = {
   //       })
   //     })
   // }
-}
+
 
 module.exports = usuarioController

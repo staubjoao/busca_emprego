@@ -34,6 +34,8 @@ router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga)
 router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas)
 router.put('/empresa/vagas/toggle', vagaController.toggleVaga)
 router.get('/vagas/exibir/:id', vagaController.exibirDadosVaga)
-// router.get('/empresa/vaga/curriculos/:id', usuarioController.listarCurriculo) --> a rota da listagem de curriculos
+router.get('/empresa/vaga/curriculos/:id', curriculoController.listarCurriculos) //--> a rota da listagem de curriculos
+
+// router.get('/vagas/:idVaga/curriculos', curriculoController.listarCurriculos)
 
 module.exports = router;
