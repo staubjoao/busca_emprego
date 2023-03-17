@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 interface ListaProps {
   listagem: {
     id: number
@@ -14,7 +16,9 @@ interface ListaProps {
 }
 
 export function Lista(props: ListaProps) {
+  const navigate = useNavigate()
   const { listagem } = props
+
   return (
     <div>
       {listagem.map(e => (
@@ -77,7 +81,12 @@ export function Lista(props: ListaProps) {
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span className="ml-2">Visualizar Vaga</span>
+                <span
+                  className="ml-2"
+                  onClick={() => navigate('/candidato/vagas/' + e.id)}
+                >
+                  Visualizar Vaga
+                </span>
               </button>
             </div>
           </div>

@@ -1,5 +1,5 @@
-const models = require('../models')
-const jwt = require('jsonwebtoken')
+const models = require('../models');
+const jwt = require('jsonwebtoken');
 //const { sequelize } = require('../models') coisa do select em tempos sombrios
 
 let empresa = models.Empresa
@@ -13,15 +13,15 @@ const usuarioController = {
       .then(() => {
         return res.json({
           error: false,
-          message: 'Empresa criada com sucesso.'
-        })
+          message: 'Empresa criada com sucesso.',
+        });
       })
-      .catch(erro => {
+      .catch((erro) => {
         return res.status(400).json({
           error: true,
-          message: 'Falha na criação da empresa.'
-        })
-      })
+          message: 'Falha na criação da empresa.',
+        });
+      });
   },
 
   cadastroCandidato: async (req, res) => {
@@ -30,64 +30,65 @@ const usuarioController = {
       .then(() => {
         return res.json({
           error: false,
-          message: 'Candidato(a) criado(a) com sucesso.'
-        })
+          message: 'Candidato(a) criado(a) com sucesso.',
+        });
       })
-      .catch(erro => {
+      .catch((erro) => {
         return res.status(400).json({
           error: true,
-          message: 'Falha na criação do(a) candidato(a).'
-        })
-      })
+          message: 'Falha na criação do(a) candidato(a).',
+        });
+      });
   },
 
   loginCandidato: async (req, res) => {
-    const candidato = models.Curriculo
+    const candidato = models.Curriculo;
 
     let usuario = await candidato.findOne({
       where: {
         email: req.body.email,
-        senha: req.body.senha
-      }
-    })
+        senha: req.body.senha,
+      },
+    });
 
     if (!usuario)
-      return res.json({ erro: true, mensagem: 'Email ou senha inválido' })
+      return res.json({ erro: true, mensagem: 'Email ou senha inválido' });
 
     const token = jwt.sign(
       { _id: usuario._id, _cpf: usuario._cpf },
-      process.env.TOKEN_SECRET_CANDIDATO
-    )
-    res.header('authorization-token', token)
+      `${process.env.SECRET}`
+    );
+    console.log('NAME USER', usuario);
     res.json({
       id: usuario.id,
-      token: token
-    })
+      nome: usuario.nome,
+      token: token,
+    });
   },
 
   loginEmpresa: async (req, res) => {
-    const empresa = models.Empresa
+    const empresa = models.Empresa;
 
     let usuario = await empresa.findOne({
       where: {
         cnpj: req.body.cnpj,
-        senha: req.body.senha
-      }
-    })
+        senha: req.body.senha,
+      },
+    });
 
     if (!usuario)
-      return res.json({ erro: true, mensagem: 'Cnpj ou senha inválido' })
+      return res.json({ erro: true, mensagem: 'Cnpj ou senha inválido' });
 
     const token = jwt.sign(
       { _id: usuario._id, _cnpj: usuario._cnpj },
-      process.env.TOKEN_SECRET_EMPRESA
-    )
+      process.env.SECRET
+    );
 
-    res.header('authorization-token', token)
     res.json({
       id: usuario.id,
-      token: token
-    })
+      token: token,
+      nome: usuario.nome,
+    });
   },
 
   listarVagas: async (req, res) => {
@@ -98,19 +99,53 @@ const usuarioController = {
           {
             model: empresa,
             required: true,
-            attributes: ['nome', 'logo']
-          }
-        ]
+            attributes: ['nome', 'logo'],
+          },
+        ],
       })
-      .then(vagas => res.json({ vagas }))
-      .catch(erro => {
+      .then((vagas) => res.json({ vagas }))
+      .catch((erro) => {
         return res.status(400).json({
           error: true,
-          message: erro
-        })
+          message: erro,
+        });
+      });
+  },
+  exibirDadosVaga: async (req, res) => {
+    await vaga
+      .findOne({
+        where: { id: req.params.id },
       })
-  }
+      .then((vagas) => res.json({ vagas }))
+      .catch((erro) => {
+        return res.status(400).json({
+          error: true,
+          message: erro,
+        });
+      });
+  },
+};
 
+  //Esse aqui é o certo :D
+  // listarCurriculo: async (req, res) => {
+  //   await curriculovaga
+  //     .findAll({
+  //       where: { VagaId: req.params.id },
+  //       include: [
+  //         {
+  //           model: candidato,
+  //           required: true
+  //         }
+  //       ]
+  //     })
+  //     .then(vagas => res.json({ vagas }))
+  //     .catch(erro => {
+  //       return res.status(400).json({
+  //         error: true,
+  //         message: erro
+  //       })
+  //     })
+  // }
 
   //Select em casos de dar td errado
   //   await sequelize

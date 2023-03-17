@@ -1,7 +1,6 @@
 import { Box, Typography, Link, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../../hooks/stores';
-import { observer } from 'mobx-react-lite';
 import {
   ExitButton,
   InputCnpj,
@@ -12,15 +11,20 @@ import {
 import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
 import paper from '../../../assets/images/paper.svg';
 import line from '../../../assets/icons/line.svg';
-import { autenticacaoLoginEmpresa } from '../../../service/login';
-import { useState } from 'react';
 
-export function LoginEmpresa() {
-  const [cnpj, setCnpj] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const [canNavigate, setCanNavigate] = useState(false);
+import { observer } from 'mobx-react-lite';
+
+export const LoginEmpresa = observer(() => {
   const navigate = useNavigate();
+  const { loginStore } = useStore();
+
+  const handleLogin = async () => {
+    const response = await loginStore.authEmpresa();
+    if (response.ok) {
+      loginStore.getPersistedStore();
+      navigate('/empresa/curriculos');
+    }
+  };
 
   return (
     <Box
@@ -90,101 +94,96 @@ export function LoginEmpresa() {
           Faça Login
         </Typography>
         <Box sx={{ width: '55%', margin: '0 auto' }}>
-          <form
-            onSubmit={(e) => {
-              autenticacaoLoginEmpresa(e, cnpj, senha, setErro, setCanNavigate);
-              navigate('/empresa/vagas/' + localStorage.getItem('id'));
-            }}
+          <Box position="relative">
+            <EmailOutlined
+              sx={{
+                position: 'absolute',
+                top: 14,
+                left: 9,
+                color: '#E7E7E7',
+              }}
+            />
+            <InputCnpj
+              required
+              placeholder="CNPJ"
+              id="cnpj"
+              value={loginStore.cnpj}
+              autoFocus
+              onChange={(event) => loginStore.setCnpj(event.target.value)}
+              mask="99.999.999/9999-99"
+            />
+          </Box>
+
+          <Box position="relative">
+            <LockOutlined
+              sx={{
+                position: 'absolute',
+                top: 14,
+                left: 9,
+                color: '#E7E7E7',
+              }}
+            />
+            <InputLogin
+              required
+              type="password"
+              placeholder="Senha"
+              id="senha"
+              value={loginStore.senha}
+              autoFocus
+              onChange={(event) => loginStore.setSenha(event.target.value)}
+            />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginTop="0.5rem"
+            marginBottom="1rem"
           >
-            <Box position="relative">
-              <EmailOutlined
-                sx={{
-                  position: 'absolute',
-                  top: 14,
-                  left: 9,
-                  color: '#E7E7E7',
-                }}
-              />
-              <InputCnpj
-                required
-                placeholder="CNPJ"
-                id="cnpj"
-                value={cnpj}
-                autoFocus
-                onChange={(event) => setCnpj(event.target.value)}
-                mask="99.999.999/9999-99"
-              />
-            </Box>
-
-            <Box position="relative">
-              <LockOutlined
-                sx={{
-                  position: 'absolute',
-                  top: 14,
-                  left: 9,
-                  color: '#E7E7E7',
-                }}
-              />
-              <InputLogin
-                required
-                type="password"
-                placeholder="Senha"
-                id="senha"
-                value={senha}
-                autoFocus
-                onChange={(event) => setSenha(event.target.value)}
-              />
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              marginTop="0.5rem"
-              marginBottom="1rem"
+            {loginStore.error !== '' ? (
+              <Box component="span" color="red" textAlign="left">
+                {loginStore.error}
+              </Box>
+            ) : (
+              <div></div>
+            )}
+            <Link
+              display="inline-block"
+              textAlign="right"
+              color="#6F74DD"
+              sx={{
+                textDecoration: 'none',
+                ':hover': {
+                  cursor: 'pointer',
+                },
+              }}
+              onClick={() => navigate('/')}
             >
-              {erro !== '' ? (
-                <Box component="span" color="red" textAlign="left">
-                  {erro}
-                </Box>
-              ) : (
-                <div></div>
-              )}
-              <Link
-                display="inline-block"
-                textAlign="right"
-                color="#6F74DD"
-                sx={{
-                  textDecoration: 'none',
-                  ':hover': {
-                    cursor: 'pointer',
-                  },
-                }}
-                onClick={() => navigate('/')}
-              >
-                Esqueceu a senha?
-              </Link>
-            </Box>
+              Esqueceu a senha?
+            </Link>
+          </Box>
 
-            <LoginButton type="submit">Entrar</LoginButton>
-            <Box textAlign="center" margin="0.5rem">
-              <Typography
-                color="#828282"
-                marginBottom="2rem"
-                display="flex"
-                justifyContent="center"
-                gap="0.5rem"
-              >
-                <img src={line} />
-                Ou
-                <img src={line} />
-              </Typography>
-              <Typography color="#828282">Ainda não tem uma conta?</Typography>
-            </Box>
-            <RegisterButton onClick={() => navigate('/cadastro/empresa')}>
-              Cadastrar
-            </RegisterButton>
-          </form>
+          <LoginButton type="submit" onClick={handleLogin}>
+            Entrar
+          </LoginButton>
+          <Box textAlign="center" margin="0.5rem">
+            <Typography
+              color="#828282"
+              marginBottom="2rem"
+              display="flex"
+              justifyContent="center"
+              gap="0.5rem"
+            >
+              <img src={line} />
+              Ou
+              <img src={line} />
+            </Typography>
+            <Typography color="#828282">Ainda não tem uma conta?</Typography>
+          </Box>
+          <RegisterButton onClick={() => navigate('/cadastro/empresa')}>
+            Cadastrar
+          </RegisterButton>
         </Box>
       </Box>
     </Box>
   );
-}
+});

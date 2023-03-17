@@ -1,11 +1,11 @@
-import { Box, ButtonBase, IconButton, Typography } from '@mui/material'
+import { Box, ButtonBase, IconButton, Switch, Typography } from '@mui/material'
 import empresaIcon from '../../../assets/icons/empresaIcon.svg'
 import {
   RemoveRedEyeOutlined,
-  VisibilityOffOutlined
+  VisibilityOffOutlined,
+  EditOutlined
 } from '@mui/icons-material'
 import { toggleVaga } from '../../../service/vagas'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface ListaProps {
@@ -15,7 +15,7 @@ interface ListaProps {
     descricao: string
     periodo: string
     salario: number
-    visualizar: boolean
+    visualizar: number
     EmpresaId: number
     Empresa: {
       nome: string
@@ -27,21 +27,17 @@ interface ListaProps {
 export function Lista(props: ListaProps) {
   const { listagem } = props
   const navigate = useNavigate()
-  const [changeIcon, setChangeIcon] = useState(Boolean)
 
-  function toggle(id: number, visualizar: boolean) {
-    const retToggle = toggleVaga(id, visualizar)
-    retToggle.then(res => {
-      res == 1 ? setChangeIcon(true) : setChangeIcon(false)
-      console.log(res)
-    })
+  async function toggle(id: number, visualizar: number) {
+    const retToggle = await toggleVaga(id, visualizar)
+    console.log(retToggle)
   }
 
   return (
     <Box>
       {listagem.map(element => (
         <Box
-          key={element.EmpresaId}
+          key={element.id}
           marginX="auto"
           maxWidth="32rem"
           bgcolor="#FFFFFF"
@@ -81,16 +77,18 @@ export function Lista(props: ListaProps) {
                 </Typography>
               </Box>
             </Box>
-            <div onClick={e => toggle(element.id, element.visualizar)}>
-              <input type="hidden" value={element.id}></input>
-              <IconButton>
-                {element.visualizar === true ? (
-                  <RemoveRedEyeOutlined />
-                ) : (
-                  <VisibilityOffOutlined />
-                )}
+            <Box display="flex">
+              <IconButton
+                onClick={() => toggle(element.id, element.visualizar)}
+              >
+                <RemoveRedEyeOutlined />
               </IconButton>
-            </div>
+              <IconButton
+                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
+              >
+                <EditOutlined />
+              </IconButton>
+            </Box>
           </Box>
 
           <Box
@@ -101,7 +99,9 @@ export function Lista(props: ListaProps) {
             paddingBottom="1.25rem"
             color="rgb(107 114 128 / var(--tw-text-opacity))"
           >
-            {element.descricao}
+            {element.descricao.length < 250
+              ? element.descricao
+              : element.descricao.substring(0, 50) + ' ...'}
           </Box>
           <Box bgcolor="rgb(250 250 249)">
             <Box
@@ -132,9 +132,8 @@ export function Lista(props: ListaProps) {
                     backgroundColor: '#4766AC'
                   }
                 }}
-                onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
               >
-                <Box component="span">Alterar Vaga</Box>
+                <Box component="span">Listar Currículos</Box>
               </ButtonBase>
             </Box>
           </Box>

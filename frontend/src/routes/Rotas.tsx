@@ -1,12 +1,13 @@
-import { TelaInicial } from '../screens/TelaInicial'
-import { Route, Routes } from 'react-router-dom'
+import { AppRoutes } from './AppRoutes';
+import { AuthRoutes } from './AuthRoutes';
+import { useStore } from '../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
 import {
   CadastroCandidato,
   CadastroEmpresa,
   CadastroVaga,
   ListagemCurriculos,
-  ListagemCurriculoCompleto,
   ListagemVagasCandidato,
   LoginCandidato,
   LoginEmpresa,
@@ -27,7 +28,7 @@ export function Rotas() {
       <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
       <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
       <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
-      <Route path="empresa/curriculo/:id" element={<ListagemCurriculoCompleto />} />
+      <Route path="empresateste/curriculos" element={<ListagemCurriculos />} />
       <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
       <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />
     </Routes>
