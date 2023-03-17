@@ -63,26 +63,6 @@ const curriculo = {
           message: erro
         })
       })
-
-    // await vaga.findAll(
-    //   {
-    //     where: { id: idVaga },
-    //     include: [
-    //       {
-    //         model: curriculo, 
-    //         association: 'CurriculosVagas',
-    //         require: true,
-    //         attributes: ['nome', 'email']
-    //       }
-    //     ]
-    //   }
-    // ).then(curriculos => res.json({ curriculos }))
-    //   .catch(erro => {
-    //     return res.status(400).json({
-    //       erro: true,
-    //       message: erro
-    //     })
-    //   })
   },
 
   listarCurriculo: async(req, res) => {
