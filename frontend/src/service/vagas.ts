@@ -17,12 +17,15 @@ export const getVagasEmpresa = async (id: string, token: string) => {
       'authorization-token': token,
     },
   });
-  console.log(response)
   return response.data.vagas;
 };
 
-export const getInfoVaga = async (id: Number) => {
-  const response = await api.get('usuario/empresa/exibir/vaga/' + id);
+export const getInfoVaga = async (id: string, token: string) => {
+  const response = await api.get('usuario/empresa/exibir/vaga/' + id, {
+    headers: {
+      'authorization-token': token,
+    },
+  });
   return response.data.vagas;
 };
 

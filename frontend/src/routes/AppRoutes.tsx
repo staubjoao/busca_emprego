@@ -6,7 +6,7 @@ import {
   CadastroCandidato,
   CadastroEmpresa,
   CadastroVaga,
-  ListagemCurriculos,
+  // ListagemCurriculos,
   CadastroCurriculo,
   ListagemVagasCandidato
 } from '../screens'
@@ -22,8 +22,8 @@ export function AppRoutes() {
         <Route path="cadastro/empresa" element={<CadastroEmpresa />} />
         <Route path="cadastro/candidato" element={<CadastroCandidato />} />
         <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
+        {/* <Route path="empresa/curriculos" element={<ListagemCurriculos />} /> */}
         <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
-        <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
         <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
         <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
       </Routes>

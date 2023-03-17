@@ -30,7 +30,6 @@ export function Lista(props: ListaProps) {
 
   async function toggle(id: number, visualizar: number) {
     const retToggle = await toggleVaga(id, visualizar)
-    console.log(retToggle)
   }
 
   return (

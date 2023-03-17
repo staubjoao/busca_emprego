@@ -4,12 +4,13 @@ import { getVagasEmpresa, toggleVaga } from '../../../service/vagas'
 import { Box, Pagination, Typography } from '@mui/material'
 import { Lista } from '../../../components/ListaVagas/Empresa/ListaEmpresa'
 import { useStore } from '../../../hooks/stores'
+import { useParams } from 'react-router-dom'
 
 const pageSize = 3
 
 export function ListagemVagasEmpresa() {
   const { loginStore } = useStore()
-  const [id, setId] = useState('')
+  const idEmpresa = useParams()
   const [lista, setLista] = useState<
     {
       id: number
@@ -37,15 +38,15 @@ export function ListagemVagasEmpresa() {
   })
 
   const handleVagas = async () => {
-    setId(loginStore.user.id)
-    console.log(id)
-    const newList = await getVagasEmpresa(id, loginStore.token)
-    const data = {
-      count: newList.length,
-      data: newList.slice(pagination.from, pagination.to)
+    if (idEmpresa.id !== undefined) {
+      const newList = await getVagasEmpresa(idEmpresa.id, loginStore.token)
+      const data = {
+        count: newList.length,
+        data: newList.slice(pagination.from, pagination.to)
+      }
+      setLista(data.data)
+      setPagination({ ...pagination, count: data.count })
     }
-    setLista(data.data)
-    setPagination({ ...pagination, count: data.count })
   }
 
   useEffect(() => {
