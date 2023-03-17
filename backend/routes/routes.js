@@ -18,14 +18,24 @@ router.post('/login/empresa', usuarioController.loginEmpresa)
 //criar currículo
 router.post('/curriculo/:idCandidato', curriculoController.createCurriculo)
 
-//rota de funcionalidades candidato
+//rota de funcionalidades candidato:
+
+//lista todas as vagas que tem no site para o candidato
 router.get('/candidato/vagas', usuarioController.listarVagas)
+//pega uma vaga especifica da listagem de vagas para o candidato
 router.get('/candidato/vagas/:id', usuarioController.exibirDadosVaga)
 
-//rota de cadastro e listagem das vagas
+//rota de funcionalidades empresa
+
+//rota de cadastro de vaga
 router.post('/cadastro/vaga', vagaController.cadastroVaga)
+//rota para alterar uma vaga
 router.put('/alterar/vaga/:idVaga', vagaController.alterarVaga)
+//rota para listar as vagas da empresa
 router.get('/empresa/vagas/:idEmpresa', vagaController.listarVagas)
+//rota para deixar uma vaga visível ou não
 router.put('/empresa/vagas/toggle', vagaController.toggleVaga)
+//rota que exibe dados de uma vaga (essa rota servirá para a alteração da vaga e somente ela)
+router.get('/empresa/exibir/vaga/:id', vagaController.exibirDadosVaga)
 
 module.exports = router

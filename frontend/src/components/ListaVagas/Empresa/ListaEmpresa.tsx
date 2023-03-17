@@ -14,7 +14,7 @@ interface ListaProps {
     titulo: string
     descricao: string
     periodo: string
-    salario: number
+    salario: number | null
     visualizar: number
     EmpresaId: number
     Empresa: {
@@ -116,7 +116,9 @@ export function Lista(props: ListaProps) {
                 {element.periodo}
               </Typography>
               <Typography variant="subtitle2" color="#5E80BB" fontWeight="bold">
-                R$ {element.salario.toString().replace('.', ',')}
+                {element.salario !== null
+                  ? 'R$ ' + element.salario?.toString().replace('.', ',')
+                  : 'Faixa de salário indisponível'}
               </Typography>
               <ButtonBase
                 sx={{
