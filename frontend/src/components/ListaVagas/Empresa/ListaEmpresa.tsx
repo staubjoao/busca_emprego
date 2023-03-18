@@ -7,6 +7,7 @@ import {
 } from '@mui/icons-material'
 import { toggleVaga } from '../../../service/vagas'
 import { useNavigate } from 'react-router-dom'
+import { useStore } from '../../../hooks/stores'
 
 interface ListaProps {
   listagem: {
@@ -27,9 +28,11 @@ interface ListaProps {
 export function Lista(props: ListaProps) {
   const { listagem } = props
   const navigate = useNavigate()
+  const { loginStore } = useStore()
+  const token = loginStore.token
 
-  async function toggle(id: number, visualizar: number) {
-    const retToggle = await toggleVaga(id, visualizar)
+  async function toggle(id: string, visualizar: number, token: string) {
+    const retToggle = await toggleVaga(id, visualizar, token)
   }
 
   return (
@@ -78,7 +81,9 @@ export function Lista(props: ListaProps) {
             </Box>
             <Box display="flex">
               <IconButton
-                onClick={() => toggle(element.id, element.visualizar)}
+                onClick={() =>
+                  toggle(element.id.toString(), element.visualizar, token)
+                }
               >
                 <RemoveRedEyeOutlined />
               </IconButton>
@@ -115,6 +120,7 @@ export function Lista(props: ListaProps) {
                 {element.periodo}
               </Typography>
               <Typography variant="subtitle2" color="#5E80BB" fontWeight="bold">
+                R${' '}
                 {element.salario !== null
                   ? 'R$ ' + element.salario?.toString().replace('.', ',')
                   : 'Faixa de salário indisponível'}

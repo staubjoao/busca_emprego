@@ -3,16 +3,18 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { exibirVaga } from '../../../service/vagas'
 import empresaIcon from '../../../assets/icons/empresaIcon.svg'
+import { useStore } from '../../../hooks/stores'
 
 export function ExibirVaga() {
-  const id = useParams()
+  const idVaga = useParams()
+  const { loginStore } = useStore()
 
   const [vaga, setVaga] = useState<{
     id: number
     titulo: string
     descricao: string
     periodo: string
-    salario: number
+    salario: number | null
     visualizar: boolean
     EmpresaId: number
     Empresa: {
@@ -22,8 +24,9 @@ export function ExibirVaga() {
   }>()
 
   const handleVagas = async () => {
-    const especVaga = await exibirVaga(Number(id.id))
-    setVaga(especVaga)
+    if (idVaga.id !== undefined) {
+      await exibirVaga(idVaga.id, loginStore.token).then(res => setVaga(res))
+    }
   }
 
   useEffect(() => {
@@ -97,7 +100,10 @@ export function ExibirVaga() {
                 {vaga?.periodo}
               </Typography>
               <Typography variant="subtitle2" color="#5E80BB" fontWeight="bold">
-                R$ {vaga?.salario.toString().replace('.', ',')}
+                R${' '}
+                {vaga?.salario !== null
+                  ? 'R$ ' + vaga?.salario.toString().replace('.', ',')
+                  : 'Faixa de salário indisponível'}
               </Typography>
               <ButtonBase
                 sx={{

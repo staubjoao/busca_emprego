@@ -15,14 +15,14 @@ export function AlterarVaga() {
   const [salario, setSalario] = useState(0)
   const [descricao, setDescricao] = useState('')
   const [objVaga, setObjVaga] = useState(Object)
+  const token = loginStore.token
 
   const idVaga = useParams()
   const navigate = useNavigate()
-  const EmpresaId = localStorage.getItem('id')
 
   function loadDadosVaga() {
     if (idVaga.id !== undefined) {
-      getInfoVaga(idVaga.id, loginStore.token).then(res => setObjVaga(res))
+      getInfoVaga(idVaga.id, token).then(res => setObjVaga(res))
       setTitulo(objVaga.titulo)
       setPeriodo(objVaga.periodo)
       setSalario(objVaga.salario)
@@ -64,10 +64,11 @@ export function AlterarVaga() {
                 periodo,
                 descricao,
                 salario,
-                EmpresaId,
-                setErro
+                loginStore.user.id,
+                setErro,
+                token
               )
-              navigate('/empresa/vagas/' + EmpresaId)
+              navigate('/empresa/vagas/' + loginStore.user.id)
             }}
           >
             <Typography

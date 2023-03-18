@@ -29,15 +29,20 @@ export const getInfoVaga = async (id: string, token: string) => {
   return response.data.vagas;
 };
 
-export const toggleVaga = async (id: number, visualizar: number) => {
+export const toggleVaga = async (id: string, visualizar: number, token: string) => {
   const response = await api.put('usuario/empresa/vagas/toggle', {
     id,
     visualizar,
+  } , {
+    headers: {
+      'authorization-token': token,
+    }
   });
   return response.data;
 };
 
 export async function cadastroVaga(
+  token: string,
   e: FormEvent,
   titulo: string,
   periodo: string,
@@ -53,6 +58,8 @@ export async function cadastroVaga(
     return;
   }
 
+  console.log('ola')
+  
   await api
     .post('usuario/cadastro/vaga', {
       titulo,
@@ -60,7 +67,11 @@ export async function cadastroVaga(
       salario,
       descricao,
       EmpresaId,
-    })
+    } , {
+      headers: {
+        'authorization-token': token,
+      }
+    }, )
     .then((res) => {
       if (res.data.erro) {
         setError(res.data.mensagem);
@@ -78,10 +89,10 @@ export async function alteracaoVaga(
   descricao: string,
   salario: number,
   EmpresaId: string | null,
-  setError: (error: string) => void
+  setError: (error: string) => void,
+  token: string
 ) {
   e.preventDefault();
-
   if (titulo === '' || periodo === '' || descricao === '') {
     return;
   }
@@ -92,7 +103,11 @@ export async function alteracaoVaga(
       periodo,
       salario,
       descricao,
-      EmpresaId,
+      EmpresaId
+    }, {
+      headers: {
+        'authorization-token': token,
+      }
     })
     .then((res) => {
       if (res.data.erro) {
@@ -101,7 +116,11 @@ export async function alteracaoVaga(
     });
 }
 
-export async function exibirVaga(id: Number) {
-  const response = await api.get('/usuario/candidato/vagas/' + id);
-  return response.data.vaga;
+export async function exibirVaga(id: string, token: string) {
+  const response = await api.get('/usuario/candidato/vagas/' + id, {
+    headers: {
+      'authorization-token': token,
+    }
+  });
+  return response.data.vagas;
 }
