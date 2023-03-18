@@ -17,7 +17,7 @@ export const createCandidato = async (
   deficiencia: string,
   cep: string
 ) => {
-  console.log('ENTROU');
+
   const response = await api.post('/usuario/cadastro/candidatos', {
     email,
     senha,
@@ -35,8 +35,6 @@ export const createCandidato = async (
     deficiencia,
     cep
   });
-
-  console.log('RESPONSE', response);
 
   return { ok: response.statusText };
 };

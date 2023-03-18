@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   Box,
   List,
@@ -8,8 +8,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+  ListItemText
+} from '@mui/material'
 
 import {
   Dashboard,
@@ -17,78 +17,78 @@ import {
   ListAlt,
   ChevronLeft,
   ChevronRight,
-  Logout,
-} from '@mui/icons-material';
+  Logout
+} from '@mui/icons-material'
 
-import * as Styled from './styles';
-import { useStore } from '../../hooks/stores';
+import * as Styled from './styles'
+import { useStore } from '../../hooks/stores'
 
 interface SideBarProps {
-  typeUser: string;
-  navigate: any;
+  typeUser: string
+  navigate: any
 }
 
-const empresaScreens = [
+const empresaScreens = (idEMpresa: string | undefined) => [
   {
     name: 'Curriculos',
-    navigateTo: '/empresa/curriculos',
+    navigateTo: '/empresa/curriculos' //essa daqui n vamos usar porque para listar os currículos precisamos do id da vaga
   },
   {
     name: 'Cadastrar vagas',
-    navigateTo: '/empresa/cadastro-vagas',
+    navigateTo: '/empresa/cadastro/vaga'
   },
   {
     name: 'Vagas',
-    navigateTo: '/empresa/vagas',
-  },
-];
+    navigateTo: `/empresa/vagas/${idEMpresa}`
+  }
+]
 
 const candidatoScreens = (idCandidato: string | undefined) => [
   {
     name: 'Vagas',
-    navigateTo: '/candidato/vagas',
+    navigateTo: '/candidato/vagas'
   },
   {
     name: 'Cadastrar currículo',
-    navigateTo: `/candidato/${idCandidato}/curriculo`,
-  },
-];
+    navigateTo: `/candidato/${idCandidato}/curriculo`
+  }
+]
 
 const empresaIcons = (screen: string) => {
   switch (screen) {
     case 'Curriculos':
-      return <Dashboard />;
+      return <Dashboard />
     case 'Cadastrar vagas':
-      return <ListAlt />;
+      return <ListAlt />
     case 'Vagas':
-      return <PermContactCalendar />;
+      return <PermContactCalendar />
     default:
-      break;
+      break
   }
-};
+}
 
 const candidatoIcons = (screen: string) => {
   switch (screen) {
     case 'Vagas':
-      return <Dashboard />;
+      return <Dashboard />
     case 'Cadastrar currículo':
-      return <PermContactCalendar />;
+      return <PermContactCalendar />
     default:
-      break;
+      break
   }
-};
+}
 
 export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
-  const [open, setOpen] = React.useState(false);
-  const { loginStore } = useStore();
+  const [open, setOpen] = React.useState(false)
+  const { loginStore } = useStore()
   const screens =
     typeUser === 'empresa'
-      ? empresaScreens
-      : candidatoScreens(loginStore.user.id);
+      ? empresaScreens(loginStore.user.id)
+      : candidatoScreens(loginStore.user.id)
 
   const handleDrawerOpen = (open: boolean) => {
-    setOpen(!open);
-  };
+    setOpen(!open)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -111,7 +111,7 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: 2.5
                 }}
                 onClick={() => navigate(item.navigateTo)}
               >
@@ -119,7 +119,7 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   {typeUser === 'empresa'
@@ -137,8 +137,8 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
         {open ? (
           <Styled.Button
             onClick={() => {
-              loginStore.logout();
-              navigate('/');
+              loginStore.logout()
+              navigate('/')
             }}
           >
             <Logout sx={{ color: '#eee' }} fontSize="small" />
@@ -147,8 +147,8 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
         ) : (
           <Styled.Button
             onClick={() => {
-              loginStore.logout();
-              navigate('/');
+              loginStore.logout()
+              navigate('/')
             }}
           >
             <Logout sx={{ color: '#eee' }} fontSize="small" />
@@ -156,5 +156,5 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
         )}
       </Styled.Drawer>
     </Box>
-  );
+  )
 }
