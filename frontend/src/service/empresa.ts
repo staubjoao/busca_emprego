@@ -16,7 +16,6 @@ export const createEmpresa = async (
     complemento: string,
     telefone: string
 ) => {
-    console.log('ENTROU');
     const response = await api.post(`/usuario/cadastro/empresas`, {
         email,
         senha,
@@ -33,8 +32,6 @@ export const createEmpresa = async (
         complemento,
         telefone
     });
-
-    console.log('RESPONSE', response);
 
     return { ok: response.statusText };
 };

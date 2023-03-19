@@ -6,7 +6,7 @@ interface ListaProps {
     titulo: string
     descricao: string
     periodo: string
-    salario: number
+    salario: number | null
     EmpresaId: number
     Empresa: {
       nome: string
@@ -52,14 +52,18 @@ export function Lista(props: ListaProps) {
             </span>
           </div>
           <div className="mx-2 text-sm text-gray-500 mt-2 px-5 pb-5">
-            {e.descricao}
+            {e.descricao.length < 250
+              ? e.descricao
+              : e.descricao.substring(0, 50) + ' ...'}
           </div>
           <hr />
           <div className="bg-stone-50">
             <div className="p-5 mx-2 flex justify-between items-center">
               <p className="text-slate-400">{e.periodo}</p>
               <p className="text-background1 font-bold">
-                R$ {e.salario.toString().replace('.', ',')}
+                {e.salario !== null
+                  ? 'R$ ' + e.salario?.toString().replace('.', ',')
+                  : 'Faixa de salário indisponível'}
               </p>
               <button className="bg-background1 text-white py-2.5 px-6 rounded text-sm flex items-center">
                 <svg

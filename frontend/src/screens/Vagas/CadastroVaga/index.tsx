@@ -1,18 +1,43 @@
-import IMaskInput from 'react-input-mask';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { cadastroVaga } from '../../../service/vagas';
+import IMaskInput from 'react-input-mask'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
+import { cadastroVaga } from '../../../service/vagas'
+import { useStore } from '../../../hooks/stores'
 
 export function CadastroVaga() {
-  const [erro, setErro] = useState('');
-  const [titulo, setTitulo] = useState('');
-  const [periodo, setPeriodo] = useState('');
-  const [salario, setSalario] = useState(0);
-  const [descricao, setDescricao] = useState('');
-  const [canNavigate, setCanNavigate] = useState(false);
+  const { loginStore, vagaStore } = useStore()
+  const {
+    erro,
+    setErro,
+    titulo,
+    periodo,
+    salario,
+    descricao,
+    setCanNavigate,
+    canNavigate,
+    setTitulo,
+    setSalario,
+    setDescricao,
+    setPeriodo
+  } = vagaStore
+  const navigate = useNavigate()
+  const token = loginStore.token
 
-  const EmpresaId = localStorage.getItem('id');
-  const navigate = useNavigate();
+  const handleVaga = async (e: FormEvent) => {
+    console.log(descricao)
+    vagaStore.handleCreateVaga(
+      token,
+      e,
+      titulo,
+      periodo,
+      descricao,
+      salario,
+      loginStore.user.id,
+      setErro,
+      setCanNavigate
+    )
+    canNavigate && navigate('/empresa/vagas/' + loginStore.user.id)
+  }
 
   return (
     <div>
@@ -42,23 +67,7 @@ export function CadastroVaga() {
       </div>
       <div className="bg-stone-100 h-vh-77">
         <div className="container mx-auto max-w-lg p-8 bg-white rounded-lg mt-10 relative bottom-10">
-          <form
-            className="ml-2"
-            onSubmit={(e) => {
-              cadastroVaga(
-                e,
-                titulo,
-                periodo,
-                descricao,
-                salario,
-                EmpresaId,
-                setErro,
-                setCanNavigate
-              );
-
-              canNavigate && navigate('/empresa/curriculos');
-            }}
-          >
+          <form className="ml-2" onSubmit={handleVaga}>
             <h4 className="text-xl font-semibold">Dados da Vaga</h4>
 
             <hr className="mt-2" />
@@ -71,8 +80,7 @@ export function CadastroVaga() {
                 className="bg-stone-100 rounded border w-full p-1 focus:outline-none focus:ring-2 focus:ring-background1"
                 type="text"
                 id="titulo"
-                value={titulo}
-                onChange={(event) => setTitulo(event.target.value)}
+                onChange={event => setTitulo(event.target.value)}
               />
             </div>
 
@@ -84,8 +92,7 @@ export function CadastroVaga() {
                 className="bg-stone-100 rounded border w-full p-1 focus:outline-none focus:ring-2 focus:ring-background1"
                 type="text"
                 id="periodo"
-                value={periodo}
-                onChange={(event) => setPeriodo(event.target.value)}
+                onChange={event => setPeriodo(event.target.value)}
               />
             </div>
 
@@ -98,7 +105,7 @@ export function CadastroVaga() {
                 mask="R$ 99999999999"
                 id="salario"
                 maskChar={''}
-                onChange={(event) =>
+                onChange={event =>
                   setSalario(parseFloat(event.target.value.slice(3)))
                 }
               />
@@ -112,7 +119,7 @@ export function CadastroVaga() {
                 className="bg-stone-100 rounded border w-full p-1 h-64 focus:outline-none focus:ring-2 focus:ring-background1"
                 id="descricao"
                 value={descricao}
-                onChange={(event) => setDescricao(event.target.value)}
+                onChange={event => setDescricao(event.target.value)}
               />
             </div>
 
@@ -149,5 +156,5 @@ export function CadastroVaga() {
         </div>
       </div>
     </div>
-  );
+  )
 }
