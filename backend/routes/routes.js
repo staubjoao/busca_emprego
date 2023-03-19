@@ -23,6 +23,7 @@ router.post('/candidatar', curriculoController.candidatar);
 
 // //rota de funcionalidades candidato
 router.get('/candidato/vagas', vagaController.listarVagas);
+router.get('/candidato/vagas', usuarioController.listarVagas);
 
 router.use(authEmpresa);
 router.get(
