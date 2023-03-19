@@ -3,8 +3,6 @@ import Sidebar from '../components/Sidebar'
 import { useStore } from '../hooks/stores'
 
 import {
-  CadastroCandidato,
-  CadastroEmpresa,
   CadastroVaga,
   // ListagemCurriculos,
   CadastroCurriculo,
@@ -21,8 +19,6 @@ export function AppRoutes() {
     <>
       <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
       <Routes>
-        <Route path="cadastro/empresa" element={<CadastroEmpresa />} />
-        <Route path="cadastro/candidato" element={<CadastroCandidato />} />
         <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
         {/* <Route path="empresa/curriculos" element={<ListagemCurriculos />} /> */}
         <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />

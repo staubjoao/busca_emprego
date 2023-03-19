@@ -65,7 +65,7 @@ const curriculo = {
       })
   },
 
-  listarCurriculo: async(req, res) => {
+  listarCurriculo: async (req, res) => {
     const curriculo = models.Curriculo
     const cursos = models.Cursos
     const experiencias = models.Experiencias
@@ -103,14 +103,67 @@ const curriculo = {
         }
       ]
     })
-    .then(curriculo => res.json({ curriculo }))
+      .then(curriculo => res.json({ curriculo }))
       .catch(erro => {
         return res.status(400).json({
           error: true,
           message: erro
         })
       })
-  }
+  },
+  
+  candidatar: async (req, res) => {
+    const { idVaga, idCandidato } = req.body;
+
+    let vagaExists = await vaga.findOne({
+      where: {
+        id: idVaga,
+      },
+    });
+
+    let candidatoExists = await candidatoModel.findOne({
+      where: {
+        id: idCandidato,
+      },
+    });
+
+    if (!vagaExists) {
+      return res.json({ ok: false, data: 'Vaga não existe no banco' });
+    }
+
+    if (!candidatoExists) {
+      return res.json({ ok: false, data: 'Candidato(a) não existe no banco' });
+    }
+
+    let alreadyCandidato = await curriculoVaga.findOne({
+      where: {
+        VagaId: idVaga,
+        CurriculoId: idCandidato,
+      },
+    });
+
+    if (alreadyCandidato) {
+      return res.json({
+        ok: false,
+        data: 'Candidato(a) já se candidatou à vaga',
+      });
+    }
+
+    try {
+      const response = await curriculoVaga.create({
+        VagaId: idVaga,
+        CurriculoId: idCandidato,
+      });
+
+      res.json({ ok: true, data: response });
+    } catch (e) {
+      res.status(500);
+      return res.json({
+        data: e,
+        ok: false,
+      });
+    }
+  },
 };
 
 module.exports = curriculo;

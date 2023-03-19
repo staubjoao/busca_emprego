@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material'
-import { useEffect, useState, FormEvent, forwardRef } from 'react';
+import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material';
+import { useState, forwardRef } from 'react';
 import InputMask from "react-input-mask";
 import { validateGenerico, validateEmpresa } from '../../../utils';
 import { useStore } from '../../../hooks/stores';
@@ -190,52 +190,6 @@ export const CadastroEmpresa = observer(() => {
     );
     showSnackBar(response.ok);
   };
-  // async function cadastrar(e: FormEvent) {
-  //   e.preventDefault()
-
-
-  //   await api
-  //     .post('/usuario/cadastro/empresas', {
-  //       email,
-  //       senha,
-  //       nome,
-  //       ramo,
-  //       cnpj,
-  //       pais,
-  //       cep,
-  //       estado,
-  //       cidade,
-  //       endereco,
-  //       numero,
-  //       bairro,
-  //       complemento,
-  //       telefone
-  //     })
-  //     .then(res => {
-  //       setOpenSnackbar(true)
-  //       setSeverity('success')
-  //       setMensagem('Empresa cadastrada com sucesso')
-  //       setTimeout(() => navigate('/'), 2000)
-  //     }).catch((erro) => {
-  //       setOpenSnackbar(true)
-  //       setSeverity('error')
-  //       setMensagem('Erro ao cadastrar empresa')
-  //       setEmail('')
-  //       setSenha('')
-  //       setNome('')
-  //       setCep('')
-  //       setEndereco('')
-  //       setBairro('')
-  //       setCidade('')
-  //       setEstado('')
-  //       setPais('')
-  //       setNumero('')
-  //       setComplemento('')
-  //       setTelefone('')
-  //       setRamo('')
-  //       setCnpj('')
-  //     })
-  // }
 
   return (
     <Box
@@ -286,7 +240,6 @@ export const CadastroEmpresa = observer(() => {
         <Box sx={{ borderRadius: '50px 0px 0px 50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Box sx={{ m: 10 }}>
             <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
-            {/* <form onSubmit={cadastrar}> */}
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -437,7 +390,6 @@ export const CadastroEmpresa = observer(() => {
                   Cadastrar</Button>
               </Grid>
             </Grid>
-            {/* </form> */}
           </Box>
         </Box>
       </Box>

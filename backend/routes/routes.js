@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router()
 const usuarioController = require('../controllers/usuarioController')
 const authCandidato = require('../middleware/authCandidatoController') //controller de autenticação de candidato
@@ -44,3 +44,5 @@ router.put('/empresa/vagas/toggle', vagaController.toggleVaga)
 router.get('/empresa/exibir/vaga/:id', vagaController.exibirDadosVaga)
 
 module.exports = router
+
+
