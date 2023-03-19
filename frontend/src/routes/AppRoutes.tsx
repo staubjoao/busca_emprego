@@ -11,6 +11,10 @@ import {
   CadastroCurriculo,
 } from '../screens';
 
+import { ListagemVagasEmpresa } from '../screens/Vagas/ListagemVagasEmpresa';
+import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga';
+import { ExibirVaga } from '../screens/Vagas/ExibirVaga';
+
 export function AppRoutes() {
   const { loginStore } = useStore();
   const navigate = useNavigate();
@@ -24,6 +28,13 @@ export function AppRoutes() {
         <Route path="candidato/vagas" element={<ListagemVagas />} />
         <Route path="empresa/curriculos" element={<ListagemCurriculos />} />
         <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
+        <Route path="candidato/vagas/:id" element={<ExibirVaga />} />
+        <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
+        <Route
+          path="empresateste/curriculos"
+          element={<ListagemCurriculos />}
+        />
+        <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />
       </Routes>
     </>
   );

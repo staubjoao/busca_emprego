@@ -1,5 +1,5 @@
-import { api } from '../lib/axios';
 import { FormEvent } from 'react';
+import { api } from './baseURL';
 
 export const getVagas = async (token: string) => {
   const response = await api.get('usuario/listar/vagas', {
@@ -16,8 +16,12 @@ export const getVagasEmpresa = async (id: Number) => {
   return response.data.vagas;
 };
 
-export const getVagasCandidato = async () => {
-  const response = await api.get('usuario/candidato/vagas');
+export const getVagasCandidato = async (token: string) => {
+  const response = await api.get('usuario/candidato/vagas', {
+    headers: {
+      'authorization-token': token,
+    },
+  });
   return response.data.vagas;
 };
 
@@ -101,4 +105,25 @@ export async function alteracaoVaga(
 export async function exibirVaga(id: Number) {
   const response = await api.get('/usuario/candidato/vagas/' + id);
   return response.data.vaga;
+}
+
+export async function candidatar(
+  idVaga: string,
+  idCandidato: string,
+  token: string
+) {
+  const response = await api.post(
+    `/usuario/candidatar`,
+    {
+      idVaga,
+      idCandidato,
+    },
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+  );
+
+  return response.data;
 }

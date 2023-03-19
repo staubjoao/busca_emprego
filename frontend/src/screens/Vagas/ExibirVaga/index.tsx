@@ -1,34 +1,51 @@
-import { Box, ButtonBase, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { exibirVaga } from '../../../service/vagas'
-import empresaIcon from '../../../assets/icons/empresaIcon.svg'
+import { Box, ButtonBase, Typography, Snackbar, Alert } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { exibirVaga, candidatar } from '../../../service/vagas';
+import empresaIcon from '../../../assets/icons/empresaIcon.svg';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
-export function ExibirVaga() {
-  const id = useParams()
+export const ExibirVaga = observer(() => {
+  const id = useParams();
+  const { loginStore, snackbarStore } = useStore();
 
   const [vaga, setVaga] = useState<{
-    id: number
-    titulo: string
-    descricao: string
-    periodo: string
-    salario: number
-    visualizar: boolean
-    EmpresaId: number
+    id: number;
+    titulo: string;
+    descricao: string;
+    periodo: string;
+    salario: number;
+    visualizar: boolean;
+    EmpresaId: number;
     Empresa: {
-      nome: string
-      logo: string | null
-    }
-  }>()
+      nome: string;
+      logo: string | null;
+    };
+  }>();
 
   const handleVagas = async () => {
-    const especVaga = await exibirVaga(Number(id.id))
-    setVaga(especVaga)
-  }
+    const especVaga = await exibirVaga(Number(id.id));
+    setVaga(especVaga);
+  };
+
+  const handleCandidatar = async () => {
+    const response = await candidatar(
+      String(id.id),
+      loginStore.user.id,
+      loginStore.token
+    );
+    snackbarStore.setOpenSnackbar(true);
+    !response.ok
+      ? snackbarStore.setSeverity('error')
+      : snackbarStore.setSeverity('success');
+
+    snackbarStore.setMessage(response.data);
+  };
 
   useEffect(() => {
-    handleVagas()
-  }, [])
+    handleVagas();
+  }, []);
 
   return (
     <Box bgcolor="rgb(245 245 244)">
@@ -36,7 +53,7 @@ export function ExibirVaga() {
         maxWidth="100%"
         bgcolor="#5E80BB"
         sx={{
-          paddingBlock: '3.6rem'
+          paddingBlock: '3.6rem',
         }}
       />
       <Box minHeight="87.5vh" position="relative" bottom="30px" marginX="auto">
@@ -100,6 +117,7 @@ export function ExibirVaga() {
                 R$ {vaga?.salario.toString().replace('.', ',')}
               </Typography>
               <ButtonBase
+                onClick={handleCandidatar}
                 sx={{
                   backgroundColor: '#5E80BB',
                   color: '#FFFFFF',
@@ -110,8 +128,8 @@ export function ExibirVaga() {
                   display: 'flex',
                   alignItems: 'center',
                   ':hover': {
-                    backgroundColor: '#4766AC'
-                  }
+                    backgroundColor: '#4766AC',
+                  },
                 }}
               >
                 <Box component="span">Candidatar-se</Box>
@@ -120,6 +138,23 @@ export function ExibirVaga() {
           </Box>
         </Box>
       </Box>
+      <Snackbar
+        open={snackbarStore.openSnackbar}
+        autoHideDuration={1000}
+        onClose={() =>
+          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+        }
+      >
+        <Alert
+          onClose={() =>
+            snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          }
+          severity={snackbarStore.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarStore.message}
+        </Alert>
+      </Snackbar>
     </Box>
-  )
-}
+  );
+});
