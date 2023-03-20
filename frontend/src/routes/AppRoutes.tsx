@@ -4,7 +4,7 @@ import { useStore } from '../hooks/stores'
 
 import {
   CadastroVaga,
-  // ListagemCurriculos,
+  ListagemCurriculos,
   CadastroCurriculo,
   ListagemVagasCandidato
 } from '../screens'
@@ -20,9 +20,9 @@ export function AppRoutes() {
       <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
       <Routes>
         <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
-        {/* <Route path="empresa/curriculos" element={<ListagemCurriculos />} /> */}
         <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
         <Route path="candidato/vagas/:id" element={<ExibirVaga />} />
+        <Route path="empresa/vaga/:idVaga/curriculos" element={<ListagemCurriculos />} />
         <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
         <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
         <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />

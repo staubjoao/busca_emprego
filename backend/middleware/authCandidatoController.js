@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
     req.user = usuarioVerificado;
     next();
   } catch {
+    console.log("teste")
     res.status(400).send({
       error: true,
       message: 'Acesso negado...',
