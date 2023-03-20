@@ -47,19 +47,21 @@ const curriculo = {
 
   listarCurriculos: async (req, res) => {
     const curriculovaga = models.CurriculosVagas
-    const candidato = models.Curriculo
 
-    await curriculo.findByPk(req.params.idVaga, {
-      include: [{
-        all: true,
-        association: 'CurriculosVagas',
-      }]
-    })
-      .then(curr => {
-        return res.json({ curr });
-      }).catch(erro => {
+    await curriculovaga
+      .findAll({
+        where: { VagaId: req.params.idVaga },
+        include: [
+          {
+            model: models.Curriculo,
+            required: true
+          }
+        ]
+      })
+      .then(curriculos => res.json({ curriculos }))
+      .catch(erro => {
         return res.status(400).json({
-          erro: true,
+          error: true,
           message: erro
         })
       })
@@ -111,7 +113,7 @@ const curriculo = {
         })
       })
   },
-  
+
   candidatar: async (req, res) => {
     const { idVaga, idCandidato } = req.body;
 

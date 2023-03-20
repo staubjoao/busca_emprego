@@ -97,7 +97,7 @@ export function ListarCurriculos(props: CartaoProps) {
                                     }
                                 }}
                             >
-                                <Box component="span">Listar Currículos</Box>
+                                <Box component="span">Expandir Currículo</Box>
                             </ButtonBase>
                         </Box>
                     </Box>

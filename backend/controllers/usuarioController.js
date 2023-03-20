@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 let empresa = models.Empresa
 let candidato = models.Curriculo
 const vaga = models.Vaga
-const curriculovaga = models.CurriculosVagas
 
 const usuarioController = {
   cadastroEmpresa: async (req, res) => {

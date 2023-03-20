@@ -46,76 +46,21 @@ export function ListagemCurriculos() {
     setPagination({ ...pagination, from: from, to: to })
   }
 
-  // interface EmpresaCardProps {
-  //   nome: string
-  //   descricao: string
-  //   perfil: string
-  // }
-
-  // const Avatar = styled('img')({
-  //   borderRadius: '50%',
-  // })
-
-  const handleClick = () => {
-    setSelecionado(!selecionado);
-  }
-
-  // const EmpresaCard = ({ nome, descricao, perfil }: EmpresaCardProps) => {
-  //   return (
-  //     <Card sx={{ maxWidth: 400, border: 'none', boxShadow: 'none', borderRadius: 0 }} >
-  //       <CardHeader
-  //         avatar={<Avatar src={perfil} alt="Foto de perfil" sx={{ width: 150, height: 150 }} />}
-  //         title={nome}
-  //         sx={{
-  //           display: 'flex',
-  //           flexDirection: 'column',
-  //           alignItems: 'center',
-  //           textAlign: 'center',
-  //           px: 2,
-  //           pb: 0
-  //         }}
-  //       />
-  //       <CardContent sx={{ pt: 0 }}>
-  //         <Typography variant="body1" align="center">{descricao}</Typography>
-  //       </CardContent>
-  //     </Card >
-  //   )
-  // }
-
   useEffect(() => {
     async function handleCurriculos() {
-      // const id = localStorage.getItem('id')
-      console.log(loginStore.token)
-      // descomentar depois
-      // const newList = await getCurriculosVaga(idVaga as any, loginStore.token);
+      const newList = await getCurriculosVaga(idVaga as any, loginStore.token);
 
-      // const curriculos = newList.map((item: { Curriculo: any; }) => {
-      //   const curriculo = item.Curriculo;
-      //   return {
-      //     id: curriculo.id,
-      //     nome: curriculo.nome || "",
-      //     perfil: curriculo.perfil || "",
-      //     descricao: curriculo.descricao || "nsei",
-      //     areaAtuacao: curriculo.areaAtuacao || "Teste",
-      //   };
-      // });
-
-      // setLista(curriculos);
-
-
-      // para teste
-
-      let novoItem = { id: "1", perfil: "", nome: "João Silva", areaAtuacao: "Finanças", descricao: "Especialista em contabilidade com mais de 10 anos de experiência." };
-
-      setLista(prevLista => [...prevLista, novoItem]);
-
-      novoItem = { id: "2", perfil: "", nome: "Maria Santos", areaAtuacao: "Tecnologia", descricao: "Programadora sênior com habilidades em várias linguagens de programação e ampla experiência em desenvolvimento web." };
-
-      setLista(prevLista => [...prevLista, novoItem]);
-
-      novoItem = { id: "3", perfil: "Consultor", nome: "José Oliveira", areaAtuacao: "Gestão de Negócios", descricao: "Consultor empresarial com mais de 15 anos de experiência em gestão estratégica e operacional." };
-
-      setLista(prevLista => [...prevLista, novoItem]);
+      const curriculos = newList.map((item: { Curriculo: any; }) => {
+        const curriculo = item.Curriculo;
+        return {
+          id: curriculo.id,
+          nome: curriculo.nome || "",
+          perfil: curriculo.perfil || "",
+          descricao: curriculo.descricao || "nsei",
+          areaAtuacao: curriculo.areaAtuacao || "Teste",
+        };
+      });
+      setLista(curriculos);
     }
     handleCurriculos()
   }, [])
@@ -154,11 +99,5 @@ export function ListagemCurriculos() {
         </Box>
       </Box>
     </Box>
-    // <Box sx={{ gridArea: 'main' }}>
-    //   <ListarCurriculos listagem={lista} />
-    //   {/* {lista.map((cartao, index) => (
-    //       <Cartao key={index} {...cartao} />
-    //     ))} */}
-    // </Box>
   )
 }
