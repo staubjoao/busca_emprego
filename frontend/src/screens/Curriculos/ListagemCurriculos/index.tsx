@@ -136,7 +136,7 @@ export function ListagemCurriculos() {
           textAlign="left"
           marginX="auto"
         >
-          Estas são suas vagas...
+          Estas são os currículos da vaga...
         </Typography>
       </Box>
       <Box minHeight="84.2vh" position="relative" bottom="30px">
