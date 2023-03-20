@@ -32,6 +32,8 @@ router.get('/candidato/vagas/:id', usuarioController.exibirDadosVaga)
 
 //rota de listagem de currículos de uma vaga de determinada empresa
 router.get('/empresa/vaga/curriculos/:idVaga', curriculoController.listarCurriculos)
+// rota de listagem de um currículo
+router.get('/empresa/curriculo/:idCurriculo', curriculoController.listarCurriculo)
 //rota de cadastro de vaga
 router.post('/cadastro/vaga', vagaController.cadastroVaga)
 //rota para alterar uma vaga

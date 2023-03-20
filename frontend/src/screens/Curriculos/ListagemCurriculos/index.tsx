@@ -9,15 +9,7 @@ const pageSize = 3
 
 export function ListagemCurriculos() {
   const { idVaga } = useParams();
-  const [selecionado, setSelecionado] = useState(false);
   const { loginStore } = useStore();
-
-  interface CartaoProps {
-    perfil: string
-    nome: string
-    areaAtuacao: string
-    descricao: string
-  }
 
   const [lista, setLista] = useState<
     {

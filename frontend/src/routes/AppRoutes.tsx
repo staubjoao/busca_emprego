@@ -6,7 +6,8 @@ import {
   CadastroVaga,
   ListagemCurriculos,
   CadastroCurriculo,
-  ListagemVagasCandidato
+  ListagemVagasCandidato,
+  ListagemCurriculoCompleto
 } from '../screens'
 import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga'
 import { ExibirVaga } from '../screens/Vagas/ExibirVaga'
@@ -23,6 +24,7 @@ export function AppRoutes() {
         <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
         <Route path="candidato/vagas/:id" element={<ExibirVaga />} />
         <Route path="empresa/vaga/:idVaga/curriculos" element={<ListagemCurriculos />} />
+        <Route path="empresa/curriculo/:idCurriculo" element={<ListagemCurriculoCompleto />} />
         <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
         <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
         <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />

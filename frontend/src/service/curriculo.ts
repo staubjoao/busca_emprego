@@ -36,7 +36,14 @@ export const getCurriculosVaga = async (idVaga: string, token: string) => {
   return response.data.curriculos;
 };
 
-export const getCurriculo = async(IdCurriculo: string) => {
-  const response = await api.get(`usuario/curriculo/${IdCurriculo}`);
+export const getCurriculo = async(idCurriculo: string, token: string) => {
+  const response = await api.get(
+    `usuario/empresa/curriculo/${idCurriculo}`,
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+    );
   return response.data.curriculo;
 }

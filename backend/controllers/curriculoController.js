@@ -68,6 +68,7 @@ const curriculo = {
   },
 
   listarCurriculo: async (req, res) => {
+    console.log(req.params.idCurriculo)
     const curriculo = models.Curriculo
     const cursos = models.Cursos
     const experiencias = models.Experiencias
