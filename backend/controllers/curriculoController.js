@@ -77,7 +77,7 @@ const curriculo = {
     const cursosCurriculo = models.CurriculosCursos
     const experienciasCurriculo = models.CurriculosExperiencias
     const instituicao = models.Instituicao
-    const cursosInstituicoes = models.CursosIntituicoes
+    const cursosInstituicoes = models.CursosInstituicoes
 
     await curriculo.findOne({
       where: { id: req.params.idCurriculo },
@@ -95,15 +95,15 @@ const curriculo = {
           attributes: ['curso'],
           through: {
             model: cursosCurriculo,
-            attributes: ['inicio', 'termino']
+            attributes: ['inicio', 'termino'],
           },
           include: [
             {
               model: instituicao,
               attributes: ['nome', 'cidade', 'pais'],
+              tableName: 'Instituicoes',
               through: {
                 model: cursosInstituicoes,
-                attributes: []
               }
             }
           ]
