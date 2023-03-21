@@ -8,6 +8,27 @@ import { Typography, ButtonBase, Box } from '@mui/material';
 import { useStore } from '../../../hooks/stores';
 import perfilIcon from '../../../assets/icons/perfil.png';
 
+interface Idioma {
+    nome: string;
+    nivel: string;
+}
+
+interface Curso {
+    curso: string;
+    inicio: string;
+    termino: string;
+}
+
+interface Experiencia {
+    empresa: string;
+    ramo: string;
+    inicio: string;
+    termino: string;
+    cidade: string;
+    pais: string;
+    cargo: string;
+}
+
 export function ListagemCurriculoCompleto() {
     const { idCurriculo } = useParams();
     const { loginStore } = useStore();
@@ -19,39 +40,61 @@ export function ListagemCurriculoCompleto() {
             nome: string
             areaAtuacao: string
             descricao: string
-            idiomas: { nome: string, nivel: string }[]
-            cursos: { titulo: string, inicio: string, termino: string }[]
-            experiencias: { empresa: string, ramo: string, inicio: string, termino: string, cidade: string, pais: string, cargo: string }[]
+            // idiomas: { nome: string, nivel: string }[]
+            idiomas: Idioma[]
+            // cursos: { titulo: string, inicio: string, termino: string }[]
+            cursos: Curso[]
+            // experiencias: {
+            //     empresa: string,
+            //     ramo: string,
+            //     inicio: string,
+            //     termino: string,
+            //     cidade: string,
+            //     pais: string,
+            //     cargo: string
+            // }[]
+            experiencias: Experiencia[]
         }
-    >()
-
-    const cursos = [
-        { curso: "Curso 1", inicio: "01/01/2022", termino: "01/02/2022" },
-        { curso: "Curso 2", inicio: "02/01/2022", termino: "02/02/2022" },
-        { curso: "Curso 3", inicio: "03/01/2022", termino: "03/02/2022" },
-    ];
-    const experiencias = [
-        { empresa: "Empresa 1", ramo: "Ramo 1", inicio: "01/01/2022", termino: "01/02/2022", cidade: "Cidade 1", pais: "Pais 1", cargo: "Cargo 1" },
-        { empresa: "Empresa 2", ramo: "Ramo 2", inicio: "01/01/2022", termino: "01/02/2022", cidade: "Cidade 2", pais: "Pais 2", cargo: "Cargo 2" },
-        { empresa: "Empresa 3", ramo: "Ramo 3", inicio: "01/01/2022", termino: "01/02/2022", cidade: "Cidade 3", pais: "Pais 3", cargo: "Cargo 3" },
-    ];
-
-    // const perfil = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-    // const nome = "João da Silva"
-    // const areaAtuacao = "Desenvolvedor Full-stack"
-    // const descricao = "Sou um desenvolvedor experiente em tecnologias web modernas, com mais de 5 anos de experiência em projetos de grande porte."
+    >({ id: "", perfil: "", nome: "", areaAtuacao: "", descricao: "", idiomas: [], cursos: [], experiencias: [] })
 
     useEffect(() => {
         async function handleCurriculos() {
             const newList = await getCurriculo(idCurriculo as any, loginStore.token);
 
-            console.log(newList.descricao)
             const idiomas = newList.Idiomas.map((item: any) => {
                 return {
                     nome: item.idioma,
                     nivel: item.CurriculosIdiomas.nivel,
                 }
             })
+
+            const cursos = newList.Cursos.map((item: any) => {
+                
+                return {
+                    titulo: item.curso,
+                    inicio: item.CurriculosCursos.inicio,
+                    termino: item.CurriculosCursos.termino,
+                }
+            })
+
+            const experiencias = newList.Experiencias.map((item: any) => {
+                const inicio = item.CurriculosExperiencias.inicio
+                const dataInicio = inicio.split('T')[0]
+                let termino = item.CurriculosExperiencias.termino
+                if (termino === "" || termino === null)
+                    termino = "Atualmente"
+                return {
+                    empresa: item.empresa,
+                    ramo: item.ramo,
+                    inicio: dataInicio,
+                    termino: termino,
+                    cidade: item.CurriculosExperiencias.cidade,
+                    pais: item.CurriculosExperiencias.pais,
+                    cargo: item.CurriculosExperiencias.cargo
+                }
+            })
+
+            console.log(experiencias)
 
             const areaAtuacaoTeste = "teste"
             const auxCurriculo = {
@@ -60,20 +103,10 @@ export function ListagemCurriculoCompleto() {
                 nome: newList.nome,
                 areaAtuacao: areaAtuacaoTeste,
                 descricao: newList.descricao,
-                idioma: idiomas,
-                curso: [],
-                experiencia: [],
+                idiomas: idiomas,
+                cursos: cursos,
+                experiencias: experiencias,
             }
-            // const curriculos = newList.map((item: { Curriculo: any; }) => {
-            //     const curriculo = item.Curriculo;
-            //     return {
-            //         id: curriculo.id,
-            //         nome: curriculo.nome || "",
-            //         perfil: curriculo.perfil || "",
-            //         descricao: curriculo.descricao || "nsei",
-            //         areaAtuacao: curriculo.areaAtuacao || "Teste",
-            //     };
-            // });
             setCurriculo(auxCurriculo);
         }
         handleCurriculos()
@@ -110,7 +143,7 @@ export function ListagemCurriculoCompleto() {
                     >
                         <Box display="flex">
                             <Box display="flex">
-                                {curriculo?.perfil === null || curriculo?.perfil as any === "" ? (
+                                {curriculo.perfil === null || curriculo.perfil as any === "" ? (
                                     <Box
                                         component="img"
                                         src={perfilIcon}
@@ -120,17 +153,17 @@ export function ListagemCurriculoCompleto() {
                                 ) : (
                                     <Box
                                         component="img"
-                                        src={curriculo?.perfil}
+                                        src={curriculo.perfil}
                                         width="4rem"
                                         alt="Foto do candidato(a)"
                                     />
                                 )}
                                 <Box component="span" paddingTop="0.5rem" marginLeft="1rem">
                                     <Typography variant="h5" fontWeight="bold" fontSize="0.875rem">
-                                        {curriculo?.nome}
+                                        {curriculo.nome}
                                     </Typography>
                                     <Typography fontSize="0.875rem">
-                                        {curriculo?.areaAtuacao}
+                                        {curriculo.areaAtuacao}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -147,16 +180,16 @@ export function ListagemCurriculoCompleto() {
                         {/* {curriculo?.descricao.length < 250
                             ? curriculo?.descricao
                             : curriculo?.descricao.substring(0, 50) + ' ...'} */}
-                        curriculo?.descricao
+                        {curriculo.descricao}
                     </Box>
                     <Box>
-                        <ListarCursos cursos={cursos} />
+                        <ListarCursos cursos={curriculo.cursos} />
                     </Box>
                     <Box>
-                        <ListarExperiencias experiencias={experiencias} />
+                        <ListarExperiencias experiencias={curriculo.experiencias} />
                     </Box>
                     <Box>
-                        <ListarIdiomas idiomas={curriculo?.idiomas} />
+                        <ListarIdiomas idiomas={curriculo.idiomas} />
                     </Box>
                     <Box bgcolor="rgb(250 250 249)">
                         <Box

@@ -83,6 +83,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
+      areaAtuacao: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

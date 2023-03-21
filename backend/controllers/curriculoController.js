@@ -76,6 +76,8 @@ const curriculo = {
     const idiomasCurriculo = models.CurriculosIdiomas
     const cursosCurriculo = models.CurriculosCursos
     const experienciasCurriculo = models.CurriculosExperiencias
+    const instituicao = models.Instituicao
+    const cursosInstituicoes = models.CursosIntituicoes
 
     await curriculo.findOne({
       where: { id: req.params.idCurriculo },
@@ -94,7 +96,17 @@ const curriculo = {
           through: {
             model: cursosCurriculo,
             attributes: ['inicio', 'termino']
-          }
+          },
+          include: [
+            {
+              model: instituicao,
+              attributes: ['nome', 'cidade', 'pais'],
+              through: {
+                model: cursosInstituicoes,
+                attributes: []
+              }
+            }
+          ]
         },
         {
           model: experiencias,

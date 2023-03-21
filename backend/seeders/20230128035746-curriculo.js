@@ -24,6 +24,7 @@ module.exports = {
         cep: '93517721',
         pretensao: 20000.0,
         descricao: 'Sla mano',
+        areaAtuacao: 'Programador Jr',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -47,6 +48,7 @@ module.exports = {
         cep: '07076247',
         pretensao: 2000.0,
         descricao: 'Sla mano',
+        areaAtuacao: 'teste, qualquer coisa',
         createdAt: new Date(),
         updatedAt: new Date()
       }
