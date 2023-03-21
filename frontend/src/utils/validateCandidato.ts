@@ -14,6 +14,10 @@ const isDescricaoError = (descricao: string) => {
     return descricao.trim() !== ''
 }
 
+const isAreaAtuacaoError = (areaAtuacao: string) => {
+    return areaAtuacao.trim() !== ''
+}
+
 const isCpfError = (cpf: string) => {
     const cpfAux = cpf.replace(/[^\d]+/g, '');
     if (cpfAux === '') return false;
@@ -56,4 +60,5 @@ export {
     isPretensaoError,
     isDescricaoError,
     isCpfError,
+    isAreaAtuacaoError,
 }

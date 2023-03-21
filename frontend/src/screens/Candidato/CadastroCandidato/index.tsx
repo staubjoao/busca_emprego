@@ -37,6 +37,7 @@ export const CadastroCandidato = observer(() => {
     isPretensaoError,
     isDescricaoError,
     isCpfError,
+    isAreaAtuacaoError,
   } = validateCandidato;
   const {
     email,
@@ -73,6 +74,8 @@ export const CadastroCandidato = observer(() => {
     setPresensao,
     descricao,
     setDescricao,
+    areaAtuacao,
+    setAreaAtuacao,
     handleCreateCandidato,
     emailError,
     setEmailError,
@@ -110,6 +113,8 @@ export const CadastroCandidato = observer(() => {
     setCpfError,
     formularioError,
     setFormularioError,
+    areaAtuacaoError,
+    setAreaAtuacaoError,
   } = candidatoStore;
 
   const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
@@ -119,6 +124,7 @@ export const CadastroCandidato = observer(() => {
     setEmailError(isEmailError(email))
     setSenhaError(isSenhaError(senha))
     setNomeError(isNomeError(nome))
+    setAreaAtuacaoError(isAreaAtuacaoError(areaAtuacao))
     setCepError(isCepError())
     setEnderecoError(isEnderecoError(endereco))
     setBairroError(isBairroError(bairro))
@@ -150,7 +156,8 @@ export const CadastroCandidato = observer(() => {
       deficienciaError &&
       pretensaoError &&
       descricaoError &&
-      cpfError
+      cpfError &&
+      areaAtuacaoError
     )
   }
 
@@ -207,68 +214,12 @@ export const CadastroCandidato = observer(() => {
       telefone,
       genero,
       deficiencia,
-      cep
+      cep,
+      areaAtuacao,
+      pretensao
     );
     showSnackBar(response.ok);
   };
-
-  // async function cadastrar(e: FormEvent) {
-  //   e.preventDefault()
-
-  //   if (!isFormError()) {
-  //     setFormularioError(true)
-  //     setOpenSnackbar(true)
-  //     setSeverity('warning')
-  //     setMensagem('Campo(s) em branco')
-  //     return
-  //   }
-
-  //   await api
-  //     .post('/usuario/cadastro/candidatos', {
-  //       email,
-  //       senha,
-  //       nome,
-  //       cpf,
-  //       endereco,
-  //       bairro,
-  //       cidade,
-  //       estado,
-  //       pais,
-  //       numero,
-  //       complemento,
-  //       telefone,
-  //       genero,
-  //       deficiencia,
-  //       cep
-  //     })
-  //     .then(res => {
-  //       setOpenSnackbar(true)
-  //       setSeverity('success')
-  //       setMensagem('Candidato(a) cadastrado(a) com sucesso')
-  //       setTimeout(() => navigate('/'), 2000)
-  //     }).catch((erro) => {
-  //       setOpenSnackbar(true)
-  //       setSeverity('error')
-  //       setMensagem('Erro ao cadastrar o(a) candidato(a)')
-  //       setEmail('')
-  //       setSenha('')
-  //       setNome('')
-  //       setCpf('')
-  //       setDescricao('')
-  //       setGenero('')
-  //       setDeficiencia('')
-  //       setCep('')
-  //       setEndereco('')
-  //       setBairro('')
-  //       setCidade('')
-  //       setEstado('')
-  //       setPais('')
-  //       setNumero('')
-  //       setComplemento('')
-  //       setTelefone('')
-  //       setPresensao('')
-  //     })
-  // }
 
   return (
     <Box
@@ -336,7 +287,7 @@ export const CadastroCandidato = observer(() => {
                   onBlur={() => { setSenhaError(isSenhaError(senha)) }}
                   error={!senhaError && formularioError} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField label="Nome"
                   value={nome}
                   onChange={(event) => setNome(event.target.value)}
@@ -344,7 +295,7 @@ export const CadastroCandidato = observer(() => {
                   onBlur={() => { setNomeError(isNomeError(nome)) }}
                   error={!nomeError && formularioError} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   label="CPF"
                   value={cpf}
@@ -356,6 +307,15 @@ export const CadastroCandidato = observer(() => {
                   fullWidth
                   onBlur={() => { setCpfError(isCpfError(cpf)) }}
                   error={!cpfError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  label="Área de Atuação"
+                  value={areaAtuacao}
+                  onChange={(event) => setAreaAtuacao(event.target.value)}
+                  fullWidth
+                  onBlur={() => { setAreaAtuacaoError(isAreaAtuacaoError(areaAtuacao)) }}
+                  error={!areaAtuacaoError && formularioError} />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField

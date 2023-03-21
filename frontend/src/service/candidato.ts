@@ -15,9 +15,10 @@ export const createCandidato = async (
   telefone: string,
   genero: string,
   deficiencia: string,
-  cep: string
+  cep: string,
+  areaAtuacao: string,
+  pretensao: string,
 ) => {
-
   const response = await api.post('/usuario/cadastro/candidatos', {
     email,
     senha,
@@ -33,7 +34,9 @@ export const createCandidato = async (
     telefone,
     genero,
     deficiencia,
-    cep
+    cep,
+    areaAtuacao,
+    pretensao,
   });
 
   return { ok: response.statusText };
