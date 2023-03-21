@@ -81,6 +81,7 @@ const curriculo = {
 
     await curriculo.findOne({
       where: { id: req.params.idCurriculo },
+      // attributes: ['id', 'perfil', 'email', 'nome'],
       include: [
         {
           model: idiomas,
@@ -103,6 +104,7 @@ const curriculo = {
               attributes: ['nome', 'cidade', 'pais'],
               tableName: 'Instituicoes',
               through: {
+                attributes: [],
                 model: cursosInstituicoes,
               }
             }

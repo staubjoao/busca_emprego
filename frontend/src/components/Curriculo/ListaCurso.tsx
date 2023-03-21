@@ -4,6 +4,9 @@ interface Curso {
     curso: string;
     inicio: string;
     termino: string;
+    instituicao: string;
+    cidade: string;
+    pais: string;
 }
 
 interface CursoProps {
@@ -21,7 +24,13 @@ export function ListarCursos(props: CursoProps) {
                     <ListItem key={curso.curso} disablePadding>
                         <ListItemText
                             primary={curso.curso}
-                            secondary={`${curso.inicio} - ${curso.termino}`}
+                            secondary={
+                                <>
+                                    {curso.instituicao}, {curso.cidade}, {curso.pais}
+                                    <br />
+                                    {curso.inicio} - {curso.termino}
+                                </>
+                            }
                         />
                     </ListItem>
                 ))}

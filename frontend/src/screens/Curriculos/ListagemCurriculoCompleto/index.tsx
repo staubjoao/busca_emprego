@@ -17,6 +17,9 @@ interface Curso {
     curso: string;
     inicio: string;
     termino: string;
+    instituicao: string;
+    cidade: string;
+    pais: string;
 }
 
 interface Experiencia {
@@ -40,19 +43,8 @@ export function ListagemCurriculoCompleto() {
             nome: string
             areaAtuacao: string
             descricao: string
-            // idiomas: { nome: string, nivel: string }[]
             idiomas: Idioma[]
-            // cursos: { titulo: string, inicio: string, termino: string }[]
             cursos: Curso[]
-            // experiencias: {
-            //     empresa: string,
-            //     ramo: string,
-            //     inicio: string,
-            //     termino: string,
-            //     cidade: string,
-            //     pais: string,
-            //     cargo: string
-            // }[]
             experiencias: Experiencia[]
         }
     >({ id: "", perfil: "", nome: "", areaAtuacao: "", descricao: "", idiomas: [], cursos: [], experiencias: [] })
@@ -69,13 +61,23 @@ export function ListagemCurriculoCompleto() {
             })
 
             const cursos = newList.Cursos.map((item: any) => {
-                
+                const inicio = item.CurriculosCursos.inicio
+                const dataInicio = inicio.split('T')[0]
+                let termino = item.CurriculosCursos.termino
+                if (termino === "" || termino === null)
+                    termino = "Atualmente"
                 return {
-                    titulo: item.curso,
-                    inicio: item.CurriculosCursos.inicio,
-                    termino: item.CurriculosCursos.termino,
+                    curso: item.curso,
+                    inicio: dataInicio,
+                    termino: termino,
+                    instituicao: item.Instituicaos[0].nome,
+                    cidade: item.Instituicaos[0].cidade,
+                    pais: item.Instituicaos[0].pais
                 }
             })
+
+            console.log(cursos)
+
 
             const experiencias = newList.Experiencias.map((item: any) => {
                 const inicio = item.CurriculosExperiencias.inicio
@@ -93,8 +95,6 @@ export function ListagemCurriculoCompleto() {
                     cargo: item.CurriculosExperiencias.cargo
                 }
             })
-
-            console.log(experiencias)
 
             const areaAtuacaoTeste = "teste"
             const auxCurriculo = {
@@ -177,9 +177,6 @@ export function ListagemCurriculoCompleto() {
                         paddingBottom="1.25rem"
                         color="rgb(107 114 128 / var(--tw-text-opacity))"
                     >
-                        {/* {curriculo?.descricao.length < 250
-                            ? curriculo?.descricao
-                            : curriculo?.descricao.substring(0, 50) + ' ...'} */}
                         {curriculo.descricao}
                     </Box>
                     <Box>

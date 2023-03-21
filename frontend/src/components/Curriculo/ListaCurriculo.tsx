@@ -97,7 +97,10 @@ export function ListarCurriculos(props: CartaoProps) {
                                     }
                                 }}
                             >
-                                <Box component="span">Expandir Currículo</Box>
+                                <Box component="span"
+                                    onClick={() => navigate('/empresa/curriculo/' + element.id)}>
+                                    Expandir Currículo
+                                </Box>
                             </ButtonBase>
                         </Box>
                     </Box>
