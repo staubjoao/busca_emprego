@@ -93,6 +93,7 @@ export const CadastroEmpresa = observer(() => {
     setRamoError,
     cnpjError,
     setCnpjError,
+    clearStatesEmpresa,
   } = empresaStore;
 
   const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
@@ -169,7 +170,7 @@ export const CadastroEmpresa = observer(() => {
       setFormularioError(true)
       setOpenSnackbar(true)
       setSeverity('warning')
-      // setMessage('Campo(s) em branco')
+      setMessage('Campo(s) em branco')
       return
     }
     const response = await handleCreateEmpresa(
@@ -187,8 +188,17 @@ export const CadastroEmpresa = observer(() => {
       bairro,
       complemento,
       telefone
-    );
-    showSnackBar(response.ok);
+    ).then(() => {
+      setOpenSnackbar(true)
+      setSeverity('success')
+      setMessage('Empresa cadastrada com sucesso')
+      navigate('/login/empresa')
+    }).catch(() => {
+      setOpenSnackbar(true)
+      setSeverity('error')
+      setMessage('Falha ao cadastrar a empresa')
+      clearStatesEmpresa()
+    });
   };
 
   return (

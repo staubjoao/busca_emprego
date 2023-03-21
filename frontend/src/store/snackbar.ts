@@ -4,7 +4,10 @@ type SeverityType = 'success' | 'info' | 'warning' | 'error';
 type SuccessMessage =
   | ''
   | 'Currículo salvo com sucesso'
-  | 'Candidato salvo com sucesso';
+  | 'Candidato salvo com sucesso'
+  | 'Empresa cadastrada com sucesso'
+  | 'Campo(s) em branco'
+  | 'Falha ao cadastrar a empresa';
 type ErrorMessage = 'Ops, algo deu errado :(';
 
 export interface SnackbarStoreType {
