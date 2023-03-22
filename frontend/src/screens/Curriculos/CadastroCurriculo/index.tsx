@@ -51,16 +51,8 @@ export const CadastroCurriculo = observer(() => {
     createCursos,
   } = cursoStore;
 
-  const {
-    openSnackbar,
-    setOpenSnackbar,
-    severity,
-    showSnackBar,
-    message,
-    setMessage,
-  } = snackbarStore;
-
-  const navigate = useNavigate();
+  const { openSnackbar, setOpenSnackbar, severity, message, setMessage } =
+    snackbarStore;
 
   useEffect(() => {
     createNewExperience();
@@ -77,8 +69,12 @@ export const CadastroCurriculo = observer(() => {
       createCursos
     );
 
-    setMessage('Currículo salvo com sucesso');
-    showSnackBar(response.ok);
+    snackbarStore.setOpenSnackbar(true);
+    !response.ok
+      ? snackbarStore.setSeverity('error')
+      : snackbarStore.setSeverity('success');
+
+    setMessage(response.message);
   };
 
   return (

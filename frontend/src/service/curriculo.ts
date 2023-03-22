@@ -21,5 +21,7 @@ export const createCurriculo = async (
     }
   );
 
-  return { ok: response.statusText };
+  console.log('RESPONSE ----->', response);
+
+  return { ok: response.data.ok, message: response.data.message };
 };

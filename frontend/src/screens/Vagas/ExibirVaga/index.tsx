@@ -7,7 +7,7 @@ import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
 
 export const ExibirVaga = observer(() => {
-  const id = useParams();
+  const { id } = useParams();
   const { loginStore, snackbarStore } = useStore();
 
   const [vaga, setVaga] = useState<{
@@ -25,13 +25,14 @@ export const ExibirVaga = observer(() => {
   }>();
 
   const handleVagas = async () => {
-    const especVaga = await exibirVaga(Number(id.id));
-    setVaga(especVaga);
+    if (id !== undefined) {
+      await exibirVaga(id, loginStore.token).then((res) => setVaga(res));
+    }
   };
 
   const handleCandidatar = async () => {
     const response = await candidatar(
-      String(id.id),
+      String(id),
       loginStore.user.id,
       loginStore.token
     );

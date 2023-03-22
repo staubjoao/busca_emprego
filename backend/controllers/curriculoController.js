@@ -38,11 +38,21 @@ const curriculo = {
           );
         })
       );
-      return res.json(itemsModels);
-    } catch (e) {
-      res.status(500);
+      const findEmptyItem = itemsModels.find((item) => item.length === 0);
+      if (findEmptyItem) {
+        return res.json({
+          message: 'Há campos vazios!',
+          ok: false,
+        });
+      }
       return res.json({
-        message: e,
+        message: 'Currículo salvo com sucesso!',
+        ok: true,
+      });
+    } catch (e) {
+      console.log('ERRP', e);
+      return res.json({
+        message: 'Que pena, algo deu errado :(',
         ok: false,
       });
     }
