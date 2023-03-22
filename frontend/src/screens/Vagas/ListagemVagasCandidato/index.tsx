@@ -4,7 +4,7 @@ import { Lista } from '../../../components/ListaVagas/Candidato/ListaCandidato';
 import { getVagasCandidato } from '../../../service/vagas';
 import { useStore } from '../../../hooks/stores';
 
-export function ListagemVagas() {
+export function ListagemVagasCandidato() {
   const { loginStore } = useStore();
   const [lista, setLista] = useState<
     {

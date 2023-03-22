@@ -5,27 +5,29 @@ import { ButtonBase, FormLabel, Typography } from '@mui/material'
 import { InputSalario, InputVaga } from './styles'
 import warning from '../../../assets/images/warning.svg'
 import { alteracaoVaga, getInfoVaga } from '../../../service/vagas'
+import { useStore } from '../../../hooks/stores'
 
 export function AlterarVaga() {
+  const { loginStore } = useStore()
   const [erro, setErro] = useState('')
   const [titulo, setTitulo] = useState('')
   const [periodo, setPeriodo] = useState('')
   const [salario, setSalario] = useState(0)
   const [descricao, setDescricao] = useState('')
-  const [canNavigate, setCanNavigate] = useState(false)
   const [objVaga, setObjVaga] = useState(Object)
+  const token = loginStore.token
 
-  const EmpresaId = localStorage.getItem('id')
   const idVaga = useParams()
   const navigate = useNavigate()
 
   function loadDadosVaga() {
-    getInfoVaga(Number(idVaga.id)).then(res => setObjVaga(res))
-    setTitulo(objVaga.titulo)
-    setPeriodo(objVaga.periodo)
-    setSalario(objVaga.salario)
-    setDescricao(objVaga.descricao)
-    console.log(objVaga)
+    if (idVaga.id !== undefined) {
+      getInfoVaga(idVaga.id, token).then(res => setObjVaga(res))
+      setTitulo(objVaga.titulo)
+      setPeriodo(objVaga.periodo)
+      setSalario(objVaga.salario)
+      setDescricao(objVaga.descricao)
+    }
   }
 
   useEffect(() => {
@@ -62,10 +64,11 @@ export function AlterarVaga() {
                 periodo,
                 descricao,
                 salario,
-                EmpresaId,
-                setErro
+                loginStore.user.id,
+                setErro,
+                token
               )
-              navigate('/empresa/vagas/' + EmpresaId)
+              navigate('/empresa/vagas/' + loginStore.user.id)
             }}
           >
             <Typography

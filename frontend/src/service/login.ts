@@ -19,7 +19,6 @@ export const autenticacaoLoginCandidato = async (
 };
 
 export const autenticacaoLoginEmpresa = async (cnpj: string, senha: string) => {
-  console.log('CNPJ', cnpj);
 
   if (cnpj === '' || senha === '') {
     return;
@@ -29,8 +28,6 @@ export const autenticacaoLoginEmpresa = async (cnpj: string, senha: string) => {
     cnpj,
     senha,
   });
-
-  console.log('RESPONSE', response);
 
   return response;
 };

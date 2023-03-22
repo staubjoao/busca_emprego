@@ -1,11 +1,11 @@
-const models = require('../models');
-const jwt = require('jsonwebtoken');
+const models = require('../models')
+const jwt = require('jsonwebtoken')
 //const { sequelize } = require('../models') coisa do select em tempos sombrios
 
-let empresa = models.Empresa;
-let candidato = models.Curriculo;
-const vaga = models.Vaga;
-const curriculovaga = models.CurriculosVagas;
+let empresa = models.Empresa
+let candidato = models.Curriculo
+const vaga = models.Vaga
+const curriculovaga = models.CurriculosVagas
 
 const usuarioController = {
   cadastroEmpresa: async (req, res) => {
@@ -14,15 +14,15 @@ const usuarioController = {
       .then(() => {
         return res.json({
           error: false,
-          message: 'Empresa criada com sucesso.',
-        });
+          message: 'Empresa criada com sucesso.'
+        })
       })
-      .catch((erro) => {
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: 'Falha na criação da empresa.',
-        });
-      });
+          message: 'Falha na criação da empresa.'
+        })
+      })
   },
 
   cadastroCandidato: async (req, res) => {
@@ -31,65 +31,65 @@ const usuarioController = {
       .then(() => {
         return res.json({
           error: false,
-          message: 'Candidato(a) criado(a) com sucesso.',
-        });
+          message: 'Candidato(a) criado(a) com sucesso.'
+        })
       })
-      .catch((erro) => {
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: 'Falha na criação do(a) candidato(a).',
-        });
-      });
+          message: 'Falha na criação do(a) candidato(a).'
+        })
+      })
   },
 
   loginCandidato: async (req, res) => {
-    const candidato = models.Curriculo;
+    const candidato = models.Curriculo
 
     let usuario = await candidato.findOne({
       where: {
         email: req.body.email,
-        senha: req.body.senha,
-      },
-    });
+        senha: req.body.senha
+      }
+    })
 
     if (!usuario)
-      return res.json({ erro: true, mensagem: 'Email ou senha inválido' });
+      return res.json({ erro: true, mensagem: 'Email ou senha inválido' })
 
     const token = jwt.sign(
       { _id: usuario._id, _cpf: usuario._cpf },
       `${process.env.SECRET}`
-    );
-    console.log('NAME USER', usuario);
+    )
+
     res.json({
       id: usuario.id,
       nome: usuario.nome,
-      token: token,
-    });
+      token: token
+    })
   },
 
   loginEmpresa: async (req, res) => {
-    const empresa = models.Empresa;
+    const empresa = models.Empresa
 
     let usuario = await empresa.findOne({
       where: {
         cnpj: req.body.cnpj,
-        senha: req.body.senha,
-      },
-    });
+        senha: req.body.senha
+      }
+    })
 
     if (!usuario)
-      return res.json({ erro: true, mensagem: 'Cnpj ou senha inválido' });
+      return res.json({ erro: true, mensagem: 'Cnpj ou senha inválido' })
 
     const token = jwt.sign(
       { _id: usuario._id, _cnpj: usuario._cnpj },
       process.env.SECRET
-    );
+    )
 
     res.json({
       id: usuario.id,
       token: token,
-      nome: usuario.nome,
-    });
+      nome: usuario.nome
+    })
   },
 
   listarVagas: async (req, res) => {
@@ -100,31 +100,38 @@ const usuarioController = {
           {
             model: empresa,
             required: true,
-            attributes: ['nome', 'logo'],
-          },
-        ],
+            attributes: ['nome', 'logo']
+          }
+        ]
       })
-      .then((vagas) => res.json({ vagas }))
-      .catch((erro) => {
+      .then(vagas => res.json({ vagas }))
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro,
-        });
-      });
+          message: erro
+        })
+      })
   },
   exibirDadosVaga: async (req, res) => {
     await vaga
       .findOne({
         where: { id: req.params.id },
+        include: [
+          {
+            model: empresa,
+            required: true,
+            attributes: ['nome', 'logo']
+          }
+        ]
       })
-      .then((vagas) => res.json({ vagas }))
-      .catch((erro) => {
+      .then(vagas => res.json({ vagas }))
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro,
-        });
-      });
-  },
-};
+          message: erro
+        })
+      })
+  }
+}
 
-module.exports = usuarioController;
+module.exports = usuarioController

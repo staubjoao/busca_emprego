@@ -93,7 +93,7 @@ export class LoginStore implements LoginStoreType {
       this.setUser(response?.data.nome, response?.data.id);
       this.setToken(response?.data.token);
       this.setTypeUser('empresa');
-      return { ok: true };
+      return { ok: true, id: this.user.id};
     }
   };
 
