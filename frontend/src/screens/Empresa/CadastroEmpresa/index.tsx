@@ -192,7 +192,10 @@ export const CadastroEmpresa = observer(() => {
       setOpenSnackbar(true)
       setSeverity('success')
       setMessage('Empresa cadastrada com sucesso')
-      navigate('/login/empresa')
+      setTimeout(() => {
+        navigate('/login/empresa')
+        setOpenSnackbar(false)
+      }, 2500)
     }).catch(() => {
       setOpenSnackbar(true)
       setSeverity('error')

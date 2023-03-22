@@ -4,7 +4,8 @@ type SeverityType = 'success' | 'info' | 'warning' | 'error';
 type SuccessMessage =
   | ''
   | 'Currículo salvo com sucesso'
-  | 'Candidato salvo com sucesso'
+  | 'Candidato cadastrado com sucesso'
+  | 'Erro ao cadastrar o candidato'
   | 'Empresa cadastrada com sucesso'
   | 'Campo(s) em branco'
   | 'Falha ao cadastrar a empresa';

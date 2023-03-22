@@ -196,7 +196,7 @@ export const CadastroCandidato = observer(() => {
       setFormularioError(true)
       setOpenSnackbar(true)
       setSeverity('warning')
-      // setMessage('Campo(s) em branco')
+      setMessage('Campo(s) em branco')
       return
     }
     const response = await handleCreateCandidato(
@@ -217,8 +217,20 @@ export const CadastroCandidato = observer(() => {
       cep,
       areaAtuacao,
       pretensao
-    );
-    showSnackBar(response.ok);
+    ).then(() => {
+      setOpenSnackbar(true)
+      setSeverity('success')
+      setMessage('Candidato cadastrado com sucesso')
+      setTimeout(() => {
+        navigate('/login/candidato')
+        setOpenSnackbar(false)
+      }, 2500)
+    }).catch(() => {
+      setOpenSnackbar(true)
+      setSeverity('error')
+      setMessage('Erro ao cadastrar o candidato')
+    });
+
   };
 
   return (
