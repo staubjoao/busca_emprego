@@ -1,34 +1,34 @@
-import IMaskInput from 'react-input-mask'
-import { useEffect, useState } from 'react'
-import { Lista } from '../../../components/ListaVagas/Candidato/ListaCandidato'
-import { getVagasCandidato } from '../../../service/vagas'
-import { useStore } from '../../../hooks/stores'
+import IMaskInput from 'react-input-mask';
+import { useEffect, useState } from 'react';
+import { Lista } from '../../../components/ListaVagas/Candidato/ListaCandidato';
+import { getVagasCandidato } from '../../../service/vagas';
+import { useStore } from '../../../hooks/stores';
 
 export function ListagemVagasCandidato() {
-  const { loginStore } = useStore()
+  const { loginStore } = useStore();
   const [lista, setLista] = useState<
     {
-      id: number
-      titulo: string
-      descricao: string
-      periodo: string
-      salario: number
-      EmpresaId: number
+      id: number;
+      titulo: string;
+      descricao: string;
+      periodo: string;
+      salario: number;
+      EmpresaId: number;
       Empresa: {
-        nome: string
-        logo: string | null
-      }
+        nome: string;
+        logo: string | null;
+      };
     }[]
-  >([])
+  >([]);
 
   const handleVagas = async () => {
-    const newList = await getVagasCandidato(loginStore.token)
-    setLista(newList)
-  }
+    const newList = await getVagasCandidato(loginStore.token);
+    setLista(newList);
+  };
 
   useEffect(() => {
-    handleVagas()
-  }, [])
+    handleVagas();
+  }, []);
 
   return (
     <div>
@@ -94,5 +94,5 @@ export function ListagemVagasCandidato() {
         <Lista listagem={lista} />
       </div>
     </div>
-  )
+  );
 }
