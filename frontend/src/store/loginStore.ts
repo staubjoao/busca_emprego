@@ -31,7 +31,7 @@ export class LoginStore implements LoginStoreType {
     makeAutoObservable(this, {}, { autoBind: true });
     makePersistable(this, {
       name: 'LoginStore',
-      properties: ['token', 'user'],
+      properties: ['token', 'user', 'typeUser'],
       storage: window.localStorage,
     });
   }
@@ -110,6 +110,7 @@ export class LoginStore implements LoginStoreType {
     this.setSenha('');
     this.setCnpj('');
     this.setEmail('');
+    this.setTypeUser('');
   };
 
   getPersistedStore = () => {

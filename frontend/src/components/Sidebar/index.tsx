@@ -30,16 +30,12 @@ interface SideBarProps {
 
 const empresaScreens = [
   {
-    name: 'Curriculos',
-    navigateTo: '/empresa/curriculos',
+    name: 'Vagas',
+    navigateTo: '/empresa/vagas',
   },
   {
     name: 'Cadastrar vagas',
     navigateTo: '/empresa/cadastro-vagas',
-  },
-  {
-    name: 'Vagas',
-    navigateTo: '/empresa/vagas',
   },
 ];
 
