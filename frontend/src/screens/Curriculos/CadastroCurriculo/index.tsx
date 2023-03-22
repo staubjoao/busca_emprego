@@ -11,8 +11,7 @@ import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { delay } from '../../../utils';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
