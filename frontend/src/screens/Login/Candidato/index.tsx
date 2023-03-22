@@ -1,4 +1,4 @@
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ExitButton, InputLogin, LoginButton, RegisterButton } from './styles';
 import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
@@ -6,17 +6,22 @@ import paper from '../../../assets/images/paper.svg';
 import line from '../../../assets/icons/line.svg';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+import { delay } from '../../../utils';
 
 export const LoginCandidato = observer(() => {
   const navigate = useNavigate();
   const { loginStore } = useStore();
 
   const handleLogin = async () => {
+    loginStore.setLoading(true);
+    await delay(1000);
+
     const response = await loginStore.authCandidato();
     if (response.ok) {
       loginStore.getPersistedStore();
       navigate('/candidato/vagas');
     }
+    loginStore.setLoading(false);
   };
 
   return (
@@ -156,7 +161,11 @@ export const LoginCandidato = observer(() => {
           </Box>
 
           <LoginButton onClick={handleLogin} type="submit">
-            Entrar
+            {loginStore.loading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              <Typography>Entrar</Typography>
+            )}
           </LoginButton>
           <Box textAlign="center" margin="0.5rem">
             <Typography

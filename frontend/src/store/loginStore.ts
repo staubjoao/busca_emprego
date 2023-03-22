@@ -22,6 +22,8 @@ export interface LoginStoreType {
   logout: () => void;
   cnpj: string;
   setCnpj: (cnpj: string) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 export class LoginStore implements LoginStoreType {
@@ -63,6 +65,11 @@ export class LoginStore implements LoginStoreType {
   setToken = (token: string) => {
     this.token = token;
   };
+
+  loading: boolean = false;
+  setLoading(loading: boolean) {
+    this.loading = loading;
+  }
 
   user: { nome: string; id: string } = { nome: '', id: '' };
   setUser = (nome: string, id: string) => {

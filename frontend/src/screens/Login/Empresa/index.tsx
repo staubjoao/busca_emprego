@@ -1,4 +1,4 @@
-import { Box, Typography, Link, FormControl } from '@mui/material';
+import { Box, Typography, Link, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../../hooks/stores';
 import {
@@ -13,17 +13,22 @@ import paper from '../../../assets/images/paper.svg';
 import line from '../../../assets/icons/line.svg';
 
 import { observer } from 'mobx-react-lite';
+import { delay } from '../../../utils';
 
 export const LoginEmpresa = observer(() => {
   const navigate = useNavigate();
   const { loginStore } = useStore();
 
   const handleLogin = async () => {
+    loginStore.setLoading(true);
+    await delay(1000);
+
     const response = await loginStore.authEmpresa();
     if (response.ok) {
       loginStore.getPersistedStore();
       navigate('/empresa/curriculos');
     }
+    loginStore.setLoading(false);
   };
 
   return (
@@ -161,9 +166,12 @@ export const LoginEmpresa = observer(() => {
               Esqueceu a senha?
             </Link>
           </Box>
-
-          <LoginButton type="submit" onClick={handleLogin}>
-            Entrar
+          <LoginButton onClick={handleLogin} type="submit">
+            {loginStore.loading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              <Typography>Entrar</Typography>
+            )}
           </LoginButton>
           <Box textAlign="center" margin="0.5rem">
             <Typography
