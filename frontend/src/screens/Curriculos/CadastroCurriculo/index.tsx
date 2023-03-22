@@ -1,10 +1,18 @@
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Snackbar, Alert } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Snackbar,
+  Alert,
+  CircularProgress,
+} from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
 import { useEffect } from 'react';
 import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
@@ -18,6 +26,7 @@ export const CadastroCurriculo = observer(() => {
   }, []);
 
   const createCurriculo = async () => {
+    curriculoStore.setLoading(true);
     const response = await curriculoStore.handleCreateCurriculo(
       loginStore.token,
       id as any,
@@ -25,6 +34,9 @@ export const CadastroCurriculo = observer(() => {
       idiomaStore.createIdioma,
       cursoStore.createCursos
     );
+    await delay(1000);
+
+    curriculoStore.setLoading(false);
 
     snackbarStore.setOpenSnackbar(true);
     !response.ok
@@ -127,7 +139,11 @@ export const CadastroCurriculo = observer(() => {
           variant="contained"
           onClick={createCurriculo}
         >
-          <Typography>Salvar</Typography>
+          {curriculoStore.loading ? (
+            <CircularProgress color="inherit" size={20} />
+          ) : (
+            <Typography>Salvar</Typography>
+          )}
         </ButtonCreate>
       </Content>
 

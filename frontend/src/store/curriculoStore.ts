@@ -21,6 +21,9 @@ export interface CurriculoStoreType {
     fim: string
   ) => void | React.Dispatch<React.SetStateAction<string>>;
 
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+
   experiencias: Array<ItensList>;
   setExperiencias: (experiencias: Array<ItensList>) => void;
 
@@ -65,6 +68,11 @@ export class CurriculoStore implements CurriculoStoreType {
   experiencias: Array<ItensList> = [];
   setExperiencias(experiencias: Array<ItensList>) {
     this.experiencias = experiencias;
+  }
+
+  loading: boolean = false;
+  setLoading(loading: boolean) {
+    this.loading = loading;
   }
 
   clearStatesCurriculo = () => {
