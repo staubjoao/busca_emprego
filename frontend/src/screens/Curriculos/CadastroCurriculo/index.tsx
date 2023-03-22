@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { SectionCreate } from '../../../components/SectionCreate';
 import { useEffect } from 'react';
@@ -11,62 +11,19 @@ export const CadastroCurriculo = observer(() => {
   const { curriculoStore, idiomaStore, cursoStore, snackbarStore, loginStore } =
     useStore();
 
-  const {
-    nomeEmpresa,
-    setNomeEmpresa,
-    cargo,
-    experiencias,
-    fim,
-    inicio,
-    setCargo,
-    setFim,
-    setInicio,
-    handleSaveExperience,
-    createNewExperience,
-    createExperience,
-    handleCreateCurriculo,
-  } = curriculoStore;
-
-  const {
-    idioma,
-    idiomas,
-    nivel,
-    setIdioma,
-    setNivel,
-    handleSaveIdiomas,
-    createNewIdioma,
-    createIdioma,
-  } = idiomaStore;
-
-  const {
-    curso,
-    cursos,
-    fimCurso,
-    inicioCurso,
-    setCurso,
-    setFimCurso,
-    setInicioCurso,
-    handleSaveCursos,
-    createNewCurso,
-    createCursos,
-  } = cursoStore;
-
-  const { openSnackbar, setOpenSnackbar, severity, message, setMessage } =
-    snackbarStore;
-
   useEffect(() => {
-    createNewExperience();
-    createNewIdioma();
-    createNewCurso();
+    curriculoStore.createNewExperience();
+    idiomaStore.createNewIdioma();
+    cursoStore.createNewCurso();
   }, []);
 
   const createCurriculo = async () => {
-    const response = await handleCreateCurriculo(
+    const response = await curriculoStore.handleCreateCurriculo(
       loginStore.token,
       id as any,
-      createExperience,
-      createIdioma,
-      createCursos
+      curriculoStore.createExperience,
+      idiomaStore.createIdioma,
+      cursoStore.createCursos
     );
 
     snackbarStore.setOpenSnackbar(true);
@@ -74,7 +31,7 @@ export const CadastroCurriculo = observer(() => {
       ? snackbarStore.setSeverity('error')
       : snackbarStore.setSeverity('success');
 
-    setMessage(response.message);
+    snackbarStore.setMessage(response.message);
   };
 
   return (
@@ -87,82 +44,82 @@ export const CadastroCurriculo = observer(() => {
     >
       <Content>
         <SectionCreate
-          array={experiencias}
+          array={curriculoStore.experiencias}
           title="Experiências profissionais"
           firstItem={{
             xs: 12,
             label: 'Nome da empresa',
             placeholder: 'Digite o nome da empresa',
-            currentValue: nomeEmpresa,
-            setCurrentValue: setNomeEmpresa,
+            currentValue: curriculoStore.nomeEmpresa,
+            setCurrentValue: curriculoStore.setNomeEmpresa,
           }}
           secondItem={{
             xs: 6,
             label: 'Cargo',
             placeholder: 'Digite o cargo',
-            currentValue: cargo,
-            setCurrentValue: setCargo,
+            currentValue: curriculoStore.cargo,
+            setCurrentValue: curriculoStore.setCargo,
           }}
           thirdItem={{
             xs: 3,
             label: 'Início',
             placeholder: 'Data de início',
-            currentValue: inicio,
-            setCurrentValue: setInicio,
+            currentValue: curriculoStore.inicio,
+            setCurrentValue: curriculoStore.setInicio,
           }}
           fourItem={{
             xs: 3,
             label: 'Fim',
             placeholder: 'Data de fim',
-            currentValue: fim,
-            setCurrentValue: setFim,
+            currentValue: curriculoStore.fim,
+            setCurrentValue: curriculoStore.setFim,
           }}
-          onPressAdd={handleSaveExperience}
+          onPressAdd={curriculoStore.handleSaveExperience}
         />
         <SectionCreate
           title="Idiomas"
-          array={idiomas}
+          array={idiomaStore.idiomas}
           firstItem={{
             xs: 6,
             label: 'Idioma',
             placeholder: 'Ex: Inglês',
-            currentValue: idioma,
-            setCurrentValue: setIdioma,
+            currentValue: idiomaStore.idioma,
+            setCurrentValue: idiomaStore.setIdioma,
           }}
           secondItem={{
             xs: 6,
             label: 'Nível',
             placeholder: 'Ex: Intermediário',
-            currentValue: nivel,
-            setCurrentValue: setNivel,
+            currentValue: idiomaStore.nivel,
+            setCurrentValue: idiomaStore.setNivel,
           }}
-          onPressAdd={handleSaveIdiomas}
+          onPressAdd={idiomaStore.handleSaveIdiomas}
         />
         <SectionCreate
           title="Cursos"
-          array={cursos}
+          array={cursoStore.cursos}
           firstItem={{
             xs: 12,
             label: 'Curso',
             placeholder: 'Digite o nome do curso',
-            currentValue: curso,
-            setCurrentValue: setCurso,
+            currentValue: cursoStore.curso,
+            setCurrentValue: cursoStore.setCurso,
           }}
           secondItem={{
             xs: 4,
             label: 'Início',
             placeholder: 'Data início',
-            currentValue: inicioCurso,
-            setCurrentValue: setInicioCurso,
+            currentValue: cursoStore.inicioCurso,
+            setCurrentValue: cursoStore.setInicioCurso,
           }}
           thirdItem={{
             xs: 4,
             label: 'Fim',
             placeholder: 'Data fim',
-            currentValue: fimCurso,
-            setCurrentValue: setFimCurso,
+            currentValue: cursoStore.fimCurso,
+            setCurrentValue: cursoStore.setFimCurso,
           }}
-          onPressAdd={handleSaveCursos}
+          onPressAdd={cursoStore.handleSaveCursos}
         />
 
         <ButtonCreate
@@ -175,16 +132,20 @@ export const CadastroCurriculo = observer(() => {
       </Content>
 
       <Snackbar
-        open={openSnackbar}
+        open={snackbarStore.openSnackbar}
         autoHideDuration={1000}
-        onClose={() => setOpenSnackbar(!openSnackbar)}
+        onClose={() =>
+          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+        }
       >
         <Alert
-          onClose={() => setOpenSnackbar(!openSnackbar)}
-          severity={severity}
+          onClose={() =>
+            snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          }
+          severity={snackbarStore.severity}
           sx={{ width: '100%' }}
         >
-          {message}
+          {snackbarStore.message}
         </Alert>
       </Snackbar>
     </Box>
