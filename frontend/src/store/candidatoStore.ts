@@ -2,6 +2,11 @@ import { makeAutoObservable } from 'mobx';
 import { createCandidato } from '../service';
 
 export interface CandidatoStoreType {
+    perfil: string;
+    setPerfil: (
+        perfil: string
+    ) => void | React.Dispatch<React.SetStateAction<string>>;
+
     email: string;
     setEmail: (
         email: string
@@ -182,9 +187,10 @@ export interface CandidatoStoreType {
         formularioError: boolean
     ) => void | React.Dispatch<React.SetStateAction<boolean>>;
 
-    clearStatesEmpresa: () => void;
+    clearStatesCandidato: () => void;
 
     handleCreateCandidato: (
+        createPerfil: any,
         createEmail: any,
         createSenha: any,
         createNome: any,
@@ -208,6 +214,11 @@ export interface CandidatoStoreType {
 export class CandidatoStore implements CandidatoStoreType {
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    perfil: string = '';
+    setPerfil(perfil: string) {
+        this.perfil = perfil;
     }
 
     email: string = '';
@@ -395,7 +406,8 @@ export class CandidatoStore implements CandidatoStoreType {
         this.formularioError = formularioError;
     }
 
-    clearStatesEmpresa = () => {
+    clearStatesCandidato = () => {
+        this.setPerfil('');
         this.setEmail('');
         this.setSenha('');
         this.setNome('');
@@ -415,6 +427,7 @@ export class CandidatoStore implements CandidatoStoreType {
     };
 
     async handleCreateCandidato(
+        perfil: string,
         email: string,
         senha: string,
         nome: string,
@@ -434,6 +447,7 @@ export class CandidatoStore implements CandidatoStoreType {
         pretensao: string,
     ) {
         const response = await createCandidato(
+            perfil,
             email,
             senha,
             nome,

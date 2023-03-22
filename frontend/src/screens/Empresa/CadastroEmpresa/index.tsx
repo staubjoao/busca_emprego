@@ -36,6 +36,8 @@ export const CadastroEmpresa = observer(() => {
     isRamoError
   } = validateEmpresa;
   const {
+    logo,
+    setLogo,
     email,
     setEmail,
     senha,
@@ -174,6 +176,7 @@ export const CadastroEmpresa = observer(() => {
       return
     }
     const response = await handleCreateEmpresa(
+      logo,
       email,
       senha,
       nome,
@@ -289,6 +292,13 @@ export const CadastroEmpresa = observer(() => {
                   fullWidth
                   onBlur={() => { setRamoError(isRamoError(ramo)) }}
                   error={!ramoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  label="Link para do logo da empresa"
+                  value={logo}
+                  onChange={(event) => setLogo(event.target.value)}
+                  fullWidth />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField

@@ -40,6 +40,8 @@ export const CadastroCandidato = observer(() => {
     isAreaAtuacaoError,
   } = validateCandidato;
   const {
+    perfil,
+    setPerfil,
     email,
     setEmail,
     senha,
@@ -115,6 +117,7 @@ export const CadastroCandidato = observer(() => {
     setFormularioError,
     areaAtuacaoError,
     setAreaAtuacaoError,
+    clearStatesCandidato,
   } = candidatoStore;
 
   const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
@@ -200,6 +203,7 @@ export const CadastroCandidato = observer(() => {
       return
     }
     const response = await handleCreateCandidato(
+      perfil,
       email,
       senha,
       nome,
@@ -224,11 +228,13 @@ export const CadastroCandidato = observer(() => {
       setTimeout(() => {
         navigate('/login/candidato')
         setOpenSnackbar(false)
+        clearStatesCandidato()
       }, 2500)
     }).catch(() => {
       setOpenSnackbar(true)
       setSeverity('error')
       setMessage('Erro ao cadastrar o candidato')
+      clearStatesCandidato()
     });
 
   };
@@ -299,7 +305,7 @@ export const CadastroCandidato = observer(() => {
                   onBlur={() => { setSenhaError(isSenhaError(senha)) }}
                   error={!senhaError && formularioError} />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Nome"
                   value={nome}
                   onChange={(event) => setNome(event.target.value)}
@@ -307,7 +313,7 @@ export const CadastroCandidato = observer(() => {
                   onBlur={() => { setNomeError(isNomeError(nome)) }}
                   error={!nomeError && formularioError} />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   label="CPF"
                   value={cpf}
@@ -320,7 +326,7 @@ export const CadastroCandidato = observer(() => {
                   onBlur={() => { setCpfError(isCpfError(cpf)) }}
                   error={!cpfError && formularioError} />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   label="Área de Atuação"
                   value={areaAtuacao}
@@ -328,6 +334,13 @@ export const CadastroCandidato = observer(() => {
                   fullWidth
                   onBlur={() => { setAreaAtuacaoError(isAreaAtuacaoError(areaAtuacao)) }}
                   error={!areaAtuacaoError && formularioError} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Link para sua foto de perfil"
+                  value={perfil}
+                  onChange={(event) => setPerfil(event.target.value)}
+                  fullWidth />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
