@@ -1,31 +1,13 @@
-import IMaskInput from 'react-input-mask'
 import { useEffect, useState } from 'react'
-import { getVagasEmpresa, toggleVaga } from '../../../service/vagas'
 import { Box, Pagination, Typography } from '@mui/material'
 import { Lista } from '../../../components/ListaVagas/Empresa/ListaEmpresa'
 import { useStore } from '../../../hooks/stores'
-import { useParams } from 'react-router-dom'
 
 const pageSize = 3
 
 export function ListagemVagasEmpresa() {
-  const { loginStore } = useStore()
-  const idEmpresa = useParams()
-  const [lista, setLista] = useState<
-    {
-      id: number
-      titulo: string
-      descricao: string
-      periodo: string
-      salario: number
-      visualizar: number
-      EmpresaId: number
-      Empresa: {
-        nome: string
-        logo: string | null
-      }
-    }[]
-  >([])
+  const { loginStore, vagaStore } = useStore()
+  const { vagas, setVagas } = vagaStore
 
   const [pagination, setPagination] = useState<{
     count: number
@@ -38,14 +20,19 @@ export function ListagemVagasEmpresa() {
   })
 
   const handleVagas = async () => {
-    if (idEmpresa.id !== undefined) {
-      const newList = await getVagasEmpresa(idEmpresa.id, loginStore.token)
-      const data = {
-        count: newList.length,
-        data: newList.slice(pagination.from, pagination.to)
+    if (loginStore.user.id !== undefined) {
+      const response = await vagaStore.handleListarVagasEmpresa(
+        loginStore.user.id,
+        loginStore.token
+      )
+
+      const paginationData = {
+        count: response.length,
+        data: response.slice(pagination.from, pagination.to)
       }
-      setLista(data.data)
-      setPagination({ ...pagination, count: data.count })
+      setVagas(paginationData.data)
+      console.log(response)
+      setPagination({ ...pagination, count: paginationData.count })
     }
   }
 
@@ -80,7 +67,7 @@ export function ListagemVagasEmpresa() {
         </Typography>
       </Box>
       <Box minHeight="84.2vh" position="relative" bottom="30px">
-        <Lista listagem={lista} />
+        <Lista listagem={vagas} />
         <Box
           display="flex"
           justifyContent="center"

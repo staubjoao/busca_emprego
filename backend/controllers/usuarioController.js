@@ -114,7 +114,7 @@ const usuarioController = {
   exibirDadosVaga: async (req, res) => {
     await vaga
       .findOne({
-        where: { id: req.params.id },
+        where: { id: req.params.idVaga },
         include: [
           {
             model: empresa,
