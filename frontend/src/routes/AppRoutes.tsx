@@ -7,6 +7,7 @@ import {
   ListagemCurriculos,
   CadastroCurriculo,
   ListagemVagasCandidato,
+  ListagemCurriculoCompleto,
 } from '../screens';
 import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga';
 import { ExibirVaga } from '../screens/Vagas/ExibirVaga';
