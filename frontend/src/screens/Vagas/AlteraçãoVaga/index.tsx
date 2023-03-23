@@ -1,44 +1,67 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { ButtonBase, FormLabel, Typography } from '@mui/material'
 import { InputSalario, InputVaga } from './styles'
 import warning from '../../../assets/images/warning.svg'
-import { alteracaoVaga, getInfoVaga } from '../../../service/vagas'
 import { useStore } from '../../../hooks/stores'
+import { observer } from 'mobx-react-lite'
 
-export function AlterarVaga() {
-  const { loginStore } = useStore()
-  const [erro, setErro] = useState('')
-  const [titulo, setTitulo] = useState('')
-  const [periodo, setPeriodo] = useState('')
-  const [salario, setSalario] = useState(0)
-  const [descricao, setDescricao] = useState('')
-  const [objVaga, setObjVaga] = useState(Object)
-  const token = loginStore.token
-
-  const idVaga = useParams()
+export const AlterarVaga = observer(() => {
+  const { loginStore, vagaStore } = useStore()
+  const { id } = useParams()
   const navigate = useNavigate()
+  const {
+    vaga,
+    setVaga,
+    titulo,
+    setTitulo,
+    periodo,
+    setPeriodo,
+    salario,
+    setSalario,
+    descricao,
+    setDescricao,
+    setErro,
+    canNavigate,
+    setCanNavigate
+  } = vagaStore
 
-  function loadDadosVaga() {
-    if (idVaga.id !== undefined) {
-      getInfoVaga(idVaga.id, token).then(res => setObjVaga(res))
-      setTitulo(objVaga.titulo)
-      setPeriodo(objVaga.periodo)
-      setSalario(objVaga.salario)
-      setDescricao(objVaga.descricao)
+  const handleVaga = async () => {
+    if (id !== undefined) {
+      setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
+    }
+  }
+
+  const handleEditVaga = (e: FormEvent) => {
+    e.preventDefault()
+
+    if (id !== undefined) {
+      vagaStore.handleEditVaga(
+        id,
+        loginStore.token,
+        e,
+        titulo,
+        periodo,
+        descricao,
+        salario,
+        loginStore.user.id,
+        setErro,
+        setCanNavigate
+      )
+      canNavigate && navigate('/empresa/vagas/' + loginStore.user.id)
     }
   }
 
   useEffect(() => {
-    loadDadosVaga()
+    handleVaga()
   }, [])
 
   return (
     <div>
       <Box width="100%" marginX="auto" maxWidth="32rem" marginBottom="4rem">
         <Typography color="#FFFFFF" fontSize="1.5rem" marginTop="1.5rem">
-          Alteração de vaga "{objVaga.titulo}"
+          Alteração de vaga "{vaga.titulo}"
         </Typography>
         <Typography color="rgb(209 213 219)" marginTop="1rem">
           Preencha o formulário de vagas abaixo
@@ -55,22 +78,7 @@ export function AlterarVaga() {
           bottom="2.5rem"
           borderRadius="0.5rem"
         >
-          <form
-            onSubmit={e => {
-              alteracaoVaga(
-                idVaga.id,
-                e,
-                titulo,
-                periodo,
-                descricao,
-                salario,
-                loginStore.user.id,
-                setErro,
-                token
-              )
-              navigate('/empresa/vagas/' + loginStore.user.id)
-            }}
-          >
+          <form onSubmit={e => handleEditVaga(e)}>
             <Typography
               fontSize="1.25rem"
               fontWeight="600"
@@ -92,7 +100,7 @@ export function AlterarVaga() {
               <InputVaga
                 type="text"
                 id="titulo"
-                value={titulo || objVaga.titulo}
+                value={titulo || vaga.titulo}
                 onChange={event => setTitulo(event.target.value)}
               />
             </Box>
@@ -107,7 +115,7 @@ export function AlterarVaga() {
               <InputVaga
                 type="text"
                 id="periodo"
-                value={periodo || objVaga.periodo}
+                value={periodo || vaga.periodo}
                 onChange={event => setPeriodo(event.target.value)}
               />
             </Box>
@@ -124,7 +132,7 @@ export function AlterarVaga() {
                 mask="R$ 99999999999"
                 id="salario"
                 maskChar={''}
-                value={salario || objVaga.salario}
+                value={salario || vaga.salario}
                 onChange={event =>
                   setSalario(parseFloat(event.target.value.slice(3)))
                 }
@@ -151,7 +159,7 @@ export function AlterarVaga() {
                   height: '16rem'
                 }}
                 id="descricao"
-                value={descricao || objVaga.descricao}
+                value={descricao || vaga.descricao}
                 onChange={event => setDescricao(event.target.value)}
               />
             </Box>
@@ -194,4 +202,4 @@ export function AlterarVaga() {
       </Box>
     </div>
   )
-}
+})

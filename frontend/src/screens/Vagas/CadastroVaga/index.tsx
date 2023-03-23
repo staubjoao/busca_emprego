@@ -3,11 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FormEvent, useState } from 'react'
 import { cadastroVaga } from '../../../service/vagas'
 import { useStore } from '../../../hooks/stores'
+import { observer } from 'mobx-react-lite'
 
-export function CadastroVaga() {
+export const CadastroVaga = observer(() => {
   const { loginStore, vagaStore } = useStore()
+  const navigate = useNavigate()
   const {
-    erro,
     setErro,
     titulo,
     periodo,
@@ -20,13 +21,10 @@ export function CadastroVaga() {
     setDescricao,
     setPeriodo
   } = vagaStore
-  const navigate = useNavigate()
-  const token = loginStore.token
 
   const handleVaga = async (e: FormEvent) => {
-    console.log(descricao)
     vagaStore.handleCreateVaga(
-      token,
+      loginStore.token,
       e,
       titulo,
       periodo,
@@ -157,4 +155,4 @@ export function CadastroVaga() {
       </div>
     </div>
   )
-}
+})

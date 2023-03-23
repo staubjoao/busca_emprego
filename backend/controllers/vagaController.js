@@ -1,7 +1,7 @@
-const models = require('../models');
+const models = require('../models')
 
-const vaga = models.Vaga;
-const empresa = models.Empresa;
+const vaga = models.Vaga
+const empresa = models.Empresa
 
 //controller de Vaga
 
@@ -12,27 +12,27 @@ const vagaController = {
       .then(() => {
         return res.json({
           error: false,
-          message: 'Vaga criada com sucesso!',
-        });
+          message: 'Vaga criada com sucesso!'
+        })
       })
-      .catch((erro) => {
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro,
-        });
-      });
+          message: erro
+        })
+      })
   },
 
   listarVagas: async (req, res) => {
-    if (req.params.id) {
+    if (req.params.idEmpresa) {
       const usuario = await empresa.findOne({
         where: {
-          id: req.params.idEmpresa,
-        },
-      });
+          id: req.params.idEmpresa
+        }
+      })
 
       if (!usuario)
-        return res.json({ erro: true, mensagem: 'Ops... houve um erro!' });
+        return res.json({ erro: true, mensagem: 'Ops... houve um erro!' })
 
       await vaga
         .findAll({
@@ -41,106 +41,88 @@ const vagaController = {
             {
               model: empresa,
               required: true,
-              attributes: ['nome', 'logo'],
-            },
-          ],
+              attributes: ['nome', 'logo']
+            }
+          ]
         })
-        .then((vagas) => res.json({ vagas }))
-        .catch((erro) => {
+        .then(vagas => res.json({ vagas }))
+        .catch(erro => {
           return res.status(400).json({
             error: true,
-            message: erro,
-          });
-        });
-    } else {
-      await vaga
-        .findAll({
-          include: [
-            {
-              model: empresa,
-              required: true,
-              attributes: ['nome', 'logo'],
-            },
-          ],
+            message: erro
+          })
         })
-        .then((vagas) => res.json({ vagas }))
-        .catch((erro) => {
-          return res.status(400).json({
-            error: true,
-            message: erro,
-          });
-        });
     }
   },
 
   toggleVaga: async (req, res) => {
-    const newVisualizar = req.body.visualizar == true ? 0 : 1;
+    const newVisualizar = req.body.visualizar === true ? 0 : 1
 
     await vaga
       .update(
         { visualizar: newVisualizar },
         {
           where: {
-            id: req.body.id,
-          },
+            id: req.params.idVaga
+          }
         }
       )
       .then(() =>
         res.json({
           error: false,
           message: 'Alterado com sucesso :)',
-          newVisualizar: newVisualizar,
+          newVisualizar: newVisualizar
         })
       )
-      .catch((error) => {
+      .catch(error => {
         return res.status(400).json({
           error: true,
-          message: error,
-        });
-      });
+          message: error
+        })
+      })
   },
 
   alterarVaga: async (req, res) => {
     vaga
       .update(req.body, {
         where: {
-          id: req.params.idVaga,
-        },
+          id: req.params.idVaga
+        }
       })
       .then(() =>
         res.json({
           error: false,
-          message: 'Alterado com sucesso :)',
+          message: 'Alterado com sucesso :)'
         })
       )
-      .catch((error) => {
+      .catch(error => {
         return res.status(400).json({
           error: true,
-          message: error,
-        });
-      });
+          message: error
+        })
+      })
   },
 
   exibirDadosVaga: async (req, res) => {
     await vaga
       .findOne({
-        where: { id: req.params.id },
+        where: { id: req.params.idVaga },
         include: [
           {
             model: empresa,
             required: true,
-            attributes: ['nome', 'logo'],
-          },
-        ],
+            attributes: ['nome', 'logo']
+          }
+        ]
       })
-      .then((vagas) => res.json({ vagas }))
-      .catch((erro) => {
+      .then(vagas => res.json({ vagas }))
+      .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro,
-        });
-      });
-  },
-};
+          message: erro
+        })
+      })
+  }
+}
 
-module.exports = vagaController;
+module.exports = vagaController

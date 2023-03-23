@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { FormEvent } from "react";
-import { cadastroVaga } from "../service/vagas";
+import { alteracaoVaga, cadastroVaga, exibirVagaCandidato, exibirVagaEmpresa, listarVagasEmpresa, toggleVaga } from "../service/vagas";
 
 export interface VagaStoreType {
   id: string,
@@ -45,15 +45,15 @@ export interface VagaStoreType {
   setEmpresaId: (
     empresaId: string
   ) => void | React.Dispatch<React.SetStateAction<string>>;
-
-  empresa: Object;
-  setEmpresa: (empresa: Object) => void;
+  
+  vaga: ItensList;
+  setVaga: (vaga: ItensList) => void;
 
   vagas: Array<ItensList>;
   setVagas: (vagas: Array<ItensList>) => void;
 
   clearStatesVaga: () => void;
-  handleSaveVagas: () => void;
+
   handleCreateVaga: (
     token: string,
     e: FormEvent,
@@ -72,10 +72,13 @@ export type ItensList = {
     titulo: string
     descricao: string
     periodo: string
-    salario: number | null
+    salario: number 
     visualizar: number
-    empresaId: string
-    empresa: Object
+    EmpresaId: string
+    Empresa: {
+      logo: string,
+      nome: string
+    }
 };
 
 export class VagaStore implements VagaStoreType{
@@ -128,9 +131,21 @@ export class VagaStore implements VagaStoreType{
     this.id = id
   }
 
-  empresa: Object = {};
-  setEmpresa(empresa: Object) {
-    this.empresa = empresa;
+  vaga: ItensList = {
+    id: "",
+    titulo: "",
+    descricao: "",
+    periodo: "",
+    salario: 0,
+    visualizar: 0,
+    EmpresaId: "",
+    Empresa: {
+      logo: "",
+      nome: ""
+    }
+  };
+  setVaga(vaga: ItensList) {
+    this.vaga = vaga;
   }
 
   vagas: Array<ItensList> = [];
@@ -147,25 +162,7 @@ export class VagaStore implements VagaStoreType{
     this.setErro('')
     this.setVisualizar(0)
     this.setId('')
-    this.setEmpresa({})
   }
-
-  handleSaveVagas = () => {
-    if (this.titulo && this.periodo && this.salario && this.visualizar && this.empresa && this.id && this.empresaId && this.empresa) {
-      const item = {
-        id: this.id,
-        titulo: this.titulo,
-        periodo: this.periodo,
-        salario: this.salario,
-        visualizar: this.salario,
-        empresaId: this.empresaId,
-        descricao: this.descricao,
-        empresa: this.empresa,
-      };
-      this.setVagas([item, ...this.vagas]);
-      this.clearStatesVaga();
-    }
-  };
 
   handleCreateVaga = async (
     token: string,
@@ -188,10 +185,50 @@ export class VagaStore implements VagaStoreType{
       setErro,
       setCanNavigate)
 
-      this.clearStatesVaga()
-
       return response 
   }
 
+  handleShowVagaCandidato = async (id: string, token: string) => {
+    const response = await exibirVagaCandidato(id, token)
+    return response
+  }
+
+  handleShowVagaEmpresa = async (id: string, token: string) => {
+    const response = await exibirVagaEmpresa(id, token)
+    return response
+  }
+
+  handleEditVaga = async (
+    id: string,
+    token: string,
+    e: FormEvent,
+    titulo: string,
+    periodo: string,
+    descricao: string,
+    salario: number,
+    EmpresaId: string | null,
+    setErro: any,
+    setCanNavigate: any) => {
+      
+    await alteracaoVaga(id,
+      e,
+      titulo,
+      periodo,
+      descricao,
+      salario,
+      EmpresaId,
+      setErro,
+      setCanNavigate,
+      token)
+  }
  
+  handleListarVagasEmpresa = async (id: string, token: string) => {
+    const response = await listarVagasEmpresa(id, token)
+    return response 
+  }
+
+  handleToggleIcon = async (id: string, visualizar: number, token: string) => {
+    const response = await toggleVaga(id, visualizar, token)
+    return response
+  }
 }

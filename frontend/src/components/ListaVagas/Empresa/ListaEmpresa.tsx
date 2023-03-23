@@ -5,36 +5,44 @@ import {
   VisibilityOffOutlined,
   EditOutlined
 } from '@mui/icons-material'
-import { toggleVaga } from '../../../service/vagas'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../../../hooks/stores'
+import { observer } from 'mobx-react-lite'
 
 interface ListaProps {
   listagem: {
-    id: number
+    id: string
     titulo: string
     descricao: string
     periodo: string
-    salario: number | null
+    salario: number
     visualizar: number
-    EmpresaId: number
+    EmpresaId: string
     Empresa: {
+      logo: string
       nome: string
-      logo: string | null
     }
   }[]
 }
 
-export function Lista(props: ListaProps) {
+export const Lista = observer((props: ListaProps) => {
   const { listagem } = props
+  const { loginStore, vagaStore } = useStore()
   const navigate = useNavigate()
-  const { loginStore } = useStore()
-  const token = loginStore.token
+  const { visualizar, setVisualizar } = vagaStore
 
-  async function toggle(id: string, visualizar: number, token: string) {
-    const retToggle = await toggleVaga(id, visualizar, token)
+  const handleToggle = async (
+    id: string,
+    visualizar: number,
+    token: string
+  ) => {
+    const response = await vagaStore.handleToggleIcon(id, visualizar, token)
+    return response.newVisualizar
   }
 
+  const handleVisualizar = (visualizar: number) => {
+    return visualizar === 1 ? 1 : 0
+  }
   return (
     <Box>
       {listagem.map(element => (
@@ -60,7 +68,7 @@ export function Lista(props: ListaProps) {
                   component="img"
                   src={empresaIcon}
                   alt="Empresa sem foto"
-                  width="5rem"
+                  width="4rem"
                 />
               ) : (
                 <Box
@@ -79,13 +87,24 @@ export function Lista(props: ListaProps) {
                 </Typography>
               </Box>
             </Box>
-            <Box display="flex">
+            <Box
+              component="form"
+              display="flex"
+              onSubmit={e =>
+                handleToggle(element.id, element.visualizar, loginStore.token)
+              }
+            >
               <IconButton
+                type="submit"
                 onClick={() =>
-                  toggle(element.id.toString(), element.visualizar, token)
+                  setVisualizar(handleVisualizar(Number(element.visualizar)))
                 }
               >
-                <RemoveRedEyeOutlined />
+                {Number(element.visualizar) === 1 || visualizar === 1 ? (
+                  <RemoveRedEyeOutlined />
+                ) : (
+                  <VisibilityOffOutlined />
+                )}
               </IconButton>
               <IconButton
                 onClick={e => navigate('/empresa/alterar/vaga/' + element.id)}
@@ -148,4 +167,4 @@ export function Lista(props: ListaProps) {
       ))}
     </Box>
   )
-}
+})
