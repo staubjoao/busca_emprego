@@ -1,21 +1,20 @@
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import Sidebar from '../components/Sidebar'
-import { useStore } from '../hooks/stores'
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
+import { useStore } from '../hooks/stores';
 
 import {
   CadastroVaga,
   ListagemCurriculos,
   CadastroCurriculo,
   ListagemVagasCandidato,
-  ListagemCurriculoCompleto
-} from '../screens'
-import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga'
-import { ExibirVaga } from '../screens/Vagas/ExibirVaga'
-import { ListagemVagasEmpresa } from '../screens/Vagas/ListagemVagasEmpresa'
+} from '../screens';
+import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga';
+import { ExibirVaga } from '../screens/Vagas/ExibirVaga';
+import { ListagemVagasEmpresa } from '../screens/Vagas/ListagemVagasEmpresa';
 
 export function AppRoutes() {
-  const { loginStore } = useStore()
-  const navigate = useNavigate()
+  const { loginStore } = useStore();
+  const navigate = useNavigate();
   return (
     <>
       <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
@@ -30,5 +29,5 @@ export function AppRoutes() {
         <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />
       </Routes>
     </>
-  )
+  );
 }

@@ -172,7 +172,7 @@ const curriculo = {
         CurriculoId: idCandidato,
       });
 
-      res.json({ ok: true, data: response });
+      res.json({ ok: true, data: 'Parabéns! Você se candidatou à vaga' });
     } catch (e) {
       res.status(500);
       return res.json({
