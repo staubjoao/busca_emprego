@@ -8,7 +8,9 @@ type SuccessMessage =
   | 'Erro ao cadastrar o candidato'
   | 'Empresa cadastrada com sucesso'
   | 'Campo(s) em branco'
-  | 'Falha ao cadastrar a empresa';
+  | 'Falha ao cadastrar a empresa'
+  | 'Email copiado para a área de transferência'
+  | 'Ocorreu um erro ao copiar o email';
 type ErrorMessage = 'Ops, algo deu errado :(';
 
 export interface SnackbarStoreType {

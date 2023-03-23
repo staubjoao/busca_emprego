@@ -4,7 +4,7 @@ import { getCurriculo } from '../../../service/curriculo';
 import { ListarIdiomas } from '../../../components/Curriculo/ListaIdioma';
 import { ListarCursos } from '../../../components/Curriculo/ListaCurso';
 import { ListarExperiencias } from '../../../components/Curriculo/ListaExperiencia';
-import { Typography, ButtonBase, Box } from '@mui/material';
+import { Typography, ButtonBase, Box, Snackbar, Alert } from '@mui/material';
 import { useStore } from '../../../hooks/stores';
 import perfilIcon from '../../../assets/icons/perfil.png';
 
@@ -33,12 +33,14 @@ interface Experiencia {
 }
 
 export function ListagemCurriculoCompleto() {
+    const { snackbarStore } = useStore();
     const { idCurriculo } = useParams();
     const { loginStore } = useStore();
 
     const [curriculo, setCurriculo] = useState<
         {
             id: string,
+            email: string,
             perfil: string
             nome: string
             areaAtuacao: string
@@ -47,19 +49,19 @@ export function ListagemCurriculoCompleto() {
             cursos: Curso[]
             experiencias: Experiencia[]
         }
-    >({ id: "", perfil: "", nome: "", areaAtuacao: "", descricao: "", idiomas: [], cursos: [], experiencias: [] })
+    >({ id: "", email: "", perfil: "", nome: "", areaAtuacao: "", descricao: "", idiomas: [], cursos: [], experiencias: [] })
+    const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
+        snackbarStore;
 
     useEffect(() => {
         async function handleCurriculos() {
             const newList = await getCurriculo(idCurriculo as any, loginStore.token);
-
             const idiomas = newList.Idiomas.map((item: any) => {
                 return {
                     nome: item.idioma,
                     nivel: item.CurriculosIdiomas.nivel,
                 }
             })
-
             const cursos = newList.Cursos.map((item: any) => {
                 const inicio = item.CurriculosCursos.inicio
                 const dataInicio = inicio.split('T')[0]
@@ -75,10 +77,6 @@ export function ListagemCurriculoCompleto() {
                     pais: item.Instituicaos[0].pais
                 }
             })
-
-            console.log(cursos)
-
-
             const experiencias = newList.Experiencias.map((item: any) => {
                 const inicio = item.CurriculosExperiencias.inicio
                 const dataInicio = inicio.split('T')[0]
@@ -95,13 +93,12 @@ export function ListagemCurriculoCompleto() {
                     cargo: item.CurriculosExperiencias.cargo
                 }
             })
-
-            const areaAtuacaoTeste = "teste"
             const auxCurriculo = {
                 id: newList.id,
+                email: newList.email,
                 perfil: newList.perfil,
                 nome: newList.nome,
-                areaAtuacao: areaAtuacaoTeste,
+                areaAtuacao: newList.areaAtuacao,
                 descricao: newList.descricao,
                 idiomas: idiomas,
                 cursos: cursos,
@@ -111,6 +108,13 @@ export function ListagemCurriculoCompleto() {
         }
         handleCurriculos()
     }, [])
+
+    const copiarEmail = () => {
+        navigator.clipboard.writeText(curriculo.email)
+        setOpenSnackbar(true)
+        setSeverity('success')
+        setMessage('Email copiado para a área de transferência')
+    }
 
 
 
@@ -212,7 +216,7 @@ export function ListagemCurriculoCompleto() {
                                     }
                                 }}
                             >
-                                <Box component="span">Entrar em contato</Box>
+                                <Box onClick={copiarEmail} component="span">Entrar em contato</Box>
                             </ButtonBase>
                         </Box>
                     </Box>
@@ -225,6 +229,19 @@ export function ListagemCurriculoCompleto() {
                 >
                 </Box>
             </Box>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setOpenSnackbar(!openSnackbar)}
+            >
+                <Alert
+                    onClose={() => setOpenSnackbar(!openSnackbar)}
+                    severity={severity}
+                    sx={{ width: '100%' }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </Box>
     )
 }
