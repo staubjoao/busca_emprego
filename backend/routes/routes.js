@@ -26,9 +26,9 @@ router.post('/candidatar', curriculoController.candidatar)
 
 //rota de funcionalidades candidato:
 //lista todas as vagas que tem no site para o candidato
-router.get('/candidato/vagas', usuarioController.listarVagas)
+router.get('/candidato/vagas', candidatoControlle.listarVagas)
 //pega uma vaga especifica da listagem de vagas para o candidato
-router.get('/candidato/vagas/:id', usuarioController.exibirDadosVaga)
+router.get('/candidato/vagas/:id', candidatoControlle.exibirDadosVaga)
 
 //rota de funcionalidades empresa
 
