@@ -1,54 +1,6 @@
 import { FormEvent } from 'react';
 import { api } from './baseURL';
 
-export const getVagasCandidato = async (token: string) => {
-  const response = await api.get('usuario/candidato/vagas', {
-    headers: {
-      'authorization-token': token,
-    },
-  });
-
-  return response.data.vagas;
-};
-
-export const getVagasEmpresa = async (id: string, token: string) => {
-  const response = await api.get('usuario/empresa/vagas/' + id, {
-    headers: {
-      'authorization-token': token,
-    },
-  });
-  return response.data.vagas;
-};
-
-export const getInfoVaga = async (id: string, token: string) => {
-  const response = await api.get('usuario/empresa/exibir/vaga/' + id, {
-    headers: {
-      'authorization-token': token,
-    },
-  });
-  return response.data.vagas;
-};
-
-export const toggleVaga = async (
-  id: string,
-  visualizar: number,
-  token: string
-) => {
-  const response = await api.put(
-    'usuario/empresa/vagas/toggle',
-    {
-      id,
-      visualizar,
-    },
-    {
-      headers: {
-        'authorization-token': token,
-      },
-    }
-  );
-  return response.data;
-};
-
 export async function cadastroVaga(
   token: string,
   e: FormEvent,
@@ -58,15 +10,13 @@ export async function cadastroVaga(
   salario: number,
   EmpresaId: string | null,
   setError: (error: string) => void,
-  setCanNavigate: (canNavigat: boolean) => void
+  setCanNavigate: (canNavigate: boolean) => void
 ) {
   e.preventDefault();
 
   if (titulo === '' || periodo === '' || descricao === '') {
     return;
   }
-
-  console.log('ola');
 
   await api
     .post(
@@ -102,12 +52,9 @@ export async function alteracaoVaga(
   salario: number,
   EmpresaId: string | null,
   setError: (error: string) => void,
+  setCanNavigate: (canNavigate: boolean) => void,
   token: string
 ) {
-  e.preventDefault();
-  if (titulo === '' || periodo === '' || descricao === '') {
-    return;
-  }
 
   await api
     .put(
@@ -128,18 +75,68 @@ export async function alteracaoVaga(
     .then((res) => {
       if (res.data.erro) {
         setError(res.data.mensagem);
+      } else {
+        setCanNavigate(true);
       }
     });
 }
 
-export async function exibirVaga(id: string, token: string) {
+export async function exibirVagaCandidato(id: string, token: string) {
   const response = await api.get('/usuario/candidato/vagas/' + id, {
     headers: {
       'authorization-token': token,
     },
   });
   return response.data.vagas;
-}
+};
+
+export const exibirVagaEmpresa = async (id: string, token: string) => {
+  const response = await api.get('usuario/empresa/exibir/vaga/' + id, {
+    headers: {
+      'authorization-token': token,
+    },
+  });
+  return response.data.vagas;
+};
+
+export const listarVagasEmpresa = async (id: string, token: string) => {
+  const response = await api.get('usuario/empresa/vagas/' + id, {
+    headers: {
+      'authorization-token': token,
+    },
+  });
+  return response.data.vagas;
+};
+
+export const listarVagasCandidato = async (token: string) => {
+  const response = await api.get('usuario/candidato/vagas', {
+    headers: {
+      'authorization-token': token,
+    },
+  });
+
+  return response.data.vagas;
+};
+
+export const toggleVaga = async (
+  id: string,
+  visualizar: number,
+  token: string
+) => {
+  const response = await api.put(
+    'usuario/empresa/vagas/toggle/'+id,
+    {
+      id,
+      visualizar,
+    },
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+  );
+  return response.data;
+};
 
 export async function candidatar(
   idVaga: string,
