@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const express = require('express');
-=======
-const express = require('express')
->>>>>>> 411c2a64cb3834bed321b00b72b0e89f37b88489
 const router = express.Router()
 const candidatoControlle = require('../controllers/candidatoController')
 const empresaControlle = require('../controllers/empresaController')
@@ -29,15 +25,9 @@ router.post('/candidatar', curriculoController.candidatar)
 
 //rota de funcionalidades candidato:
 //lista todas as vagas que tem no site para o candidato
-<<<<<<< HEAD
 router.get('/candidato/vagas', candidatoControlle.listarVagas)
 //pega uma vaga especifica da listagem de vagas para o candidato
 router.get('/candidato/vagas/:id', candidatoControlle.exibirDadosVaga)
-=======
-router.get('/candidato/vagas', usuarioController.listarVagas)
-//pega uma vaga especifica da listagem de vagas para o candidato
-router.get('/candidato/vagas/:idVaga', usuarioController.exibirDadosVaga)
->>>>>>> 411c2a64cb3834bed321b00b72b0e89f37b88489
 
 //rota de funcionalidades empresa
 
