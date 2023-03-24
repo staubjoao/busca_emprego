@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router()
+const candidatoControlle = require('../controllers/candidatoController')
+const empresaControlle = require('../controllers/empresaController')
 const usuarioController = require('../controllers/usuarioController')
 const authCandidato = require('../middleware/authCandidatoController') //controller de autenticação de candidato
 const authEmpresa = require('../middleware/authEmpresaController') //controller de autenticação de empresa
@@ -8,12 +10,12 @@ const vagaController = require('../controllers/vagaController')
 //arquivo para colocar as rotas
 
 //rota de cadastro
-router.post('/cadastro/empresas', usuarioController.cadastroEmpresa)
-router.post('/cadastro/candidatos', usuarioController.cadastroCandidato)
+router.post('/cadastro/empresas', empresaControlle.cadastroEmpresa)
+router.post('/cadastro/candidatos', candidatoControlle.cadastroCandidato)
 
 //rota de login
-router.post('/login/candidato', usuarioController.loginCandidato)
-router.post('/login/empresa', usuarioController.loginEmpresa)
+router.post('/login/candidato', candidatoControlle.loginCandidato)
+router.post('/login/empresa', empresaControlle.loginEmpresa)
 
 router.use(authCandidato)
 router.use(authEmpresa)
