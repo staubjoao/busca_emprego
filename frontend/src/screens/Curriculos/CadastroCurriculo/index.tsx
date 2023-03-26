@@ -12,6 +12,7 @@ import { ButtonCreate, Content } from './styles';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
 import { delay } from '../../../utils';
+import { Header } from '../../../components';
 
 export const CadastroCurriculo = observer(() => {
   const { id } = useParams();
@@ -47,12 +48,17 @@ export const CadastroCurriculo = observer(() => {
 
   return (
     <Box
-      display="flex"
+      bgcolor="rgb(245 245 244)"
+      alignItems={'center'}
       justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-      marginY={8}
+      display={'flex'}
+      flexDirection="column"
     >
+      <Header
+        titleHeader="Cadastre um currículo e encontre as melhores vagas"
+        subtitle="Preencha o formulário corretamente"
+      />
+
       <Content>
         <SectionCreate
           array={curriculoStore.experiencias}

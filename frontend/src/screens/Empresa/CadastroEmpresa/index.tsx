@@ -1,20 +1,30 @@
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Grid,
+  TextField,
+  InputBaseComponentProps,
+  Button,
+  Snackbar,
+  Alert,
+} from '@mui/material';
 import { useState, forwardRef } from 'react';
-import InputMask from "react-input-mask";
+import InputMask from 'react-input-mask';
 import { validateGenerico, validateEmpresa } from '../../../utils';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+import { Header } from '../../../components';
 
 type MaskedInputProps = {
-  mask: string
-} & InputBaseComponentProps
+  mask: string;
+} & InputBaseComponentProps;
 
 const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
   ({ mask, ...inputProps }, ref) => {
-    return <InputMask mask={mask} {...inputProps} />
+    return <InputMask mask={mask} {...inputProps} />;
   }
-)
+);
 
 export const CadastroEmpresa = observer(() => {
   const { empresaStore, snackbarStore } = useStore();
@@ -31,10 +41,7 @@ export const CadastroEmpresa = observer(() => {
     isTelefoneError,
     isComplementoError,
   } = validateGenerico;
-  const {
-    isCnpjError,
-    isRamoError
-  } = validateEmpresa;
+  const { isCnpjError, isRamoError } = validateEmpresa;
   const {
     logo,
     setLogo,
@@ -98,26 +105,33 @@ export const CadastroEmpresa = observer(() => {
     clearStatesEmpresa,
   } = empresaStore;
 
-  const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
-    snackbarStore;
+  const {
+    openSnackbar,
+    setOpenSnackbar,
+    severity,
+    setSeverity,
+    showSnackBar,
+    message,
+    setMessage,
+  } = snackbarStore;
 
-  const [formularioError, setFormularioError] = useState(false)
+  const [formularioError, setFormularioError] = useState(false);
 
   const isFormError = () => {
-    setEmailError(isEmailError(email))
-    setSenhaError(isSenhaError(senha))
-    setNomeError(isNomeError(nome))
-    setEnderecoError(isEnderecoError(endereco))
-    setBairroError(isBairroError(bairro))
-    setCidadeError(isCidadeError(cidade))
-    setEstadoError(isEstadoError(estado))
-    setPaisError(isPaisError(pais))
-    setNumeroError(isNumeroError(numero))
-    setComplementoError(isComplementoError(complemento))
-    setTelefoneError(isTelefoneError(telefone))
-    setRamoError(isRamoError(ramo))
-    setCnpjError(isCnpjError(cnpj))
-    setCepError(isCepError())
+    setEmailError(isEmailError(email));
+    setSenhaError(isSenhaError(senha));
+    setNomeError(isNomeError(nome));
+    setEnderecoError(isEnderecoError(endereco));
+    setBairroError(isBairroError(bairro));
+    setCidadeError(isCidadeError(cidade));
+    setEstadoError(isEstadoError(estado));
+    setPaisError(isPaisError(pais));
+    setNumeroError(isNumeroError(numero));
+    setComplementoError(isComplementoError(complemento));
+    setTelefoneError(isTelefoneError(telefone));
+    setRamoError(isRamoError(ramo));
+    setCnpjError(isCnpjError(cnpj));
+    setCepError(isCepError());
 
     return (
       emailError &&
@@ -134,46 +148,45 @@ export const CadastroEmpresa = observer(() => {
       telefoneError &&
       ramoError &&
       cnpjError
-    )
-  }
+    );
+  };
 
   const isCepError = () => {
-    const cepApi = cep.replace(/\D/g, '')
-    if (cep.trim() === '')
-      return false
-    if (cepApi.length !== 8)
-      return false
+    const cepApi = cep.replace(/\D/g, '');
+    if (cep.trim() === '') return false;
+    if (cepApi.length !== 8) return false;
     fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
-      .then(res => res.json()).then(data => {
-        setCidade(data.localidade)
-        setEstado(data.uf)
-        setEndereco(data.logradouro)
-        setBairro(data.bairro)
+      .then((res) => res.json())
+      .then((data) => {
+        setCidade(data.localidade);
+        setEstado(data.uf);
+        setEndereco(data.logradouro);
+        setBairro(data.bairro);
         if (data.localidade !== '') {
-          setCidadeError(true)
+          setCidadeError(true);
         }
         if (data.uf !== '') {
-          setEstadoError(true)
+          setEstadoError(true);
         }
         if (data.logradouro !== '') {
-          setEnderecoError(true)
+          setEnderecoError(true);
         }
         if (data.bairro !== '') {
-          setBairroError(true)
+          setBairroError(true);
         }
-      })
-    return true
-  }
+      });
+    return true;
+  };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const createEmpresa = async () => {
     if (!isFormError()) {
-      setFormularioError(true)
-      setOpenSnackbar(true)
-      setSeverity('warning')
-      setMessage('Campo(s) em branco')
-      return
+      setFormularioError(true);
+      setOpenSnackbar(true);
+      setSeverity('warning');
+      setMessage('Campo(s) em branco');
+      return;
     }
     const response = await handleCreateEmpresa(
       logo,
@@ -191,20 +204,22 @@ export const CadastroEmpresa = observer(() => {
       bairro,
       complemento,
       telefone
-    ).then(() => {
-      setOpenSnackbar(true)
-      setSeverity('success')
-      setMessage('Empresa cadastrada com sucesso')
-      setTimeout(() => {
-        navigate('/login/empresa')
-        setOpenSnackbar(false)
-      }, 2500)
-    }).catch(() => {
-      setOpenSnackbar(true)
-      setSeverity('error')
-      setMessage('Falha ao cadastrar a empresa')
-      clearStatesEmpresa()
-    });
+    )
+      .then(() => {
+        setOpenSnackbar(true);
+        setSeverity('success');
+        setMessage('Empresa cadastrada com sucesso');
+        setTimeout(() => {
+          navigate('/login/empresa');
+          setOpenSnackbar(false);
+        }, 2500);
+      })
+      .catch(() => {
+        setOpenSnackbar(true);
+        setSeverity('error');
+        setMessage('Falha ao cadastrar a empresa');
+        clearStatesEmpresa();
+      });
   };
 
   return (
@@ -218,10 +233,13 @@ export const CadastroEmpresa = observer(() => {
       }}
     >
       <Box sx={{ gridArea: 'sidebar' }}>
-        <Button sx={{
-          color: '#f5f5f5',
-          marginTop: 2
-        }} onClick={() => navigate('/')}>
+        <Button
+          sx={{
+            color: '#f5f5f5',
+            marginTop: 2,
+          }}
+          onClick={() => navigate('/')}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -245,7 +263,7 @@ export const CadastroEmpresa = observer(() => {
             alignItems: 'center',
             height: '80vh',
             marginLeft: 3,
-            color: '#f5f5f5'
+            color: '#f5f5f5',
           }}
           fontWeight="600"
         >
@@ -253,27 +271,53 @@ export const CadastroEmpresa = observer(() => {
         </Typography>
       </Box>
       <Box sx={{ gridArea: 'main' }}>
-        <Box sx={{ borderRadius: '50px 0px 0px 50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box
+          sx={{
+            borderRadius: '50px 0px 0px 50px',
+            backgroundColor: '#f5f5f5',
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Box sx={{ m: 10 }}>
-            <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
+            <Typography
+              sx={{
+                textAlign: 'center',
+                fontFamily: 'default',
+                m: 2,
+                fontSize: 'h3.fontSize',
+              }}
+            >
+              Criar uma conta
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="E-mail" type="email"
+                  label="E-mail"
+                  type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEmailError(isEmailError(email)) }}
-                  error={!emailError && formularioError} />
+                  onBlur={() => {
+                    setEmailError(isEmailError(email));
+                  }}
+                  error={!emailError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Senha" type="password"
+                  label="Senha"
+                  type="password"
                   value={senha}
                   onChange={(event) => setSenha(event.target.value)}
                   fullWidth
-                  onBlur={() => { setSenhaError(isSenhaError(senha)) }}
-                  error={!senhaError && formularioError} />
+                  onBlur={() => {
+                    setSenhaError(isSenhaError(senha));
+                  }}
+                  error={!senhaError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -281,8 +325,11 @@ export const CadastroEmpresa = observer(() => {
                   value={nome}
                   onChange={(event) => setNome(event.target.value)}
                   fullWidth
-                  onBlur={() => { setNomeError(isNomeError(nome)) }}
-                  error={!nomeError && formularioError} />
+                  onBlur={() => {
+                    setNomeError(isNomeError(nome));
+                  }}
+                  error={!nomeError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -290,15 +337,19 @@ export const CadastroEmpresa = observer(() => {
                   value={ramo}
                   onChange={(event) => setRamo(event.target.value)}
                   fullWidth
-                  onBlur={() => { setRamoError(isRamoError(ramo)) }}
-                  error={!ramoError && formularioError} />
+                  onBlur={() => {
+                    setRamoError(isRamoError(ramo));
+                  }}
+                  error={!ramoError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   label="Link para do logo da empresa"
                   value={logo}
                   onChange={(event) => setLogo(event.target.value)}
-                  fullWidth />
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -307,11 +358,14 @@ export const CadastroEmpresa = observer(() => {
                   onChange={(event) => setCnpj(event.target.value)}
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "99.999.999/9999-99" },
+                    inputProps: { mask: '99.999.999/9999-99' },
                   }}
                   fullWidth
-                  onBlur={() => { setCnpjError(isCnpjError(cnpj)) }}
-                  error={!cnpjError && formularioError} />
+                  onBlur={() => {
+                    setCnpjError(isCnpjError(cnpj));
+                  }}
+                  error={!cnpjError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -319,8 +373,11 @@ export const CadastroEmpresa = observer(() => {
                   value={pais}
                   onChange={(event) => setPais(event.target.value)}
                   fullWidth
-                  onBlur={() => { setPaisError(isPaisError(pais)) }}
-                  error={!paisError && formularioError} />
+                  onBlur={() => {
+                    setPaisError(isPaisError(pais));
+                  }}
+                  error={!paisError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -329,11 +386,14 @@ export const CadastroEmpresa = observer(() => {
                   onChange={(event) => setCep(event.target.value)}
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "99999-999" },
+                    inputProps: { mask: '99999-999' },
                   }}
                   fullWidth
-                  onBlur={() => { setCepError(isCepError()) }}
-                  error={!cepError && formularioError} />
+                  onBlur={() => {
+                    setCepError(isCepError());
+                  }}
+                  error={!cepError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -341,8 +401,11 @@ export const CadastroEmpresa = observer(() => {
                   value={estado}
                   onChange={(event) => setEstado(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEstadoError(isEstadoError(estado)) }}
-                  error={!estadoError && formularioError} />
+                  onBlur={() => {
+                    setEstadoError(isEstadoError(estado));
+                  }}
+                  error={!estadoError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -350,8 +413,11 @@ export const CadastroEmpresa = observer(() => {
                   value={cidade}
                   onChange={(event) => setCidade(event.target.value)}
                   fullWidth
-                  onBlur={() => { setCidadeError(isCidadeError(cidade)) }}
-                  error={!cidadeError && formularioError} />
+                  onBlur={() => {
+                    setCidadeError(isCidadeError(cidade));
+                  }}
+                  error={!cidadeError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -359,17 +425,25 @@ export const CadastroEmpresa = observer(() => {
                   value={endereco}
                   onChange={(event) => setEndereco(event.target.value)}
                   fullWidth
-                  onBlur={() => { setEnderecoError(isEnderecoError(endereco)) }}
-                  error={!enderecoError && formularioError} />
+                  onBlur={() => {
+                    setEnderecoError(isEnderecoError(endereco));
+                  }}
+                  error={!enderecoError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Número"
                   value={numero}
-                  onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
+                  onChange={(event) =>
+                    setNumero(event.target.value.replace(/\D/g, ''))
+                  }
                   fullWidth
-                  onBlur={() => { setNumeroError(isNumeroError(numero)) }}
-                  error={!numeroError && formularioError} />
+                  onBlur={() => {
+                    setNumeroError(isNumeroError(numero));
+                  }}
+                  error={!numeroError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
@@ -377,8 +451,11 @@ export const CadastroEmpresa = observer(() => {
                   value={bairro}
                   onChange={(event) => setBairro(event.target.value)}
                   fullWidth
-                  onBlur={() => { setBairroError(isBairroError(bairro)) }}
-                  error={!bairroError && formularioError} />
+                  onBlur={() => {
+                    setBairroError(isBairroError(bairro));
+                  }}
+                  error={!bairroError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
@@ -386,21 +463,29 @@ export const CadastroEmpresa = observer(() => {
                   value={complemento}
                   onChange={(event) => setComplemento(event.target.value)}
                   fullWidth
-                  onBlur={() => { setComplementoError(isComplementoError(complemento)) }}
-                  error={!complementoError && formularioError} />
+                  onBlur={() => {
+                    setComplementoError(isComplementoError(complemento));
+                  }}
+                  error={!complementoError && formularioError}
+                />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Telefone"
                   value={telefone}
-                  onChange={(event) => setTelefone(event.target.value.replace(/\D/g, ''))}
+                  onChange={(event) =>
+                    setTelefone(event.target.value.replace(/\D/g, ''))
+                  }
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "(99) 9999-99999" },
+                    inputProps: { mask: '(99) 9999-99999' },
                   }}
                   fullWidth
-                  onBlur={() => { setTelefoneError(isTelefoneError(telefone)) }}
-                  error={!telefoneError && formularioError} />
+                  onBlur={() => {
+                    setTelefoneError(isTelefoneError(telefone));
+                  }}
+                  error={!telefoneError && formularioError}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -409,8 +494,10 @@ export const CadastroEmpresa = observer(() => {
                   type="submit"
                   onClick={createEmpresa}
                   style={{ borderRadius: 50 }}
-                  fullWidth>
-                  Cadastrar</Button>
+                  fullWidth
+                >
+                  Cadastrar
+                </Button>
               </Grid>
             </Grid>
           </Box>
@@ -429,6 +516,6 @@ export const CadastroEmpresa = observer(() => {
           {message}
         </Alert>
       </Snackbar>
-    </Box >
-  )
+    </Box>
+  );
 });
