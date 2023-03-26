@@ -68,6 +68,7 @@ export class LoginStore implements LoginStoreType {
 
   loading: boolean = false;
   setLoading(loading: boolean) {
+    console.log('LOADING', loading);
     this.loading = loading;
   }
 
@@ -100,7 +101,7 @@ export class LoginStore implements LoginStoreType {
       this.setUser(response?.data.nome, response?.data.id);
       this.setToken(response?.data.token);
       this.setTypeUser('empresa');
-      return { ok: true, id: this.user.id};
+      return { ok: true, id: this.user.id };
     }
   };
 

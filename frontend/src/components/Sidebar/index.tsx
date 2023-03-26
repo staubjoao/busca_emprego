@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  CircularProgress,
 } from '@mui/material';
 
 import {
@@ -22,6 +23,8 @@ import {
 
 import * as Styled from './styles';
 import { useStore } from '../../hooks/stores';
+import { delay } from '../../utils';
+import { observer } from 'mobx-react-lite';
 
 interface SideBarProps {
   typeUser: string;
@@ -74,7 +77,7 @@ const candidatoIcons = (screen: string) => {
   }
 };
 
-export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
+const MiniDrawer = observer(({ typeUser, navigate }: SideBarProps) => {
   const [open, setOpen] = React.useState(false);
   const { loginStore } = useStore();
   const screens =
@@ -84,6 +87,16 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
 
   const handleDrawerOpen = (open: boolean) => {
     setOpen(!open);
+  };
+
+  const handleLogout = async () => {
+    loginStore.setLoading(true);
+    await delay(1000);
+
+    loginStore.logout();
+
+    loginStore.setLoading(false);
+    navigate('/');
   };
 
   return (
@@ -131,26 +144,28 @@ export default function MiniDrawer({ typeUser, navigate }: SideBarProps) {
           ))}
         </List>
         {open ? (
-          <Styled.Button
-            onClick={() => {
-              loginStore.logout();
-              navigate('/');
-            }}
-          >
-            <Logout sx={{ color: '#eee' }} fontSize="small" />
-            <Styled.Typography>Sair</Styled.Typography>
+          <Styled.Button onClick={handleLogout}>
+            {loginStore.loading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              <>
+                <Logout sx={{ color: '#eee' }} fontSize="small" />
+                <Styled.Typography>Sair</Styled.Typography>
+              </>
+            )}
           </Styled.Button>
         ) : (
-          <Styled.Button
-            onClick={() => {
-              loginStore.logout();
-              navigate('/');
-            }}
-          >
-            <Logout sx={{ color: '#eee' }} fontSize="small" />
+          <Styled.Button onClick={handleLogout}>
+            {loginStore.loading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              <Logout sx={{ color: '#eee' }} fontSize="small" />
+            )}
           </Styled.Button>
         )}
       </Styled.Drawer>
     </Box>
   );
-}
+});
+
+export default MiniDrawer;
