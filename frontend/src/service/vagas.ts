@@ -18,6 +18,8 @@ export async function cadastroVaga(
     return;
   }
 
+  console.log('ola');
+
   await api
     .post(
       'usuario/cadastro/vaga',
@@ -55,7 +57,6 @@ export async function alteracaoVaga(
   setCanNavigate: (canNavigate: boolean) => void,
   token: string
 ) {
-
   await api
     .put(
       'usuario/alterar/vaga/' + idVaga,
@@ -88,7 +89,7 @@ export async function exibirVagaCandidato(id: string, token: string) {
     },
   });
   return response.data.vagas;
-};
+}
 
 export const exibirVagaEmpresa = async (id: string, token: string) => {
   const response = await api.get('usuario/empresa/exibir/vaga/' + id, {
@@ -124,7 +125,7 @@ export const toggleVaga = async (
   token: string
 ) => {
   const response = await api.put(
-    'usuario/empresa/vagas/toggle/'+id,
+    'usuario/empresa/vagas/toggle/' + id,
     {
       id,
       visualizar,

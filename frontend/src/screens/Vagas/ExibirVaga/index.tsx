@@ -1,41 +1,41 @@
-import { Box, ButtonBase, Typography, Snackbar, Alert } from '@mui/material'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { candidatar } from '../../../service/vagas'
-import empresaIcon from '../../../assets/icons/empresaIcon.svg'
-import { useStore } from '../../../hooks/stores'
-import { observer } from 'mobx-react-lite'
+import { Box, ButtonBase, Typography, Snackbar, Alert } from '@mui/material';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { candidatar } from '../../../service/vagas';
+import empresaIcon from '../../../assets/icons/empresaIcon.svg';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 
 export const ExibirVaga = observer(() => {
-  const { id } = useParams()
-  const { loginStore, snackbarStore, vagaStore } = useStore()
-  const { vaga, setVaga } = vagaStore
+  const { id } = useParams();
+  const { loginStore, snackbarStore, vagaStore } = useStore();
+  const { vaga, setVaga } = vagaStore;
 
   const handleVagas = async () => {
     if (id !== undefined) {
-      setVaga(await vagaStore.handleShowVagaCandidato(id, loginStore.token))
+      setVaga(await vagaStore.handleShowVagaCandidato(id, loginStore.token));
     }
-  }
+  };
 
   const handleCandidatar = async () => {
     const response = await candidatar(
       String(id),
       loginStore.user.id,
       loginStore.token
-    )
+    );
 
-    console.log('RESPONSE', response)
-    snackbarStore.setOpenSnackbar(true)
+    console.log('RESPONSE', response);
+    snackbarStore.setOpenSnackbar(true);
     !response.ok
       ? snackbarStore.setSeverity('error')
-      : snackbarStore.setSeverity('success')
+      : snackbarStore.setSeverity('success');
 
-    snackbarStore.setMessage(response.data)
-  }
+    snackbarStore.setMessage(response.data);
+  };
 
   useEffect(() => {
-    handleVagas()
-  }, [])
+    handleVagas();
+  }, []);
 
   return (
     <Box bgcolor="rgb(245 245 244)">
@@ -43,7 +43,7 @@ export const ExibirVaga = observer(() => {
         maxWidth="100%"
         bgcolor="#5E80BB"
         sx={{
-          paddingBlock: '3.6rem'
+          paddingBlock: '3.6rem',
         }}
       />
       <Box minHeight="87.5vh" position="relative" bottom="30px" marginX="auto">
@@ -120,8 +120,8 @@ export const ExibirVaga = observer(() => {
                   display: 'flex',
                   alignItems: 'center',
                   ':hover': {
-                    backgroundColor: '#4766AC'
-                  }
+                    backgroundColor: '#4766AC',
+                  },
                 }}
               >
                 <Box component="span">Candidatar-se</Box>
@@ -148,5 +148,5 @@ export const ExibirVaga = observer(() => {
         </Alert>
       </Snackbar>
     </Box>
-  )
-})
+  );
+});
