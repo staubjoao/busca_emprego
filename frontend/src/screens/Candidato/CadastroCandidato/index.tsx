@@ -1,7 +1,20 @@
 import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Grid, TextField, InputBaseComponentProps, Button, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  Typography,
+  Box,
+  Grid,
+  TextField,
+  InputBaseComponentProps,
+  Button,
+  Snackbar,
+  Alert,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { forwardRef } from 'react';
-import InputMask from "react-input-mask";
+import InputMask from 'react-input-mask';
 import { validateGenerico, validateCandidato } from '../../../utils';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
@@ -14,193 +27,121 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
   ({ mask, ...inputProps }, ref) => {
     return <InputMask mask={mask} {...inputProps} />;
   }
-)
+);
 
 export const CadastroCandidato = observer(() => {
   const { candidatoStore, snackbarStore } = useStore();
-  const {
-    isEmailError,
-    isSenhaError,
-    isNomeError,
-    isEnderecoError,
-    isBairroError,
-    isCidadeError,
-    isEstadoError,
-    isPaisError,
-    isNumeroError,
-    isTelefoneError,
-    isComplementoError,
-  } = validateGenerico;
-  const {
-    isDeficienciaError,
-    isGeneroError,
-    isPretensaoError,
-    isDescricaoError,
-    isCpfError,
-    isAreaAtuacaoError,
-  } = validateCandidato;
-  const {
-    perfil,
-    setPerfil,
-    email,
-    setEmail,
-    senha,
-    setSenha,
-    nome,
-    setNome,
-    cep,
-    setCep,
-    endereco,
-    setEndereco,
-    bairro,
-    setBairro,
-    cidade,
-    setCidade,
-    estado,
-    setEstado,
-    pais,
-    setPais,
-    numero,
-    setNumero,
-    telefone,
-    setTelefone,
-    genero,
-    setGenero,
-    complemento,
-    setComplemento,
-    cpf,
-    setCpf,
-    deficiencia,
-    setDeficiencia,
-    pretensao,
-    setPresensao,
-    descricao,
-    setDescricao,
-    areaAtuacao,
-    setAreaAtuacao,
-    handleCreateCandidato,
-    emailError,
-    setEmailError,
-    senhaError,
-    setSenhaError,
-    nomeError,
-    setNomeError,
-    cepError,
-    setCepError,
-    enderecoError,
-    setEnderecoError,
-    bairroError,
-    setBairroError,
-    cidadeError,
-    setCidadeError,
-    estadoError,
-    setEstadoError,
-    paisError,
-    setPaisError,
-    numeroError,
-    setNumeroError,
-    complementoError,
-    setComplementoError,
-    telefoneError,
-    setTelefoneError,
-    generoError,
-    setGeneroError,
-    deficienciaError,
-    setDeficienciaError,
-    pretensaoError,
-    setPretensaoError,
-    descricaoError,
-    setDescricaoError,
-    cpfError,
-    setCpfError,
-    formularioError,
-    setFormularioError,
-    areaAtuacaoError,
-    setAreaAtuacaoError,
-    clearStatesCandidato,
-  } = candidatoStore;
-
-  const { openSnackbar, setOpenSnackbar, severity, setSeverity, showSnackBar, message, setMessage } =
-    snackbarStore;
 
   const isFormError = () => {
-    setEmailError(isEmailError(email))
-    setSenhaError(isSenhaError(senha))
-    setNomeError(isNomeError(nome))
-    setAreaAtuacaoError(isAreaAtuacaoError(areaAtuacao))
-    setCepError(isCepError())
-    setEnderecoError(isEnderecoError(endereco))
-    setBairroError(isBairroError(bairro))
-    setCidadeError(isCidadeError(cidade))
-    setEstadoError(isEstadoError(estado))
-    setPaisError(isPaisError(pais))
-    setNumeroError(isNumeroError(numero))
-    setComplementoError(isComplementoError(complemento))
-    setTelefoneError(isTelefoneError(telefone))
-    setDeficienciaError(isDeficienciaError(deficiencia))
-    setPretensaoError(isPretensaoError(pretensao))
-    setDescricaoError(isDescricaoError(descricao))
-    setCpfError(isCpfError(cpf))
+    candidatoStore.setEmailError(
+      validateGenerico.isEmailError(candidatoStore.email)
+    );
+    candidatoStore.setSenhaError(
+      validateGenerico.isSenhaError(candidatoStore.senha)
+    );
+    candidatoStore.setNomeError(
+      validateGenerico.isNomeError(candidatoStore.nome)
+    );
+    candidatoStore.setAreaAtuacaoError(
+      validateCandidato.isAreaAtuacaoError(candidatoStore.areaAtuacao)
+    );
+    candidatoStore.setCepError(isCepError());
+    candidatoStore.setEnderecoError(
+      validateGenerico.isEnderecoError(candidatoStore.endereco)
+    );
+    candidatoStore.setBairroError(
+      validateGenerico.isBairroError(candidatoStore.bairro)
+    );
+    candidatoStore.setCidadeError(
+      validateGenerico.isCidadeError(candidatoStore.cidade)
+    );
+    candidatoStore.setEstadoError(
+      validateGenerico.isEstadoError(candidatoStore.estado)
+    );
+    candidatoStore.setPaisError(
+      validateGenerico.isPaisError(candidatoStore.pais)
+    );
+    candidatoStore.setNumeroError(
+      validateGenerico.isNumeroError(candidatoStore.numero)
+    );
+    candidatoStore.setComplementoError(
+      validateGenerico.isComplementoError(candidatoStore.complemento)
+    );
+    candidatoStore.setTelefoneError(
+      validateGenerico.isTelefoneError(candidatoStore.telefone)
+    );
+    candidatoStore.setDeficienciaError(
+      validateCandidato.isDeficienciaError(candidatoStore.deficiencia)
+    );
+
+    candidatoStore.setPretensaoError(
+      validateCandidato.isPretensaoError(candidatoStore.pretensao)
+    );
+    candidatoStore.setDescricaoError(
+      validateCandidato.isDescricaoError(candidatoStore.descricao)
+    );
+    candidatoStore.setCpfError(
+      validateCandidato.isCpfError(candidatoStore.cpf)
+    );
 
     return (
-      emailError &&
-      senhaError &&
-      nomeError &&
-      cepError &&
-      enderecoError &&
-      bairroError &&
-      cidadeError &&
-      estadoError &&
-      paisError &&
-      numeroError &&
-      complementoError &&
-      telefoneError &&
-      generoError &&
-      deficienciaError &&
-      pretensaoError &&
-      descricaoError &&
-      cpfError &&
-      areaAtuacaoError
-    )
-  }
+      candidatoStore.emailError &&
+      candidatoStore.senhaError &&
+      candidatoStore.nomeError &&
+      candidatoStore.cepError &&
+      candidatoStore.enderecoError &&
+      candidatoStore.bairroError &&
+      candidatoStore.cidadeError &&
+      candidatoStore.estadoError &&
+      candidatoStore.paisError &&
+      candidatoStore.numeroError &&
+      candidatoStore.complementoError &&
+      candidatoStore.telefoneError &&
+      candidatoStore.generoError &&
+      candidatoStore.deficienciaError &&
+      candidatoStore.pretensaoError &&
+      candidatoStore.descricaoError &&
+      candidatoStore.cpfError &&
+      candidatoStore.areaAtuacaoError
+    );
+  };
 
   const isCepError = () => {
-    const cepApi = cep.replace(/\D/g, '')
-    if (cep.trim() === '')
-      return false
-    if (cepApi.length !== 8)
-      return false
+    const cepApi = candidatoStore.cep.replace(/\D/g, '');
+    if (candidatoStore.cep.trim() === '') return false;
+    if (cepApi.length !== 8) return false;
     fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
-      .then(res => res.json()).then(data => {
-        setCidade(data.localidade)
-        setEstado(data.uf)
-        setEndereco(data.logradouro)
-        setBairro(data.bairro)
+      .then((res) => res.json())
+      .then((data) => {
+        candidatoStore.setCidade(data.localidade);
+        candidatoStore.setEstado(data.uf);
+        candidatoStore.setEndereco(data.logradouro);
+        candidatoStore.setBairro(data.bairro);
         if (data.localidade !== '') {
-          setCidadeError(true)
+          candidatoStore.setCidadeError(true);
         }
         if (data.uf !== '') {
-          setEstadoError(true)
+          candidatoStore.setEstadoError(true);
         }
         if (data.logradouro !== '') {
-          setEnderecoError(true)
+          candidatoStore.setEnderecoError(true);
         }
         if (data.bairro !== '') {
-          setBairroError(true)
+          candidatoStore.setBairroError(true);
         }
-      })
-    return true
-  }
+      });
+    return true;
+  };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const createCandidato = async () => {
     if (!isFormError()) {
-      setFormularioError(true)
-      setOpenSnackbar(true)
-      setSeverity('warning')
-      setMessage('Campo(s) em branco')
-      return
+      setFormularioError(true);
+      setOpenSnackbar(true);
+      setSeverity('warning');
+      setMessage('Campo(s) em branco');
+      return;
     }
     const response = await handleCreateCandidato(
       perfil,
@@ -221,22 +162,23 @@ export const CadastroCandidato = observer(() => {
       cep,
       areaAtuacao,
       pretensao
-    ).then(() => {
-      setOpenSnackbar(true)
-      setSeverity('success')
-      setMessage('Candidato cadastrado com sucesso')
-      setTimeout(() => {
-        navigate('/login/candidato')
-        setOpenSnackbar(false)
-        clearStatesCandidato()
-      }, 2500)
-    }).catch(() => {
-      setOpenSnackbar(true)
-      setSeverity('error')
-      setMessage('Erro ao cadastrar o candidato')
-      clearStatesCandidato()
-    });
-
+    )
+      .then(() => {
+        setOpenSnackbar(true);
+        setSeverity('success');
+        setMessage('Candidato cadastrado com sucesso');
+        setTimeout(() => {
+          navigate('/login/candidato');
+          setOpenSnackbar(false);
+          clearStatesCandidato();
+        }, 2500);
+      })
+      .catch(() => {
+        setOpenSnackbar(true);
+        setSeverity('error');
+        setMessage('Erro ao cadastrar o candidato');
+        clearStatesCandidato();
+      });
   };
 
   return (
@@ -250,10 +192,13 @@ export const CadastroCandidato = observer(() => {
       }}
     >
       <Box sx={{ gridArea: 'sidebar' }}>
-        <Button sx={{
-          color: '#f5f5f5',
-          marginTop: 2
-        }} onClick={() => navigate('/')}>
+        <Button
+          sx={{
+            color: '#f5f5f5',
+            marginTop: 2,
+          }}
+          onClick={() => navigate('/')}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -277,7 +222,7 @@ export const CadastroCandidato = observer(() => {
             alignItems: 'center',
             height: '80vh',
             marginLeft: 3,
-            color: '#f5f5f5'
+            color: '#f5f5f5',
           }}
           fontWeight="600"
         >
@@ -285,73 +230,159 @@ export const CadastroCandidato = observer(() => {
         </Typography>
       </Box>
       <Box sx={{ gridArea: 'main' }}>
-        <Box sx={{ borderRadius: '50px 0px 0px 50px', backgroundColor: '#f5f5f5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box
+          sx={{
+            borderRadius: '50px 0px 0px 50px',
+            backgroundColor: '#f5f5f5',
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Box sx={{ m: 10 }}>
-            <Typography sx={{ textAlign: 'center', fontFamily: 'default', m: 2, fontSize: 'h3.fontSize' }}>Criar uma conta</Typography>
+            <Typography
+              sx={{
+                textAlign: 'center',
+                fontFamily: 'default',
+                m: 2,
+                fontSize: 'h3.fontSize',
+              }}
+            >
+              Criar uma conta
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField label="E-mail" type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                <TextField
+                  label="E-mail"
+                  type="email"
+                  value={candidatoStore.email}
+                  onChange={(event) =>
+                    candidatoStore.setEmail(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setEmailError(isEmailError(email)) }}
-                  error={!emailError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setEmailError(
+                      validateGenerico.isEmailError(candidatoStore.email)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.emailError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField label="Senha" type="password"
-                  value={senha}
-                  onChange={(event) => setSenha(event.target.value)}
+                <TextField
+                  label="Senha"
+                  type="password"
+                  value={candidatoStore.senha}
+                  onChange={(event) =>
+                    candidatoStore.setSenha(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setSenhaError(isSenhaError(senha)) }}
-                  error={!senhaError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setSenhaError(
+                      validateGenerico.isSenhaError(candidatoStore.senha)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.senhaError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField label="Nome"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
+                <TextField
+                  label="Nome"
+                  value={candidatoStore.nome}
+                  onChange={(event) =>
+                    candidatoStore.setNome(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setNomeError(isNomeError(nome)) }}
-                  error={!nomeError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setNomeError(
+                      validateGenerico.isNomeError(candidatoStore.nome)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.nomeError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="CPF"
-                  value={cpf}
-                  onChange={(event) => setCpf(event.target.value)}
+                  value={candidatoStore.cpf}
+                  onChange={(event) =>
+                    candidatoStore.setCpf(event.target.value)
+                  }
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "999.999.999-99" },
+                    inputProps: { mask: '999.999.999-99' },
                   }}
                   fullWidth
-                  onBlur={() => { setCpfError(isCpfError(cpf)) }}
-                  error={!cpfError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setCpfError(
+                      validateCandidato.isCpfError(candidatoStore.cpf)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.cpfError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Área de Atuação"
-                  value={areaAtuacao}
-                  onChange={(event) => setAreaAtuacao(event.target.value)}
+                  value={candidatoStore.areaAtuacao}
+                  onChange={(event) =>
+                    candidatoStore.setAreaAtuacao(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setAreaAtuacaoError(isAreaAtuacaoError(areaAtuacao)) }}
-                  error={!areaAtuacaoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setAreaAtuacaoError(
+                      validateCandidato.isAreaAtuacaoError(
+                        candidatoStore.areaAtuacao
+                      )
+                    );
+                  }}
+                  error={
+                    !candidatoStore.areaAtuacaoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Link para sua foto de perfil"
-                  value={perfil}
-                  onChange={(event) => setPerfil(event.target.value)}
-                  fullWidth />
+                  value={candidatoStore.perfil}
+                  onChange={(event) =>
+                    candidatoStore.setPerfil(event.target.value)
+                  }
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   label="Descrição breve sobre você"
-                  value={descricao}
-                  onChange={(event) => setDescricao(event.target.value)}
+                  value={candidatoStore.descricao}
+                  onChange={(event) =>
+                    candidatoStore.setDescricao(event.target.value)
+                  }
                   multiline
                   rows={4}
                   fullWidth
-                  onBlur={() => { setDescricaoError(isDescricaoError(descricao)) }}
-                  error={!descricaoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setDescricaoError(
+                      validateCandidato.isDescricaoError(
+                        candidatoStore.descricao
+                      )
+                    );
+                  }}
+                  error={
+                    !candidatoStore.descricaoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
@@ -359,21 +390,30 @@ export const CadastroCandidato = observer(() => {
                   <Select
                     labelId="genero-label"
                     id="genero"
-                    value={genero}
+                    value={candidatoStore.genero}
                     label="Gênero"
-                    onChange={(event) => setGenero(event.target.value)}
+                    onChange={(event) =>
+                      candidatoStore.setGenero(event.target.value)
+                    }
                     fullWidth
-                    onBlur={() => { setGeneroError(isGeneroError(genero)) }}
-                    error={!generoError && formularioError}
+                    onBlur={() => {
+                      candidatoStore.setGeneroError(
+                        validateCandidato.isGeneroError(candidatoStore.genero)
+                      );
+                    }}
+                    error={
+                      !candidatoStore.generoError &&
+                      candidatoStore.formularioError
+                    }
                   >
-                    <MenuItem value={"M"}>Masculino</MenuItem>
-                    <MenuItem value={"F"}>Feminino</MenuItem>
-                    <MenuItem value={"N"}>Não-binário</MenuItem>
-                    <MenuItem value={"G"}>Genderqueer</MenuItem>
-                    <MenuItem value={"T"}>Transexual</MenuItem>
-                    <MenuItem value={"I"}>Intersexo</MenuItem>
-                    <MenuItem value={"Q"}>Questioning</MenuItem>
-                    <MenuItem value={"O"}>Outros</MenuItem>
+                    <MenuItem value={'M'}>Masculino</MenuItem>
+                    <MenuItem value={'F'}>Feminino</MenuItem>
+                    <MenuItem value={'N'}>Não-binário</MenuItem>
+                    <MenuItem value={'G'}>Genderqueer</MenuItem>
+                    <MenuItem value={'T'}>Transexual</MenuItem>
+                    <MenuItem value={'I'}>Intersexo</MenuItem>
+                    <MenuItem value={'Q'}>Questioning</MenuItem>
+                    <MenuItem value={'O'}>Outros</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -383,12 +423,23 @@ export const CadastroCandidato = observer(() => {
                   <Select
                     labelId="deficiencia-label"
                     id="deficiencia"
-                    value={deficiencia}
+                    value={candidatoStore.deficiencia}
                     label="Deficiência"
-                    onChange={(event) => setDeficiencia(event.target.value)}
+                    onChange={(event) =>
+                      candidatoStore.setDeficiencia(event.target.value)
+                    }
                     fullWidth
-                    onBlur={() => { setDeficienciaError(isDeficienciaError(deficiencia)) }}
-                    error={!deficienciaError && formularioError}
+                    onBlur={() => {
+                      candidatoStore.setDeficienciaError(
+                        validateCandidato.isDeficienciaError(
+                          candidatoStore.deficiencia
+                        )
+                      );
+                    }}
+                    error={
+                      !candidatoStore.deficienciaError &&
+                      candidatoStore.formularioError
+                    }
                   >
                     <MenuItem value="Visual">Visual</MenuItem>
                     <MenuItem value="Auditiva">Auditiva</MenuItem>
@@ -400,94 +451,206 @@ export const CadastroCandidato = observer(() => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="País"
-                  value={pais}
-                  onChange={(event) => setPais(event.target.value)}
+                <TextField
+                  label="País"
+                  value={candidatoStore.pais}
+                  onChange={(event) =>
+                    candidatoStore.setPais(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setPaisError(isPaisError(pais)) }}
-                  error={!paisError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setPaisError(
+                      validateGenerico.isPaisError(candidatoStore.pais)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.paisError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="CEP"
-                  value={cep}
-                  onChange={(event) => setCep(event.target.value)}
+                <TextField
+                  label="CEP"
+                  value={candidatoStore.cep}
+                  onChange={(event) =>
+                    candidatoStore.setCep(event.target.value)
+                  }
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "99999-999" },
+                    inputProps: { mask: '99999-999' },
                   }}
                   fullWidth
-                  onBlur={() => { setCepError(isCepError()) }}
-                  error={!cepError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setCepError(isCepError());
+                  }}
+                  error={
+                    !candidatoStore.cepError && candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="Estado"
-                  value={estado}
-                  onChange={(event) => setEstado(event.target.value)}
+                <TextField
+                  label="Estado"
+                  value={candidatoStore.estado}
+                  onChange={(event) =>
+                    candidatoStore.setEstado(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setEstadoError(isEstadoError(estado)) }}
-                  error={!estadoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setEstadoError(
+                      validateGenerico.isEstadoError(candidatoStore.estado)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.estadoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="Cidade"
-                  value={cidade}
-                  onChange={(event) => setCidade(event.target.value)}
+                <TextField
+                  label="Cidade"
+                  value={candidatoStore.cidade}
+                  onChange={(event) =>
+                    candidatoStore.setCidade(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setCidadeError(isCidadeError(cidade)) }}
-                  error={!cidadeError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setCidadeError(
+                      validateGenerico.isCidadeError(candidatoStore.cidade)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.cidadeError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="Bairro"
-                  value={bairro}
-                  onChange={(event) => setBairro(event.target.value)}
+                <TextField
+                  label="Bairro"
+                  value={candidatoStore.bairro}
+                  onChange={(event) =>
+                    candidatoStore.setBairro(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setBairroError(isBairroError(bairro)) }}
-                  error={!bairroError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setBairroError(
+                      validateGenerico.isBairroError(candidatoStore.bairro)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.bairroError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={5}>
-                <TextField label="Endereço"
-                  value={endereco}
-                  onChange={(event) => setEndereco(event.target.value)}
+                <TextField
+                  label="Endereço"
+                  value={candidatoStore.endereco}
+                  onChange={(event) =>
+                    candidatoStore.setEndereco(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setEnderecoError(isEnderecoError(endereco)) }}
-                  error={!enderecoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setEnderecoError(
+                      validateGenerico.isEnderecoError(candidatoStore.endereco)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.enderecoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Número"
-                  value={numero}
-                  onChange={(event) => setNumero(event.target.value.replace(/\D/g, ''))}
+                  value={candidatoStore.numero}
+                  onChange={(event) =>
+                    candidatoStore.setNumero(
+                      event.target.value.replace(/\D/g, '')
+                    )
+                  }
                   fullWidth
-                  onBlur={() => { setNumeroError(isNumeroError(numero)) }}
-                  error={!numeroError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setNumeroError(
+                      validateGenerico.isNumeroError(candidatoStore.numero)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.numeroError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="Complemento"
-                  value={complemento}
-                  onChange={(event) => setComplemento(event.target.value)}
+                <TextField
+                  label="Complemento"
+                  value={candidatoStore.complemento}
+                  onChange={(event) =>
+                    candidatoStore.setComplemento(event.target.value)
+                  }
                   fullWidth
-                  onBlur={() => { setComplementoError(isComplementoError(complemento)) }}
-                  error={!complementoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setComplementoError(
+                      validateGenerico.isComplementoError(
+                        candidatoStore.complemento
+                      )
+                    );
+                  }}
+                  error={
+                    !candidatoStore.complementoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TextField label="Telefone"
-                  value={telefone}
-                  onChange={(event) => setTelefone(event.target.value)}
+                <TextField
+                  label="Telefone"
+                  value={candidatoStore.telefone}
+                  onChange={(event) =>
+                    candidatoStore.setTelefone(event.target.value)
+                  }
                   InputProps={{
                     inputComponent: MaskedInput as any,
-                    inputProps: { mask: "(99) 9999-99999" },
+                    inputProps: { mask: '(99) 9999-99999' },
                   }}
                   fullWidth
-                  onBlur={() => { setTelefoneError(isTelefoneError(telefone)) }}
-                  error={!telefoneError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setTelefoneError(
+                      validateGenerico.isTelefoneError(candidatoStore.telefone)
+                    );
+                  }}
+                  error={
+                    !candidatoStore.telefoneError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Pretensão salarial"
-                  value={pretensao}
-                  onChange={(event) => setPresensao(event.target.value.replace(/\D/g, ''))}
+                  value={candidatoStore.pretensao}
+                  onChange={(event) =>
+                    candidatoStore.setPresensao(
+                      event.target.value.replace(/\D/g, '')
+                    )
+                  }
                   fullWidth
-                  onBlur={() => { setPretensaoError(isPretensaoError(pretensao)) }}
-                  error={!pretensaoError && formularioError} />
+                  onBlur={() => {
+                    candidatoStore.setPretensaoError(
+                      validateCandidato.isPretensaoError(
+                        candidatoStore.pretensao
+                      )
+                    );
+                  }}
+                  error={
+                    !candidatoStore.pretensaoError &&
+                    candidatoStore.formularioError
+                  }
+                />
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -496,27 +659,32 @@ export const CadastroCandidato = observer(() => {
                   type="submit"
                   onClick={createCandidato}
                   style={{ borderRadius: 50 }}
-                  fullWidth>
+                  fullWidth
+                >
                   Cadastrar
                 </Button>
               </Grid>
             </Grid>
-          </Box >
-        </Box >
-      </Box >
+          </Box>
+        </Box>
+      </Box>
       <Snackbar
-        open={openSnackbar}
+        open={snackbarStore.openSnackbar}
         autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(!openSnackbar)}
+        onClose={() =>
+          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+        }
       >
         <Alert
-          onClose={() => setOpenSnackbar(!openSnackbar)}
-          severity={severity}
+          onClose={() =>
+            snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          }
+          severity={snackbarStore.severity}
           sx={{ width: '100%' }}
         >
-          {message}
+          {snackbarStore.message}
         </Alert>
       </Snackbar>
-    </Box >
-  )
+    </Box>
+  );
 });
