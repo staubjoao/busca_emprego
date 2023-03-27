@@ -32,7 +32,7 @@ export class LoginStore implements LoginStoreType {
     makePersistable(this, {
       name: 'LoginStore',
       properties: ['token', 'user', 'typeUser'],
-      storage: window.localStorage,
+      //storage: window.localStorage,
     });
   }
 
