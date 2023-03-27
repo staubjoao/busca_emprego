@@ -24,7 +24,6 @@ export const ExibirVaga = observer(() => {
       loginStore.token
     );
 
-    console.log('RESPONSE', response);
     snackbarStore.setOpenSnackbar(true);
     !response.ok
       ? snackbarStore.setSeverity('error')

@@ -1,6 +1,27 @@
 import { FormEvent } from 'react';
 import { api } from './baseURL';
 
+export async function candidatar(
+  idVaga: string,
+  idCandidato: string,
+  token: string
+) {
+  const response = await api.post(
+    `/usuario/candidatar`,
+    {
+      idVaga,
+      idCandidato,
+    },
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function cadastroVaga(
   token: string,
   e: FormEvent,
@@ -138,24 +159,3 @@ export const toggleVaga = async (
   );
   return response.data;
 };
-
-export async function candidatar(
-  idVaga: string,
-  idCandidato: string,
-  token: string
-) {
-  const response = await api.post(
-    `/usuario/candidatar`,
-    {
-      idVaga,
-      idCandidato,
-    },
-    {
-      headers: {
-        'authorization-token': token,
-      },
-    }
-  );
-
-  return response.data;
-}
