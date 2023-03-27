@@ -147,6 +147,11 @@ export interface EmpresaStoreType {
         cnpjError: boolean
     ) => void | React.Dispatch<React.SetStateAction<boolean>>;
 
+    formularioError: boolean;
+    setFormularioError: (
+        formularioError: boolean
+    ) => void | React.Dispatch<React.SetStateAction<boolean>>;
+
     clearStatesEmpresa: () => void;
 
     handleCreateEmpresa: (
@@ -316,6 +321,11 @@ export class EmpresaStore implements EmpresaStoreType {
     cep: string = '';
     setCep(cep: string) {
         this.cep = cep;
+    }
+
+    formularioError: boolean = false;
+    setFormularioError(formularioError: boolean) {
+        this.formularioError = formularioError;
     }
 
     clearStatesEmpresa = () => {
