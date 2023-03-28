@@ -137,47 +137,47 @@ export const CadastroCandidato = observer(() => {
 
   const createCandidato = async () => {
     if (!isFormError()) {
-      setFormularioError(true);
-      setOpenSnackbar(true);
-      setSeverity('warning');
-      setMessage('Campo(s) em branco');
+      candidatoStore.setFormularioError(true);
+      snackbarStore.setOpenSnackbar(true);
+      snackbarStore.setSeverity('warning');
+      snackbarStore.setMessage('Campo(s) em branco');
       return;
     }
-    const response = await handleCreateCandidato(
-      perfil,
-      email,
-      senha,
-      nome,
-      cpf,
-      endereco,
-      bairro,
-      cidade,
-      estado,
-      pais,
-      numero,
-      complemento,
-      telefone,
-      genero,
-      deficiencia,
-      cep,
-      areaAtuacao,
-      pretensao
+    const response = await candidatoStore.handleCreateCandidato(
+      candidatoStore.perfil,
+      candidatoStore.email,
+      candidatoStore.senha,
+      candidatoStore.nome,
+      candidatoStore.cpf,
+      candidatoStore.endereco,
+      candidatoStore.bairro,
+      candidatoStore.cidade,
+      candidatoStore.estado,
+      candidatoStore.pais,
+      candidatoStore.numero,
+      candidatoStore.complemento,
+      candidatoStore.telefone,
+      candidatoStore.genero,
+      candidatoStore.deficiencia,
+      candidatoStore.cep,
+      candidatoStore.areaAtuacao,
+      candidatoStore.pretensao
     )
       .then(() => {
-        setOpenSnackbar(true);
-        setSeverity('success');
-        setMessage('Candidato cadastrado com sucesso');
+        snackbarStore.setOpenSnackbar(true);
+        snackbarStore.setSeverity('success');
+        snackbarStore.setMessage('Candidato cadastrado com sucesso');
         setTimeout(() => {
           navigate('/login/candidato');
-          setOpenSnackbar(false);
-          clearStatesCandidato();
+          snackbarStore.setOpenSnackbar(false);
+          candidatoStore.clearStatesCandidato();
         }, 2500);
       })
       .catch(() => {
-        setOpenSnackbar(true);
-        setSeverity('error');
-        setMessage('Erro ao cadastrar o candidato');
-        clearStatesCandidato();
+        snackbarStore.setOpenSnackbar(true);
+        snackbarStore.setSeverity('error');
+        snackbarStore.setMessage('Erro ao cadastrar o candidato');
+        candidatoStore.clearStatesCandidato();
       });
   };
 

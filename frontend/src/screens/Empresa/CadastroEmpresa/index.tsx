@@ -28,151 +28,63 @@ const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
 
 export const CadastroEmpresa = observer(() => {
   const { empresaStore, snackbarStore } = useStore();
-  const {
-    isEmailError,
-    isSenhaError,
-    isNomeError,
-    isEnderecoError,
-    isBairroError,
-    isCidadeError,
-    isEstadoError,
-    isPaisError,
-    isNumeroError,
-    isTelefoneError,
-    isComplementoError,
-  } = validateGenerico;
-  const { isCnpjError, isRamoError } = validateEmpresa;
-  const {
-    logo,
-    setLogo,
-    email,
-    setEmail,
-    senha,
-    setSenha,
-    nome,
-    setNome,
-    cep,
-    setCep,
-    endereco,
-    setEndereco,
-    bairro,
-    setBairro,
-    cidade,
-    setCidade,
-    estado,
-    setEstado,
-    pais,
-    setPais,
-    numero,
-    setNumero,
-    telefone,
-    setTelefone,
-    ramo,
-    setRamo,
-    cnpj,
-    setCnpj,
-    complemento,
-    setComplemento,
-    handleCreateEmpresa,
-    emailError,
-    setEmailError,
-    senhaError,
-    setSenhaError,
-    nomeError,
-    setNomeError,
-    cepError,
-    setCepError,
-    enderecoError,
-    setEnderecoError,
-    bairroError,
-    setBairroError,
-    cidadeError,
-    setCidadeError,
-    estadoError,
-    setEstadoError,
-    paisError,
-    setPaisError,
-    numeroError,
-    setNumeroError,
-    complementoError,
-    setComplementoError,
-    telefoneError,
-    setTelefoneError,
-    ramoError,
-    setRamoError,
-    cnpjError,
-    setCnpjError,
-    clearStatesEmpresa,
-  } = empresaStore;
-
-  const {
-    openSnackbar,
-    setOpenSnackbar,
-    severity,
-    setSeverity,
-    showSnackBar,
-    message,
-    setMessage,
-  } = snackbarStore;
-
-  const [formularioError, setFormularioError] = useState(false);
 
   const isFormError = () => {
-    setEmailError(isEmailError(email));
-    setSenhaError(isSenhaError(senha));
-    setNomeError(isNomeError(nome));
-    setEnderecoError(isEnderecoError(endereco));
-    setBairroError(isBairroError(bairro));
-    setCidadeError(isCidadeError(cidade));
-    setEstadoError(isEstadoError(estado));
-    setPaisError(isPaisError(pais));
-    setNumeroError(isNumeroError(numero));
-    setComplementoError(isComplementoError(complemento));
-    setTelefoneError(isTelefoneError(telefone));
-    setRamoError(isRamoError(ramo));
-    setCnpjError(isCnpjError(cnpj));
-    setCepError(isCepError());
+    empresaStore.setEmailError(validateGenerico.isEmailError(empresaStore.email));
+    empresaStore.setSenhaError(validateGenerico.isSenhaError(empresaStore.senha));
+    empresaStore.setNomeError(validateGenerico.isNomeError(empresaStore.nome));
+    empresaStore.setEnderecoError(validateGenerico.isEnderecoError(empresaStore.endereco));
+    empresaStore.setBairroError(validateGenerico.isBairroError(empresaStore.bairro));
+    empresaStore.setCidadeError(validateGenerico.isCidadeError(empresaStore.cidade));
+    empresaStore.setEstadoError(validateGenerico.isEstadoError(empresaStore.estado));
+    empresaStore.setPaisError(validateGenerico.isPaisError(empresaStore.pais));
+    empresaStore.setNumeroError(validateGenerico.isNumeroError(empresaStore.numero));
+    empresaStore.setComplementoError(validateGenerico.isComplementoError(empresaStore.complemento));
+    empresaStore.setTelefoneError(validateGenerico.isTelefoneError(empresaStore.telefone));
+    empresaStore.setRamoError(validateEmpresa.isRamoError(empresaStore.ramo));
+    empresaStore.setCnpjError(validateEmpresa.isCnpjError(empresaStore.cnpj));
+    empresaStore.setCepError(isCepError());
 
     return (
-      emailError &&
-      senhaError &&
-      nomeError &&
-      cepError &&
-      enderecoError &&
-      bairroError &&
-      cidadeError &&
-      estadoError &&
-      paisError &&
-      numeroError &&
-      complementoError &&
-      telefoneError &&
-      ramoError &&
-      cnpjError
+      empresaStore.emailError &&
+      empresaStore.senhaError &&
+      empresaStore.nomeError &&
+      empresaStore.cepError &&
+      empresaStore.enderecoError &&
+      empresaStore.bairroError &&
+      empresaStore.cidadeError &&
+      empresaStore.estadoError &&
+      empresaStore.paisError &&
+      empresaStore.numeroError &&
+      empresaStore.complementoError &&
+      empresaStore.telefoneError &&
+      empresaStore.ramoError &&
+      empresaStore.cnpjError
     );
   };
 
   const isCepError = () => {
-    const cepApi = cep.replace(/\D/g, '');
-    if (cep.trim() === '') return false;
+    const cepApi = empresaStore.cep.replace(/\D/g, '');
+    if (empresaStore.cep.trim() === '') return false;
     if (cepApi.length !== 8) return false;
     fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
       .then((res) => res.json())
       .then((data) => {
-        setCidade(data.localidade);
-        setEstado(data.uf);
-        setEndereco(data.logradouro);
-        setBairro(data.bairro);
+        empresaStore.setCidade(data.localidade);
+        empresaStore.setEstado(data.uf);
+        empresaStore.setEndereco(data.logradouro);
+        empresaStore.setBairro(data.bairro);
         if (data.localidade !== '') {
-          setCidadeError(true);
+          empresaStore.setCidadeError(true);
         }
         if (data.uf !== '') {
-          setEstadoError(true);
+          empresaStore.setEstadoError(true);
         }
         if (data.logradouro !== '') {
-          setEnderecoError(true);
+          empresaStore.setEnderecoError(true);
         }
         if (data.bairro !== '') {
-          setBairroError(true);
+          empresaStore.setBairroError(true);
         }
       });
     return true;
@@ -182,43 +94,43 @@ export const CadastroEmpresa = observer(() => {
 
   const createEmpresa = async () => {
     if (!isFormError()) {
-      setFormularioError(true);
-      setOpenSnackbar(true);
-      setSeverity('warning');
-      setMessage('Campo(s) em branco');
+      empresaStore.setFormularioError(true);
+      snackbarStore.setOpenSnackbar(true);
+      snackbarStore.setSeverity('warning');
+      snackbarStore.setMessage('Campo(s) em branco');
       return;
     }
-    const response = await handleCreateEmpresa(
-      logo,
-      email,
-      senha,
-      nome,
-      ramo,
-      cnpj,
-      pais,
-      cep,
-      estado,
-      cidade,
-      endereco,
-      numero,
-      bairro,
-      complemento,
-      telefone
+    const response = await empresaStore.handleCreateEmpresa(
+      empresaStore.logo,
+      empresaStore.email,
+      empresaStore.senha,
+      empresaStore.nome,
+      empresaStore.ramo,
+      empresaStore.cnpj,
+      empresaStore.pais,
+      empresaStore.cep,
+      empresaStore.estado,
+      empresaStore.cidade,
+      empresaStore.endereco,
+      empresaStore.numero,
+      empresaStore.bairro,
+      empresaStore.complemento,
+      empresaStore.telefone
     )
       .then(() => {
-        setOpenSnackbar(true);
-        setSeverity('success');
-        setMessage('Empresa cadastrada com sucesso');
+        snackbarStore.setOpenSnackbar(true);
+        snackbarStore.setSeverity('success');
+        snackbarStore.setMessage('Empresa cadastrada com sucesso');
         setTimeout(() => {
           navigate('/login/empresa');
-          setOpenSnackbar(false);
+          snackbarStore.setOpenSnackbar(false);
         }, 2500);
       })
       .catch(() => {
-        setOpenSnackbar(true);
-        setSeverity('error');
-        setMessage('Falha ao cadastrar a empresa');
-        clearStatesEmpresa();
+        snackbarStore.setOpenSnackbar(true);
+        snackbarStore.setSeverity('error');
+        snackbarStore.setMessage('Falha ao cadastrar a empresa');
+        empresaStore.clearStatesEmpresa();
       });
   };
 
@@ -297,184 +209,184 @@ export const CadastroEmpresa = observer(() => {
                 <TextField
                   label="E-mail"
                   type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  value={empresaStore.email}
+                  onChange={(event) => empresaStore.setEmail(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setEmailError(isEmailError(email));
+                    empresaStore.setEmailError(validateGenerico.isEmailError(empresaStore.email));
                   }}
-                  error={!emailError && formularioError}
+                  error={!empresaStore.emailError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Senha"
                   type="password"
-                  value={senha}
-                  onChange={(event) => setSenha(event.target.value)}
+                  value={empresaStore.senha}
+                  onChange={(event) => empresaStore.setSenha(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setSenhaError(isSenhaError(senha));
+                    empresaStore.setSenhaError(validateGenerico.isSenhaError(empresaStore.senha));
                   }}
-                  error={!senhaError && formularioError}
+                  error={!empresaStore.senhaError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Nome da Empresa"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
+                  value={empresaStore.nome}
+                  onChange={(event) => empresaStore.setNome(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setNomeError(isNomeError(nome));
+                    empresaStore.setNomeError(validateGenerico.isNomeError(empresaStore.nome));
                   }}
-                  error={!nomeError && formularioError}
+                  error={!empresaStore.nomeError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Ramo da Empresa"
-                  value={ramo}
-                  onChange={(event) => setRamo(event.target.value)}
+                  value={empresaStore.ramo}
+                  onChange={(event) => empresaStore.setRamo(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setRamoError(isRamoError(ramo));
+                    empresaStore.setRamoError(validateEmpresa.isRamoError(empresaStore.ramo));
                   }}
-                  error={!ramoError && formularioError}
+                  error={!empresaStore.ramoError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   label="Link para do logo da empresa"
-                  value={logo}
-                  onChange={(event) => setLogo(event.target.value)}
+                  value={empresaStore.logo}
+                  onChange={(event) => empresaStore.setLogo(event.target.value)}
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="CNPJ"
-                  value={cnpj}
-                  onChange={(event) => setCnpj(event.target.value)}
+                  value={empresaStore.cnpj}
+                  onChange={(event) => empresaStore.setCnpj(event.target.value)}
                   InputProps={{
                     inputComponent: MaskedInput as any,
                     inputProps: { mask: '99.999.999/9999-99' },
                   }}
                   fullWidth
                   onBlur={() => {
-                    setCnpjError(isCnpjError(cnpj));
+                    empresaStore.setCnpjError(validateEmpresa.isCnpjError(empresaStore.cnpj));
                   }}
-                  error={!cnpjError && formularioError}
+                  error={!empresaStore.cnpjError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="País"
-                  value={pais}
-                  onChange={(event) => setPais(event.target.value)}
+                  value={empresaStore.pais}
+                  onChange={(event) => empresaStore.setPais(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setPaisError(isPaisError(pais));
+                    empresaStore.setPaisError(validateGenerico.isPaisError(empresaStore.pais));
                   }}
-                  error={!paisError && formularioError}
+                  error={!empresaStore.paisError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="CEP"
-                  value={cep}
-                  onChange={(event) => setCep(event.target.value)}
+                  value={empresaStore.cep}
+                  onChange={(event) => empresaStore.setCep(event.target.value)}
                   InputProps={{
                     inputComponent: MaskedInput as any,
                     inputProps: { mask: '99999-999' },
                   }}
                   fullWidth
                   onBlur={() => {
-                    setCepError(isCepError());
+                    empresaStore.setCepError(isCepError());
                   }}
-                  error={!cepError && formularioError}
+                  error={!empresaStore.cepError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Estado"
-                  value={estado}
-                  onChange={(event) => setEstado(event.target.value)}
+                  value={empresaStore.estado}
+                  onChange={(event) => empresaStore.setEstado(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setEstadoError(isEstadoError(estado));
+                    empresaStore.setEstadoError(validateGenerico.isEstadoError(empresaStore.estado));
                   }}
-                  error={!estadoError && formularioError}
+                  error={!empresaStore.estadoError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Cidade"
-                  value={cidade}
-                  onChange={(event) => setCidade(event.target.value)}
+                  value={empresaStore.cidade}
+                  onChange={(event) => empresaStore.setCidade(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setCidadeError(isCidadeError(cidade));
+                    empresaStore.setCidadeError(validateGenerico.isCidadeError(empresaStore.cidade));
                   }}
-                  error={!cidadeError && formularioError}
+                  error={!empresaStore.cidadeError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Endereço"
-                  value={endereco}
-                  onChange={(event) => setEndereco(event.target.value)}
+                  value={empresaStore.endereco}
+                  onChange={(event) => empresaStore.setEndereco(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setEnderecoError(isEnderecoError(endereco));
+                    empresaStore.setEnderecoError(validateGenerico.isEnderecoError(empresaStore.endereco));
                   }}
-                  error={!enderecoError && formularioError}
+                  error={!empresaStore.enderecoError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Número"
-                  value={numero}
+                  value={empresaStore.numero}
                   onChange={(event) =>
-                    setNumero(event.target.value.replace(/\D/g, ''))
+                    empresaStore.setNumero(event.target.value.replace(/\D/g, ''))
                   }
                   fullWidth
                   onBlur={() => {
-                    setNumeroError(isNumeroError(numero));
+                    empresaStore.setNumeroError(validateGenerico.isNumeroError(empresaStore.numero));
                   }}
-                  error={!numeroError && formularioError}
+                  error={!empresaStore.numeroError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Bairro"
-                  value={bairro}
-                  onChange={(event) => setBairro(event.target.value)}
+                  value={empresaStore.bairro}
+                  onChange={(event) => empresaStore.setBairro(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setBairroError(isBairroError(bairro));
+                    empresaStore.setBairroError(validateGenerico.isBairroError(empresaStore.bairro));
                   }}
-                  error={!bairroError && formularioError}
+                  error={!empresaStore.bairroError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Complemento"
-                  value={complemento}
-                  onChange={(event) => setComplemento(event.target.value)}
+                  value={empresaStore.complemento}
+                  onChange={(event) => empresaStore.setComplemento(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    setComplementoError(isComplementoError(complemento));
+                    empresaStore.setComplementoError(validateGenerico.isComplementoError(empresaStore.complemento));
                   }}
-                  error={!complementoError && formularioError}
+                  error={!empresaStore.complementoError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Telefone"
-                  value={telefone}
+                  value={empresaStore.telefone}
                   onChange={(event) =>
-                    setTelefone(event.target.value.replace(/\D/g, ''))
+                    empresaStore.setTelefone(event.target.value.replace(/\D/g, ''))
                   }
                   InputProps={{
                     inputComponent: MaskedInput as any,
@@ -482,9 +394,9 @@ export const CadastroEmpresa = observer(() => {
                   }}
                   fullWidth
                   onBlur={() => {
-                    setTelefoneError(isTelefoneError(telefone));
+                    empresaStore.setTelefoneError(validateGenerico.isTelefoneError(empresaStore.telefone));
                   }}
-                  error={!telefoneError && formularioError}
+                  error={!empresaStore.telefoneError && empresaStore.formularioError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -504,16 +416,16 @@ export const CadastroEmpresa = observer(() => {
         </Box>
       </Box>
       <Snackbar
-        open={openSnackbar}
+        open={snackbarStore.openSnackbar}
         autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(!openSnackbar)}
+        onClose={() => snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)}
       >
         <Alert
-          onClose={() => setOpenSnackbar(!openSnackbar)}
-          severity={severity}
+          onClose={() => snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)}
+          severity={snackbarStore.severity}
           sx={{ width: '100%' }}
         >
-          {message}
+          {snackbarStore.message}
         </Alert>
       </Snackbar>
     </Box>

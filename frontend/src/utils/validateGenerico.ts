@@ -6,7 +6,7 @@ const isEmailError = (email: string) => {
 }
 
 const isSenhaError = (senha: string) => {
-    return senha.trim() !== ''
+    return senha.trim().length >= 6
 }
 
 const isNomeError = (nome: string) => {
@@ -26,7 +26,7 @@ const isCidadeError = (cidade: string) => {
 }
 
 const isEstadoError = (estado: string) => {
-    return estado.trim() !== ''
+    return estado.trim() !== '' && estado.trim().length === 2
 }
 
 const isPaisError = (pais: string) => {
@@ -34,8 +34,10 @@ const isPaisError = (pais: string) => {
 }
 
 const isNumeroError = (numero: string) => {
-    return numero.trim() !== ''
+    const regex = /^\d+$/
+    return regex.test(numero.trim())
 }
+
 
 const isTelefoneError = (telefone: string) => {
     const telefoneAux = telefone.replace(/\D/g, '')
