@@ -162,6 +162,7 @@ export class VagaStore implements VagaStoreType{
     this.setErro('')
     this.setVisualizar(0)
     this.setId('')
+    this.setCanNavigate(false)
   }
 
   handleCreateVaga = async (
@@ -207,18 +208,18 @@ export class VagaStore implements VagaStoreType{
     descricao: string,
     salario: number,
     EmpresaId: string | null,
-    setErro: any,
-    setCanNavigate: any) => {
+    setErro: any) => {
       
-    await alteracaoVaga(id,
+    const response = await alteracaoVaga(id,
       titulo,
       periodo,
       descricao,
       salario,
       EmpresaId,
       setErro,
-      setCanNavigate,
       token)
+
+    return response;
   }
  
   handleListarVagasEmpresa = async (id: string, token: string) => {

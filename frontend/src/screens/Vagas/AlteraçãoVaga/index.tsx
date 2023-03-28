@@ -22,6 +22,7 @@ export const AlterarVaga = observer(() => {
     setSalario,
     descricao,
     setDescricao,
+    erro,
     setErro,
     canNavigate,
     setCanNavigate
@@ -29,14 +30,19 @@ export const AlterarVaga = observer(() => {
 
   const handleVaga = async () => {
     if (id !== undefined) {
+      setPeriodo(vaga.periodo)
+      setTitulo(vaga.titulo)
+      setDescricao(vaga.descricao)
+      setSalario(vaga.salario)
       setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
     }
   }
 
-  const handleEditVaga = (e: FormEvent) => {
+  const handleEditVaga = async (e: FormEvent) => {
     e.preventDefault()
+
     if (id !== undefined) {
-      vagaStore.handleEditVaga(
+      const response = await vagaStore.handleEditVaga(
         id,
         loginStore.token,
         e,
@@ -45,10 +51,12 @@ export const AlterarVaga = observer(() => {
         descricao,
         salario,
         loginStore.user.id,
-        setErro,
-        setCanNavigate
+        setErro
       )
-      canNavigate && navigate('/empresa/vagas/' + loginStore.user.id)
+
+      response === true
+        ? navigate('/empresa/vagas/' + loginStore.user.id)
+        : alert(erro)
     }
   }
 
@@ -99,7 +107,7 @@ export const AlterarVaga = observer(() => {
               <InputVaga
                 type="text"
                 id="titulo"
-                value={titulo || vaga.titulo}
+                value={titulo}
                 onChange={event => setTitulo(event.target.value)}
               />
             </Box>
@@ -114,7 +122,7 @@ export const AlterarVaga = observer(() => {
               <InputVaga
                 type="text"
                 id="periodo"
-                value={periodo || vaga.periodo}
+                value={periodo}
                 onChange={event => setPeriodo(event.target.value)}
               />
             </Box>
@@ -131,7 +139,7 @@ export const AlterarVaga = observer(() => {
                 mask="R$ 99999999999"
                 id="salario"
                 maskChar={''}
-                value={salario || vaga.salario}
+                value={salario}
                 onChange={event =>
                   setSalario(parseFloat(event.target.value.slice(3)))
                 }
@@ -158,7 +166,7 @@ export const AlterarVaga = observer(() => {
                   height: '16rem'
                 }}
                 id="descricao"
-                value={descricao || vaga.descricao}
+                value={descricao}
                 onChange={event => setDescricao(event.target.value)}
               />
             </Box>

@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { api } from '../lib/axios';
+import {api} from './baseURL'
 
 export async function cadastroEmpresa(
   e: FormEvent,
