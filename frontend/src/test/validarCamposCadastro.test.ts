@@ -14,6 +14,7 @@ import {
 } from '../utils/validateGenerico'
 
 import { isCnpjError, isRamoError } from '../utils/validateEmpresa'
+import { isAreaAtuacaoError, isCpfError, isDeficienciaError, isDescricaoError, isGeneroError, isPretensaoError } from '../utils/validateCandidato'
 
 describe('Validação de campos', () => {
     test('email em branco', () => {
@@ -144,4 +145,59 @@ describe('Validação de campos', () => {
         expect(isCnpjError('213.192.009/0001-47')).toBe(false);
     })
 
+    test('area de atuação em branco', () => {
+        expect(isAreaAtuacaoError('')).toBe(false);
+    })
+
+    test('area de atuação valida', () => {
+        expect(isAreaAtuacaoError('Programador Jr')).toBe(true);
+    })
+
+    test('deficiencia em branco', () => {
+        expect(isDeficienciaError('')).toBe(false);
+    })
+
+    test('deficiencia valido', () => {
+        expect(isDeficienciaError('Nenhuma')).toBe(true);
+    })
+
+    test('descricao em branco', () => {
+        expect(isDescricaoError('')).toBe(false);
+    })
+
+    test('descricao valido', () => {
+        expect(isDescricaoError('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium risus ut urna porta, ut efficitur augue ultrices. Fusce rutrum odio sed nibh cursus eleifend. Proin at nulla magna. Donec.')).toBe(true);
+    })
+
+    test('genero em branco', () => {
+        expect(isGeneroError('')).toBe(false);
+    })
+
+    test('genero valido', () => {
+        expect(isGeneroError('Masculino')).toBe(true);
+    })
+
+    test('pretensao em branco', () => {
+        expect(isPretensaoError('')).toBe(false);
+    })
+
+    test('pretensao valido', () => {
+        expect(isPretensaoError('20000')).toBe(true);
+    })
+
+    test('pretensao invalido', () => {
+        expect(isPretensaoError('2a0000')).toBe(false);
+    })
+
+    test('cpf em branco', () => {
+        expect(isCpfError('')).toBe(false);
+    })
+
+    test('cpf valido', () => {
+        expect(isCpfError('748.806.688-00')).toBe(true);
+    })
+
+    test('cpf invalido', () => {
+        expect(isCpfError('111.111.111-11')).toBe(false);
+    })
 });

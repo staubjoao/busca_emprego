@@ -7,7 +7,8 @@ const isGeneroError = (genero: string) => {
 }
 
 const isPretensaoError = (pretensao: string) => {
-    return pretensao.trim() !== ''
+    const regex = /^\d+$/
+    return regex.test(pretensao.trim())
 }
 
 const isDescricaoError = (descricao: string) => {
