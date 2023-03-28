@@ -58,15 +58,6 @@ export function ListagemCurriculoCompleto() {
     cursos: [],
     experiencias: [],
   });
-  const {
-    openSnackbar,
-    setOpenSnackbar,
-    severity,
-    setSeverity,
-    showSnackBar,
-    message,
-    setMessage,
-  } = snackbarStore;
 
   useEffect(() => {
     async function handleCurriculos() {
@@ -123,10 +114,18 @@ export function ListagemCurriculoCompleto() {
   }, []);
 
   const copiarEmail = () => {
-    navigator.clipboard.writeText(curriculo.email);
-    setOpenSnackbar(true);
-    setSeverity('success');
-    setMessage('Email copiado para a área de transferência');
+    navigator.clipboard.writeText(curriculo.email).then(() => {
+      alert('Email copiado para a área de transferência')
+      // snackbarStore.setOpenSnackbar(true);
+      // snackbarStore.setSeverity('success');
+      // snackbarStore.setMessage('Email copiado para a área de transferência');
+    }).catch(() => {
+      alert('Ocorreu um erro ao copiar o email')
+      // snackbarStore.setOpenSnackbar(true);
+      // snackbarStore.setSeverity('error');
+      // snackbarStore.setMessage('Ocorreu um erro ao copiar o email');
+    });
+    console.log(curriculo.email)
   };
 
   return (
@@ -158,7 +157,7 @@ export function ListagemCurriculoCompleto() {
             <Box display="flex">
               <Box display="flex">
                 {curriculo.perfil === null ||
-                (curriculo.perfil as any) === '' ? (
+                  (curriculo.perfil as any) === '' ? (
                   <Box
                     component="img"
                     src={perfilIcon}
@@ -246,16 +245,20 @@ export function ListagemCurriculoCompleto() {
         ></Box>
       </Box>
       <Snackbar
-        open={openSnackbar}
+        open={snackbarStore.openSnackbar}
         autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(!openSnackbar)}
+        onClose={() =>
+          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+        }
       >
         <Alert
-          onClose={() => setOpenSnackbar(!openSnackbar)}
-          severity={severity}
+          onClose={() =>
+            snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          }
+          severity={snackbarStore.severity}
           sx={{ width: '100%' }}
         >
-          {message}
+          {snackbarStore.message}
         </Alert>
       </Snackbar>
     </Box>
