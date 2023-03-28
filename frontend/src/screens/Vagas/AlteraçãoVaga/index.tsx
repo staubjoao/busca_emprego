@@ -35,7 +35,6 @@ export const AlterarVaga = observer(() => {
 
   const handleEditVaga = (e: FormEvent) => {
     e.preventDefault()
-
     if (id !== undefined) {
       vagaStore.handleEditVaga(
         id,

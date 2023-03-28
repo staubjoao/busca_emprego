@@ -68,7 +68,6 @@ export async function cadastroVaga(
 
 export async function alteracaoVaga(
   idVaga: any,
-  e: FormEvent,
   titulo: string,
   periodo: string,
   descricao: string,
@@ -78,6 +77,32 @@ export async function alteracaoVaga(
   setCanNavigate: (canNavigate: boolean) => void,
   token: string
 ) {
+
+  if (titulo.length < 10 || titulo.length > 255){
+    setError('O título não foi preenchido corretamente!')
+    return;
+  }
+
+  if(periodo.length < 10 || periodo.length > 45){
+    setError('O período não foi preenchido corretamente')
+    return;
+  }
+  
+  if(descricao.length < 20 || descricao.length > 2000) {
+    setError('A descrição não pode estar vazia')
+    return;
+  }
+
+  if(salario === 0 || salario > 100000){
+    setError('O salário está com um valor muito maior do que o permitido')
+    return;
+  }
+
+  if(EmpresaId === null){
+    setError('Ops... houve um erro, tente novamente mais tarde :(')
+    return;
+  }
+
   await api
     .put(
       'usuario/alterar/vaga/' + idVaga,

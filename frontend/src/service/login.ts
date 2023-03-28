@@ -1,6 +1,4 @@
-import { FormEvent } from 'react';
-import { api } from '../lib/axios';
-import { useNavigate } from 'react-router-dom'
+import { api } from './baseURL';
 
 export const autenticacaoLoginCandidato = async (
   email: string,

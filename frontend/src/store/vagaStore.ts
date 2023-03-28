@@ -211,7 +211,6 @@ export class VagaStore implements VagaStoreType{
     setCanNavigate: any) => {
       
     await alteracaoVaga(id,
-      e,
       titulo,
       periodo,
       descricao,
