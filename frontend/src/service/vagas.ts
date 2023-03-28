@@ -39,8 +39,6 @@ export async function cadastroVaga(
     return;
   }
 
-  console.log('ola');
-
   await api
     .post(
       'usuario/cadastro/vaga',
@@ -66,67 +64,39 @@ export async function cadastroVaga(
     });
 }
 
-export async function alteracaoVaga(
-  idVaga: any,
-  titulo: string,
-  periodo: string,
-  descricao: string,
-  salario: number,
-  EmpresaId: string | null,
-  setError: (error: string) => void,
-  setCanNavigate: (canNavigate: boolean) => void,
-  token: string
-) {
+export async function alteracaoVaga (idVaga: any,titulo: string,periodo: string,descricao: string,
+  salario: number,EmpresaId: string | null,setError: (error: string) => void,token: string) {
 
-  if (titulo.length < 10 || titulo.length > 255){
+  let retorno = true
+
+  if (titulo.length < 5 || titulo.length > 255){
     setError('O título não foi preenchido corretamente!')
-    return;
+    retorno = false;
   }
 
-  if(periodo.length < 10 || periodo.length > 45){
+  if(periodo.length < 5 || periodo.length > 45){
     setError('O período não foi preenchido corretamente')
-    return;
+    retorno = false;
   }
   
-  if(descricao.length < 20 || descricao.length > 2000) {
-    setError('A descrição não pode estar vazia')
-    return;
+  if(descricao.length < 10 || descricao.length > 2000) {
+    setError('A descrição não foi preenchida corretamente')
+    retorno = false;
   }
 
   if(salario === 0 || salario > 100000){
-    setError('O salário está com um valor muito maior do que o permitido')
-    return;
+    setError('O salário não foi preenchido corretamente')
+    retorno = false;
   }
 
-  if(EmpresaId === null){
-    setError('Ops... houve um erro, tente novamente mais tarde :(')
-    return;
-  }
+  const response = await api.put( 'usuario/alterar/vaga/' + idVaga, {titulo, periodo, salario,descricao,EmpresaId,},{headers: {'authorization-token': token,}})
+   if (response.data.error === true) {
+    setError('Opss... houve um erro :(')
+    retorno = false;
+   }
 
-  await api
-    .put(
-      'usuario/alterar/vaga/' + idVaga,
-      {
-        titulo,
-        periodo,
-        salario,
-        descricao,
-        EmpresaId,
-      },
-      {
-        headers: {
-          'authorization-token': token,
-        },
-      }
-    )
-    .then((res) => {
-      if (res.data.erro) {
-        setError(res.data.mensagem);
-      } else {
-        setCanNavigate(true);
-      }
-    });
-}
+   return retorno
+  }
 
 export async function exibirVagaCandidato(id: string, token: string) {
   const response = await api.get('/usuario/candidato/vagas/' + id, {

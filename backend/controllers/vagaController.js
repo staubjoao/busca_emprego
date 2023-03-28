@@ -18,7 +18,7 @@ const vagaController = {
       .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro
+          message: 'Ops... houve um erro :('
         })
       })
   },
@@ -49,7 +49,7 @@ const vagaController = {
         .catch(erro => {
           return res.status(400).json({
             error: true,
-            message: erro
+            message: 'Ops... houve um erro :('
           })
         })
     }
@@ -77,7 +77,7 @@ const vagaController = {
       .catch(error => {
         return res.status(400).json({
           error: true,
-          message: error
+          message: 'Ops... houve um erro :('
         })
       })
   },
@@ -98,7 +98,7 @@ const vagaController = {
       .catch(error => {
         return res.status(400).json({
           error: true,
-          message: error
+          message: 'Ops... houve um erro :('
         })
       })
   },
@@ -119,7 +119,7 @@ const vagaController = {
       .catch(erro => {
         return res.status(400).json({
           error: true,
-          message: erro
+          message: 'Ops... houve um erro :('
         })
       })
   }
