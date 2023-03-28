@@ -30,6 +30,7 @@ export const AlterarVaga = observer(() => {
   const handleVaga = async () => {
     if (id !== undefined) {
       setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
+      console.log(loginStore.token)
     }
   }
 
