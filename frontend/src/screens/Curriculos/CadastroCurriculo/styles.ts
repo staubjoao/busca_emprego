@@ -7,6 +7,8 @@ export const Content = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   width: '50%',
   borderRadius: 12,
+  marginBottom: theme.spacing(4),
+  marginTop: theme.spacing(4),
 }));
 
 export const ButtonCreate = styled(Button)(({ theme }) => ({

@@ -1,6 +1,7 @@
 import { api } from './baseURL';
 
 export const createEmpresa = async (
+    logo: string,
     email: string,
     senha: string,
     nome: string,
@@ -17,6 +18,7 @@ export const createEmpresa = async (
     telefone: string
 ) => {
     const response = await api.post(`/usuario/cadastro/empresas`, {
+        logo,
         email,
         senha,
         nome,

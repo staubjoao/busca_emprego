@@ -1,9 +1,9 @@
 export * from './Candidato/CadastroCandidato';
+export * from './Empresa/CadastroEmpresa';
 
 export * from './Curriculos/CadastroCurriculo';
-export * from './Curriculos/ListagemCurriculo';
-
-export * from './Empresa/CadastroEmpresa';
+export * from './Curriculos/ListagemCurriculos';
+export * from './Curriculos/ListagemCurriculoCompleto';
 
 export * from './Login/Candidato';
 export * from './Login/Empresa';

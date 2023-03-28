@@ -3,12 +3,11 @@ import Sidebar from '../components/Sidebar';
 import { useStore } from '../hooks/stores';
 
 import {
-  CadastroCandidato,
-  CadastroEmpresa,
   CadastroVaga,
-  // ListagemCurriculos,
+  ListagemCurriculos,
   CadastroCurriculo,
   ListagemVagasCandidato,
+  ListagemCurriculoCompleto,
 } from '../screens';
 import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga';
 import { ExibirVaga } from '../screens/Vagas/ExibirVaga';
@@ -21,12 +20,11 @@ export function AppRoutes() {
     <>
       <Sidebar typeUser={loginStore.typeUser} navigate={navigate} />
       <Routes>
-        <Route path="cadastro/empresa" element={<CadastroEmpresa />} />
-        <Route path="cadastro/candidato" element={<CadastroCandidato />} />
         <Route path="candidato/:id/curriculo" element={<CadastroCurriculo />} />
-        {/* <Route path="empresa/curriculos" element={<ListagemCurriculos />} /> */}
         <Route path="candidato/vagas" element={<ListagemVagasCandidato />} />
         <Route path="candidato/vagas/:id" element={<ExibirVaga />} />
+        <Route path="empresa/vaga/:idVaga/curriculos" element={<ListagemCurriculos />} />
+        <Route path="empresa/curriculo/:idCurriculo" element={<ListagemCurriculoCompleto />} />
         <Route path="empresa/vagas/:id" element={<ListagemVagasEmpresa />} />
         <Route path="empresa/cadastro/vaga" element={<CadastroVaga />} />
         <Route path="empresa/alterar/vaga/:id" element={<AlterarVaga />} />

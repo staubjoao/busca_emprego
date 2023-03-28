@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
       deficiencia: DataTypes.STRING(80),
       cep: DataTypes.CHAR(8),
       pretensao: DataTypes.FLOAT,
-      descricao: DataTypes.TEXT
+      descricao: DataTypes.TEXT,
+      areaAtuacao: DataTypes.STRING(80)
     },
     {
       sequelize,

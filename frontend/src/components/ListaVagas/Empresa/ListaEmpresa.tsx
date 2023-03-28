@@ -139,7 +139,6 @@ export const Lista = observer((props: ListaProps) => {
                 {element.periodo}
               </Typography>
               <Typography variant="subtitle2" color="#5E80BB" fontWeight="bold">
-                R${' '}
                 {element.salario !== null
                   ? 'R$ ' + element.salario?.toString().replace('.', ',')
                   : 'Faixa de salário indisponível'}
@@ -159,7 +158,14 @@ export const Lista = observer((props: ListaProps) => {
                   }
                 }}
               >
-                <Box component="span">Listar Currículos</Box>
+                <Box
+                  component="span"
+                  onClick={() =>
+                    navigate('/empresa/vaga/' + element.id + '/curriculos')
+                  }
+                >
+                  Listar Currículos
+                </Box>
               </ButtonBase>
             </Box>
           </Box>

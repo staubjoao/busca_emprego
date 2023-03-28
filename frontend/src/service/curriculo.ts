@@ -21,5 +21,31 @@ export const createCurriculo = async (
     }
   );
 
-  return { ok: response.statusText };
+  console.log('RESPONSE ----->', response);
+
+  return { ok: response.data.ok, message: response.data.message };
 };
+
+export const getCurriculosVaga = async (idVaga: string, token: string) => {
+  const response = await api.get(
+    `usuario/empresa/vaga/curriculos/${idVaga}`,
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+    );
+  return response.data.curriculos;
+};
+
+export const getCurriculo = async(idCurriculo: string, token: string) => {
+  const response = await api.get(
+    `usuario/empresa/curriculo/${idCurriculo}`,
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+    );
+  return response.data.curriculo;
+}

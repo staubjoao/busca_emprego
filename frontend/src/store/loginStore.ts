@@ -22,6 +22,8 @@ export interface LoginStoreType {
   logout: () => void;
   cnpj: string;
   setCnpj: (cnpj: string) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 export class LoginStore implements LoginStoreType {
@@ -29,8 +31,8 @@ export class LoginStore implements LoginStoreType {
     makeAutoObservable(this, {}, { autoBind: true });
     makePersistable(this, {
       name: 'LoginStore',
-      properties: ['token', 'user'],
-      storage: window.localStorage,
+      properties: ['token', 'user', 'typeUser'],
+      //storage: window.localStorage,
     });
   }
 
@@ -64,6 +66,12 @@ export class LoginStore implements LoginStoreType {
     this.token = token;
   };
 
+  loading: boolean = false;
+  setLoading(loading: boolean) {
+    console.log('LOADING', loading);
+    this.loading = loading;
+  }
+
   user: { nome: string; id: string } = { nome: '', id: '' };
   setUser = (nome: string, id: string) => {
     this.user = { nome, id };
@@ -93,7 +101,7 @@ export class LoginStore implements LoginStoreType {
       this.setUser(response?.data.nome, response?.data.id);
       this.setToken(response?.data.token);
       this.setTypeUser('empresa');
-      return { ok: true, id: this.user.id};
+      return { ok: true, id: this.user.id };
     }
   };
 
@@ -103,6 +111,7 @@ export class LoginStore implements LoginStoreType {
     this.setSenha('');
     this.setCnpj('');
     this.setEmail('');
+    this.setTypeUser('');
   };
 
   getPersistedStore = () => {

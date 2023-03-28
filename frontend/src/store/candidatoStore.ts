@@ -2,6 +2,11 @@ import { makeAutoObservable } from 'mobx';
 import { createCandidato } from '../service';
 
 export interface CandidatoStoreType {
+    perfil: string;
+    setPerfil: (
+        perfil: string
+    ) => void | React.Dispatch<React.SetStateAction<string>>;
+
     email: string;
     setEmail: (
         email: string
@@ -80,6 +85,11 @@ export interface CandidatoStoreType {
     descricao: string;
     setDescricao: (
         descricao: string
+    ) => void | React.Dispatch<React.SetStateAction<string>>;
+
+    areaAtuacao: string;
+    setAreaAtuacao: (
+        areaAtuacao: string
     ) => void | React.Dispatch<React.SetStateAction<string>>;
 
     emailError: boolean;
@@ -162,6 +172,11 @@ export interface CandidatoStoreType {
         descricaoError: boolean
     ) => void | React.Dispatch<React.SetStateAction<boolean>>;
 
+    areaAtuacaoError: boolean;
+    setAreaAtuacaoError: (
+        areaAtuacaoError: boolean
+    ) => void | React.Dispatch<React.SetStateAction<boolean>>;
+
     cpfError: boolean;
     setCpfError: (
         cpfError: boolean
@@ -172,9 +187,10 @@ export interface CandidatoStoreType {
         formularioError: boolean
     ) => void | React.Dispatch<React.SetStateAction<boolean>>;
 
-    clearStatesEmpresa: () => void;
+    clearStatesCandidato: () => void;
 
     handleCreateCandidato: (
+        createPerfil: any,
         createEmail: any,
         createSenha: any,
         createNome: any,
@@ -190,12 +206,19 @@ export interface CandidatoStoreType {
         createGenero: any,
         createDeficiencia: any,
         createCep: any,
+        createAreaAtuacao: any,
+        createPretensao: any,
     ) => void;
 }
 
 export class CandidatoStore implements CandidatoStoreType {
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    perfil: string = '';
+    setPerfil(perfil: string) {
+        this.perfil = perfil;
     }
 
     email: string = '';
@@ -283,6 +306,11 @@ export class CandidatoStore implements CandidatoStoreType {
         this.descricao = descricao;
     }
 
+    areaAtuacao: string = '';
+    setAreaAtuacao(areaAtuacao: string) {
+        this.areaAtuacao = areaAtuacao;
+    }
+
     emailError: boolean = false;
     setEmailError(emailError: boolean) {
         this.emailError = emailError;
@@ -363,6 +391,11 @@ export class CandidatoStore implements CandidatoStoreType {
         this.descricaoError = descricaoError;
     }
 
+    areaAtuacaoError: boolean = false;
+    setAreaAtuacaoError(areaAtuacaoError: boolean) {
+        this.areaAtuacaoError = areaAtuacaoError;
+    }
+
     cpfError: boolean = false;
     setCpfError(cpfError: boolean) {
         this.cpfError = cpfError;
@@ -373,7 +406,8 @@ export class CandidatoStore implements CandidatoStoreType {
         this.formularioError = formularioError;
     }
 
-    clearStatesEmpresa = () => {
+    clearStatesCandidato = () => {
+        this.setPerfil('');
         this.setEmail('');
         this.setSenha('');
         this.setNome('');
@@ -389,9 +423,11 @@ export class CandidatoStore implements CandidatoStoreType {
         this.setGenero('');
         this.setCpf('');
         this.setCep('');
+        this.setAreaAtuacao('');
     };
 
     async handleCreateCandidato(
+        perfil: string,
         email: string,
         senha: string,
         nome: string,
@@ -406,9 +442,12 @@ export class CandidatoStore implements CandidatoStoreType {
         telefone: string,
         genero: string,
         deficiencia: string,
-        cep: string
+        cep: string,
+        areaAtuacao: string,
+        pretensao: string,
     ) {
         const response = await createCandidato(
+            perfil,
             email,
             senha,
             nome,
@@ -423,7 +462,9 @@ export class CandidatoStore implements CandidatoStoreType {
             telefone,
             genero,
             deficiencia,
-            cep
+            cep,
+            areaAtuacao,
+            pretensao
         );
         return response;
     }

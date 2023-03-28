@@ -2,6 +2,11 @@ import { makeAutoObservable } from 'mobx';
 import { createEmpresa } from '../service';
 
 export interface EmpresaStoreType {
+    logo: string;
+    setLogo: (
+        logo: string
+    ) => void | React.Dispatch<React.SetStateAction<string>>;
+
     email: string;
     setEmail: (
         email: string
@@ -145,6 +150,7 @@ export interface EmpresaStoreType {
     clearStatesEmpresa: () => void;
 
     handleCreateEmpresa: (
+        createLogo: any,
         createEmail: any,
         createSenha: any,
         createNome: any,
@@ -165,6 +171,11 @@ export interface EmpresaStoreType {
 export class EmpresaStore implements EmpresaStoreType {
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    logo: string = '';
+    setLogo(logo: string) {
+        this.logo = logo;
     }
 
     email: string = '';
@@ -308,6 +319,7 @@ export class EmpresaStore implements EmpresaStoreType {
     }
 
     clearStatesEmpresa = () => {
+        this.setLogo('');
         this.setEmail('');
         this.setSenha('');
         this.setNome('');
@@ -325,6 +337,7 @@ export class EmpresaStore implements EmpresaStoreType {
     };
 
     async handleCreateEmpresa(
+        logo: string,
         email: string,
         senha: string,
         nome: string,
@@ -341,6 +354,7 @@ export class EmpresaStore implements EmpresaStoreType {
         telefone: string
     ) {
         const response = await createEmpresa(
+            logo,
             email,
             senha,
             nome,

@@ -1,29 +1,35 @@
-import { Box, Typography, Link, FormControl } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useStore } from '../../../hooks/stores'
-import { observer } from 'mobx-react-lite'
+import { Box, Typography, Link, CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../../hooks/stores';
+import { observer } from 'mobx-react-lite';
 import {
   ExitButton,
   InputCnpj,
   InputLogin,
   LoginButton,
-  RegisterButton
-} from './styles'
-import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material'
-import paper from '../../../assets/images/paper.svg'
-import line from '../../../assets/icons/line.svg'
+  RegisterButton,
+} from './styles';
+import { Close, EmailOutlined, LockOutlined } from '@mui/icons-material';
+import paper from '../../../assets/images/paper.svg';
+import line from '../../../assets/icons/line.svg';
+
+import { delay } from '../../../utils';
 
 export const LoginEmpresa = observer(() => {
-  const navigate = useNavigate()
-  const { loginStore } = useStore()
+  const navigate = useNavigate();
+  const { loginStore } = useStore();
 
   const handleLogin = async () => {
-    const response = await loginStore.authEmpresa()
+    loginStore.setLoading(true);
+    await delay(1000);
+
+    const response = await loginStore.authEmpresa();
     if (response.ok) {
-      loginStore.getPersistedStore()
-      navigate('/empresa/vagas/' + response.id)
+      loginStore.getPersistedStore();
+      navigate('/empresa/vagas/' + response.id);
     }
-  }
+    loginStore.setLoading(false);
+  };
 
   return (
     <Box
@@ -38,7 +44,7 @@ export const LoginEmpresa = observer(() => {
       <Box
         marginX="auto"
         sx={{
-          maxWidth: { sm: 384 }
+          maxWidth: { sm: 384 },
         }}
         display="flex"
         flexDirection="column"
@@ -78,7 +84,7 @@ export const LoginEmpresa = observer(() => {
         width="40vw"
         sx={{
           borderTopLeftRadius: '5rem',
-          borderBottomLeftRadius: '5rem'
+          borderBottomLeftRadius: '5rem',
         }}
         display="flex"
         flexDirection="column"
@@ -99,7 +105,7 @@ export const LoginEmpresa = observer(() => {
                 position: 'absolute',
                 top: 14,
                 left: 9,
-                color: '#E7E7E7'
+                color: '#E7E7E7',
               }}
             />
             <InputCnpj
@@ -108,7 +114,7 @@ export const LoginEmpresa = observer(() => {
               id="cnpj"
               value={loginStore.cnpj}
               autoFocus
-              onChange={event => loginStore.setCnpj(event.target.value)}
+              onChange={(event) => loginStore.setCnpj(event.target.value)}
               mask="99.999.999/9999-99"
             />
           </Box>
@@ -119,7 +125,7 @@ export const LoginEmpresa = observer(() => {
                 position: 'absolute',
                 top: 14,
                 left: 9,
-                color: '#E7E7E7'
+                color: '#E7E7E7',
               }}
             />
             <InputLogin
@@ -129,7 +135,7 @@ export const LoginEmpresa = observer(() => {
               id="senha"
               value={loginStore.senha}
               autoFocus
-              onChange={event => loginStore.setSenha(event.target.value)}
+              onChange={(event) => loginStore.setSenha(event.target.value)}
             />
           </Box>
           <Box
@@ -152,17 +158,20 @@ export const LoginEmpresa = observer(() => {
               sx={{
                 textDecoration: 'none',
                 ':hover': {
-                  cursor: 'pointer'
-                }
+                  cursor: 'pointer',
+                },
               }}
               onClick={() => navigate('/')}
             >
               Esqueceu a senha?
             </Link>
           </Box>
-
-          <LoginButton type="submit" onClick={handleLogin}>
-            Entrar
+          <LoginButton onClick={handleLogin} type="submit">
+            {loginStore.loading ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              <Typography>Entrar</Typography>
+            )}
           </LoginButton>
           <Box textAlign="center" margin="0.5rem">
             <Typography
@@ -184,5 +193,5 @@ export const LoginEmpresa = observer(() => {
         </Box>
       </Box>
     </Box>
-  )
-})
+  );
+});

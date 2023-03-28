@@ -1,6 +1,27 @@
 import { FormEvent } from 'react';
 import { api } from './baseURL';
 
+export async function candidatar(
+  idVaga: string,
+  idCandidato: string,
+  token: string
+) {
+  const response = await api.post(
+    `/usuario/candidatar`,
+    {
+      idVaga,
+      idCandidato,
+    },
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function cadastroVaga(
   token: string,
   e: FormEvent,
@@ -17,6 +38,8 @@ export async function cadastroVaga(
   if (titulo === '' || periodo === '' || descricao === '') {
     return;
   }
+
+  console.log('ola');
 
   await api
     .post(
@@ -56,13 +79,13 @@ export async function alteracaoVaga(
 ) {
 
   if (titulo.length < 10 || titulo.length > 255){
-    setError('O período não foi preenchido corretamente!')
+    setError('O título não foi preenchido corretamente!')
     return;
   }
 
   if(periodo.length < 10 || periodo.length > 45){
     setError('O período não foi preenchido corretamente')
-    return; 
+    return;
   }
   
   if(descricao.length < 20 || descricao.length > 2000) {
@@ -112,7 +135,7 @@ export async function exibirVagaCandidato(id: string, token: string) {
     },
   });
   return response.data.vagas;
-};
+}
 
 export const exibirVagaEmpresa = async (id: string, token: string) => {
   const response = await api.get('usuario/empresa/exibir/vaga/' + id, {
@@ -148,7 +171,7 @@ export const toggleVaga = async (
   token: string
 ) => {
   const response = await api.put(
-    'usuario/empresa/vagas/toggle/'+id,
+    'usuario/empresa/vagas/toggle/' + id,
     {
       id,
       visualizar,
@@ -161,24 +184,3 @@ export const toggleVaga = async (
   );
   return response.data;
 };
-
-export async function candidatar(
-  idVaga: string,
-  idCandidato: string,
-  token: string
-) {
-  const response = await api.post(
-    `/usuario/candidatar`,
-    {
-      idVaga,
-      idCandidato,
-    },
-    {
-      headers: {
-        'authorization-token': token,
-      },
-    }
-  );
-
-  return response.data;
-}

@@ -30,13 +30,11 @@ export const AlterarVaga = observer(() => {
   const handleVaga = async () => {
     if (id !== undefined) {
       setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
-      console.log(loginStore.token)
     }
   }
 
   const handleEditVaga = (e: FormEvent) => {
     e.preventDefault()
-
     if (id !== undefined) {
       vagaStore.handleEditVaga(
         id,

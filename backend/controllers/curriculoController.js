@@ -1,8 +1,5 @@
 const models = require('../models');
 const { campos, getJSON } = require('../utils/curriculos');
-const curriculoVaga = models.CurriculosVagas;
-const vaga = models.Vaga;
-const candidatoModel = models.Curriculo;
 
 const createItensModels = async (req, valueBody, model, value, candidato) => {
   const getModel = models[`${model}`];
@@ -38,40 +35,107 @@ const curriculo = {
           );
         })
       );
-      return res.json(itemsModels);
-    } catch (e) {
-      res.status(500);
+      const findEmptyItem = itemsModels.find((item) => item.length === 0);
+      if (findEmptyItem) {
+        return res.json({
+          message: 'Há campos vazios!',
+          ok: false,
+        });
+      }
       return res.json({
-        message: e,
+        message: 'Currículo salvo com sucesso!',
+        ok: true,
+      });
+    } catch (e) {
+      console.log('ERRP', e);
+      return res.json({
+        message: 'Que pena, algo deu errado :(',
         ok: false,
       });
     }
   },
 
   listarCurriculos: async (req, res) => {
-    const { idVaga } = req.params;
-    const curriculo = models.Curriculo;
-    const vaga = models.Vaga;
-    const teste = models.CurriculoVaga;
+    const curriculovaga = models.CurriculosVagas
 
-    await curriculo
-      .findByPk(req.params.idVaga, {
+    await curriculovaga
+      .findAll({
+        where: { VagaId: req.params.idVaga },
         include: [
           {
-            all: true,
-            association: 'CurriculosVagas',
-          },
-        ],
+            model: models.Curriculo,
+            required: true
+          }
+        ]
       })
-      .then((curr) => {
-        return res.json({ curr });
-      })
-      .catch((erro) => {
+      .then(curriculos => res.json({ curriculos }))
+      .catch(erro => {
         return res.status(400).json({
-          erro: true,
-          message: erro,
-        });
-      });
+          error: true,
+          message: erro
+        })
+      })
+  },
+
+  listarCurriculo: async (req, res) => {
+    console.log(req.params.idCurriculo)
+    const curriculo = models.Curriculo
+    const cursos = models.Cursos
+    const experiencias = models.Experiencias
+    const idiomas = models.Idiomas
+    const idiomasCurriculo = models.CurriculosIdiomas
+    const cursosCurriculo = models.CurriculosCursos
+    const experienciasCurriculo = models.CurriculosExperiencias
+    const instituicao = models.Instituicao
+    const cursosInstituicoes = models.CursosInstituicoes
+
+    await curriculo.findOne({
+      where: { id: req.params.idCurriculo },
+      include: [
+        {
+          model: idiomas,
+          attributes: ['idioma'],
+          through: {
+            model: idiomasCurriculo,
+            attributes: ['nivel']
+          }
+        },
+        {
+          model: cursos,
+          attributes: ['curso'],
+          through: {
+            model: cursosCurriculo,
+            attributes: ['inicio', 'termino'],
+          },
+          include: [
+            {
+              model: instituicao,
+              attributes: ['nome', 'cidade', 'pais'],
+              tableName: 'Instituicoes',
+              through: {
+                attributes: [],
+                model: cursosInstituicoes,
+              }
+            }
+          ]
+        },
+        {
+          model: experiencias,
+          attributes: ['empresa', 'endereco', 'ramo'],
+          through: {
+            model: experienciasCurriculo,
+            attributes: ['inicio', 'termino', 'cidade', 'pais', 'salario', 'cargo']
+          }
+        }
+      ]
+    })
+      .then(curriculo => res.json({ curriculo }))
+      .catch(erro => {
+        return res.status(400).json({
+          error: true,
+          message: erro
+        })
+      })
   },
 
   candidatar: async (req, res) => {
