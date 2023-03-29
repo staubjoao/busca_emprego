@@ -1,6 +1,14 @@
 import { makeAutoObservable } from "mobx";
 import { FormEvent } from "react";
-import { alteracaoVaga, cadastroVaga, exibirVagaCandidato, exibirVagaEmpresa, listarVagasEmpresa, toggleVaga } from "../service/vagas";
+import {
+  alteracaoVaga,
+  cadastroVaga,
+  exibirVagaCandidato,
+  exibirVagaEmpresa,
+  listarVagasCandidatoSearch,
+  listarVagasEmpresa,
+  toggleVaga
+} from "../service/vagas";
 
 export interface VagaStoreType {
   id: string,
@@ -11,6 +19,11 @@ export interface VagaStoreType {
   titulo: string;
   setTitulo: (
     titulo: string
+  ) => void | React.Dispatch<React.SetStateAction<string>>;
+
+  empresa: string;
+  setEmpresa: (
+    empresa: string
   ) => void | React.Dispatch<React.SetStateAction<string>>;
 
   descricao: string;
@@ -91,6 +104,11 @@ export class VagaStore implements VagaStoreType{
     this.titulo = titulo
   }
 
+  empresa: string = '';
+  setEmpresa(empresa: string){
+    this.empresa = empresa
+  }
+
   descricao: string = '';
   setDescricao(descricao: string){
     this.descricao = descricao
@@ -155,6 +173,7 @@ export class VagaStore implements VagaStoreType{
 
   clearStatesVaga = () => {
     this.setTitulo('')
+    this.setEmpresa('')
     this.setDescricao('')
     this.setPeriodo('')
     this.setSalario(0)
@@ -229,6 +248,11 @@ export class VagaStore implements VagaStoreType{
 
   handleToggleIcon = async (id: string, visualizar: number, token: string) => {
     const response = await toggleVaga(id, visualizar, token)
+    return response
+  }
+
+  handleSearchVagas = async (token: string, empresa: string, titulo: string, descricao: string) => {
+    const response = await listarVagasCandidatoSearch(token, empresa, titulo, descricao)
     return response
   }
 }

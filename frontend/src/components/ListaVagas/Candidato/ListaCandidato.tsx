@@ -1,23 +1,27 @@
 import { useNavigate } from 'react-router-dom'
+import { useStore } from '../../../hooks/stores'
+import {observer} from "mobx-react-lite";
 
 interface ListaProps {
   listagem: {
-    id: number
+    id: string
     titulo: string
     descricao: string
     periodo: string
-    salario: number | null
-    EmpresaId: number
+    salario: number
+    visualizar: number
+    EmpresaId: string
     Empresa: {
+      logo: string
       nome: string
-      logo: string | null
     }
   }[]
 }
 
-export function Lista(props: ListaProps) {
+export const Lista = observer((props: ListaProps) => {
   const navigate = useNavigate()
   const { listagem } = props
+  const { loginStore, vagaStore } = useStore()
 
   return (
     <div>
@@ -98,4 +102,4 @@ export function Lista(props: ListaProps) {
       ))}
     </div>
   )
-}
+})

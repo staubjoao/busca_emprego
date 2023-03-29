@@ -78,7 +78,7 @@ export async function alteracaoVaga (idVaga: any,titulo: string,periodo: string,
     setError('O período não foi preenchido corretamente')
     retorno = false;
   }
-  
+
   if(descricao.length < 10 || descricao.length > 2000) {
     setError('A descrição não foi preenchida corretamente')
     retorno = false;
@@ -131,6 +131,24 @@ export const listarVagasCandidato = async (token: string) => {
       'authorization-token': token,
     },
   });
+
+  return response.data.vagas;
+};
+
+export const listarVagasCandidatoSearch = async (token: string, empresa: string, titulo: string, descricao: string) => {
+  const response = await api.post('usuario/candidato/vagas/search',
+      {
+          token,
+          empresa,
+          titulo,
+          descricao,
+      },
+      {
+          headers: {
+              'authorization-token': token,
+          },
+      }
+  );
 
   return response.data.vagas;
 };
