@@ -17,6 +17,7 @@
     //(16) token === '' ----- inválido
     //(17) token === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Nzk5NTU4NzB9.NH2B2vBGU7wlNBecPVsLftzgkK309iUA4nyPHoFdQo8' ----- válido
     //(18) token !== 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Nzk5NTU4NzB9.NH2B2vBGU7wlNBecPVsLftzgkK309iUA4nyPHoFdQo' ----- inválido
+    //retorno === true ---- (vpalida)
 
 import { put } from "./alteracaoVagaTesteBackend";
 
@@ -51,4 +52,5 @@ export const alteracaoVagaTeste =  (idVaga: any,
       token) ? true : false
     
 }
+
 

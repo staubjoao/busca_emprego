@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import {FormEvent, useEffect, useState} from 'react'
 import { Box, Pagination } from '@mui/material'
 import { Lista } from '../../../components/ListaVagas/Empresa/ListaEmpresa'
 import { useStore } from '../../../hooks/stores'
@@ -50,11 +50,22 @@ export function ListagemVagasEmpresa() {
     setPagination({ ...pagination, from: from, to: to })
   }
 
+  const handleToggle = async (
+      e: FormEvent,
+      id: string,
+      visualizar: number,
+      token: string
+  ) => {
+    e.preventDefault()
+    await vagaStore.handleToggleIcon(id, visualizar, token)
+    handleVagas()
+  }
+
   return (
     <Box bgcolor="rgb(245 245 244)">
       <Header titleHeader="Estas são suas vagas..." />
       <Box minHeight="84.2vh" position="relative" bottom="30px">
-        <Lista listagem={vagas} />
+        <Lista listagem={vagas} handleToggle={handleToggle} />
         <Box
           display="flex"
           justifyContent="center"
