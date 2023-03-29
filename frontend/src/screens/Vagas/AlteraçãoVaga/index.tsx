@@ -29,12 +29,13 @@ export const AlterarVaga = observer(() => {
   } = vagaStore
 
   const handleVaga = async () => {
+    console.log('entrou')
     if (id !== undefined) {
+      setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
       setPeriodo(vaga.periodo)
       setTitulo(vaga.titulo)
       setDescricao(vaga.descricao)
       setSalario(vaga.salario)
-      setVaga(await vagaStore.handleShowVagaEmpresa(id, loginStore.token))
     }
   }
 
@@ -107,7 +108,7 @@ export const AlterarVaga = observer(() => {
               <InputVaga
                 type="text"
                 id="titulo"
-                value={titulo}
+                defaultValue={vaga.titulo}
                 onChange={event => setTitulo(event.target.value)}
               />
             </Box>
@@ -122,7 +123,7 @@ export const AlterarVaga = observer(() => {
               <InputVaga
                 type="text"
                 id="periodo"
-                value={periodo}
+                defaultValue={vaga.periodo}
                 onChange={event => setPeriodo(event.target.value)}
               />
             </Box>
@@ -139,7 +140,7 @@ export const AlterarVaga = observer(() => {
                 mask="R$ 99999999999"
                 id="salario"
                 maskChar={''}
-                value={salario}
+                defaultValue={vaga.salario}
                 onChange={event =>
                   setSalario(parseFloat(event.target.value.slice(3)))
                 }
@@ -166,7 +167,7 @@ export const AlterarVaga = observer(() => {
                   height: '16rem'
                 }}
                 id="descricao"
-                value={descricao}
+                defaultValue={vaga.descricao}
                 onChange={event => setDescricao(event.target.value)}
               />
             </Box>

@@ -8,6 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../../../hooks/stores'
 import { observer } from 'mobx-react-lite'
+import {FormEvent} from "react";
 
 interface ListaProps {
   listagem: {
@@ -22,23 +23,20 @@ interface ListaProps {
       logo: string
       nome: string
     }
-  }[]
+  }[],
+  handleToggle: (
+      e: FormEvent,
+      id: string,
+      visualizar: number,
+      token: string
+  ) => any
 }
 
 export const Lista = observer((props: ListaProps) => {
-  const { listagem } = props
+  const { listagem, handleToggle } = props
   const { loginStore, vagaStore } = useStore()
   const navigate = useNavigate()
   const { visualizar, setVisualizar } = vagaStore
-
-  const handleToggle = async (
-    id: string,
-    visualizar: number,
-    token: string
-  ) => {
-    const response = await vagaStore.handleToggleIcon(id, visualizar, token)
-    return response.newVisualizar
-  }
 
   const handleVisualizar = (visualizar: number) => {
     return visualizar === 1 ? 1 : 0
@@ -91,7 +89,7 @@ export const Lista = observer((props: ListaProps) => {
               component="form"
               display="flex"
               onSubmit={e =>
-                handleToggle(element.id, element.visualizar, loginStore.token)
+                handleToggle(e, element.id, element.visualizar, loginStore.token)
               }
             >
               <IconButton
