@@ -1,9 +1,6 @@
 //Teste alteração de vaga Nathalia Mesquita Carnevalli
 //Ra 116086
 
-import { render, screen } from '@testing-library/react'
-import { AlterarVaga } from '../screens/Vagas/AlteraçãoVaga'
-import { BrowserRouter } from 'react-router-dom'
 import { alteracaoVagaTeste } from './stub/alteracaoVagaTeste'
 import '@testing-library/jest-dom'
 
