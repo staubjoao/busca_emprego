@@ -53,7 +53,7 @@ export class SnackbarStore implements SnackbarStoreType {
   }
 
   showSnackBar(responseStatus: string) {
-    if (responseStatus == 'OK') {
+    if (responseStatus === 'OK') {
       this.setOpenSnackbar(true);
       this.setSeverity('success');
     } else {

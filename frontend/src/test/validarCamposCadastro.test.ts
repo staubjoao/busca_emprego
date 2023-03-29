@@ -34,7 +34,7 @@ describe('Validação de campos', () => {
     })
 
     test('senha invalido', () => {
-        expect(isSenhaError('1234')).toBe(false);
+        expect(isSenhaError('12345')).toBe(false);
     })
 
     test('senha valido', () => {
@@ -141,7 +141,11 @@ describe('Validação de campos', () => {
         expect(isCnpjError('23.192.009/0001-47')).toBe(true);
     })
 
-    test('cnpj invalido', () => {
+    test('cnpj invalido 1', () => {
+        expect(isCnpjError('3.192.009/0001-47')).toBe(false);
+    })
+
+    test('cnpj invalido 2', () => {
         expect(isCnpjError('213.192.009/0001-47')).toBe(false);
     })
 
