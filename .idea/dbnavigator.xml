@@ -15,7 +15,9 @@
     <connection id="5839f136-cea9-4f10-90c5-72031c7bd722">
       <console name="busca_emprego" type="STANDARD" schema="busca_emprego" session="Main"><![CDATA[select * from empresas;
 select * from vagas;
-select * from curriculos]]></console>
+select * from curriculos
+
+select * from vagas where titulo LIKE '%seg%';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -26,6 +28,8 @@ select * from curriculos]]></console>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="5839f136-cea9-4f10-90c5-72031c7bd722" dataset="busca_emprego.curriculos" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="5839f136-cea9-4f10-90c5-72031c7bd722" dataset="busca_emprego.empresas" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="5839f136-cea9-4f10-90c5-72031c7bd722" dataset="busca_emprego.vagas" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
