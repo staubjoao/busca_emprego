@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 import { api } from './baseURL';
 
 export async function candidatar(
-  idVaga: string,
+  idVaga: number,
   idCandidato: string,
   token: string
 ) {
@@ -64,39 +64,50 @@ export async function cadastroVaga(
     });
 }
 
-export async function alteracaoVaga (idVaga: any,titulo: string,periodo: string,descricao: string,
-  salario: number,EmpresaId: string | null,setError: (error: string) => void,token: string) {
+export async function alteracaoVaga(
+  idVaga: any,
+  titulo: string,
+  periodo: string,
+  descricao: string,
+  salario: number,
+  EmpresaId: string | null,
+  setError: (error: string) => void,
+  token: string
+) {
+  let retorno = true;
 
-  let retorno = true
-
-  if (titulo.length < 5 || titulo.length > 255){
-    setError('O título não foi preenchido corretamente!')
+  if (titulo.length < 5 || titulo.length > 255) {
+    setError('O título não foi preenchido corretamente!');
     retorno = false;
   }
 
-  if(periodo.length < 5 || periodo.length > 45){
-    setError('O período não foi preenchido corretamente')
+  if (periodo.length < 5 || periodo.length > 45) {
+    setError('O período não foi preenchido corretamente');
     retorno = false;
   }
 
-  if(descricao.length < 10 || descricao.length > 2000) {
-    setError('A descrição não foi preenchida corretamente')
+  if (descricao.length < 10 || descricao.length > 2000) {
+    setError('A descrição não foi preenchida corretamente');
     retorno = false;
   }
 
-  if(salario === 0 || salario > 100000){
-    setError('O salário não foi preenchido corretamente')
+  if (salario === 0 || salario > 100000) {
+    setError('O salário não foi preenchido corretamente');
     retorno = false;
   }
 
-  const response = await api.put( 'usuario/alterar/vaga/' + idVaga, {titulo, periodo, salario,descricao,EmpresaId,},{headers: {'authorization-token': token,}})
-   if (response.data.error === true) {
-    setError('Opss... houve um erro :(')
+  const response = await api.put(
+    'usuario/alterar/vaga/' + idVaga,
+    { titulo, periodo, salario, descricao, EmpresaId },
+    { headers: { 'authorization-token': token } }
+  );
+  if (response.data.error === true) {
+    setError('Opss... houve um erro :(');
     retorno = false;
-   }
-
-   return retorno
   }
+
+  return retorno;
+}
 
 export async function exibirVagaCandidato(id: string, token: string) {
   const response = await api.get('/usuario/candidato/vagas/' + id, {
@@ -135,19 +146,25 @@ export const listarVagasCandidato = async (token: string) => {
   return response.data.vagas;
 };
 
-export const listarVagasCandidatoSearch = async (token: string, empresa: string, titulo: string, descricao: string) => {
-  const response = await api.post('usuario/candidato/vagas/search',
-      {
-          token,
-          empresa,
-          titulo,
-          descricao,
+export const listarVagasCandidatoSearch = async (
+  token: string,
+  empresa: string,
+  titulo: string,
+  descricao: string
+) => {
+  const response = await api.post(
+    'usuario/candidato/vagas/search',
+    {
+      token,
+      empresa,
+      titulo,
+      descricao,
+    },
+    {
+      headers: {
+        'authorization-token': token,
       },
-      {
-          headers: {
-              'authorization-token': token,
-          },
-      }
+    }
   );
 
   return response.data.vagas;

@@ -1,6 +1,10 @@
 const models = require('../models');
 const { campos, getJSON } = require('../utils/curriculos');
 
+const vaga = models.Vaga;
+const curriculoVaga = models.CurriculosVagas;
+const candidatoModel = models.Curriculo;
+
 const createItensModels = async (req, valueBody, model, value, candidato) => {
   const getModel = models[`${model}`];
 
@@ -56,7 +60,7 @@ const curriculo = {
   },
 
   listarCurriculos: async (req, res) => {
-    const curriculovaga = models.CurriculosVagas
+    const curriculovaga = models.CurriculosVagas;
 
     await curriculovaga
       .findAll({
@@ -64,78 +68,86 @@ const curriculo = {
         include: [
           {
             model: models.Curriculo,
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
-      .then(curriculos => res.json({ curriculos }))
-      .catch(erro => {
+      .then((curriculos) => res.json({ curriculos }))
+      .catch((erro) => {
         return res.status(400).json({
           error: true,
-          message: erro
-        })
-      })
+          message: erro,
+        });
+      });
   },
 
   listarCurriculo: async (req, res) => {
-    console.log(req.params.idCurriculo)
-    const curriculo = models.Curriculo
-    const cursos = models.Cursos
-    const experiencias = models.Experiencias
-    const idiomas = models.Idiomas
-    const idiomasCurriculo = models.CurriculosIdiomas
-    const cursosCurriculo = models.CurriculosCursos
-    const experienciasCurriculo = models.CurriculosExperiencias
-    const instituicao = models.Instituicao
-    const cursosInstituicoes = models.CursosInstituicoes
+    console.log(req.params.idCurriculo);
+    const curriculo = models.Curriculo;
+    const cursos = models.Cursos;
+    const experiencias = models.Experiencias;
+    const idiomas = models.Idiomas;
+    const idiomasCurriculo = models.CurriculosIdiomas;
+    const cursosCurriculo = models.CurriculosCursos;
+    const experienciasCurriculo = models.CurriculosExperiencias;
+    const instituicao = models.Instituicao;
+    const cursosInstituicoes = models.CursosInstituicoes;
 
-    await curriculo.findOne({
-      where: { id: req.params.idCurriculo },
-      include: [
-        {
-          model: idiomas,
-          attributes: ['idioma'],
-          through: {
-            model: idiomasCurriculo,
-            attributes: ['nivel']
-          }
-        },
-        {
-          model: cursos,
-          attributes: ['curso'],
-          through: {
-            model: cursosCurriculo,
-            attributes: ['inicio', 'termino'],
+    await curriculo
+      .findOne({
+        where: { id: req.params.idCurriculo },
+        include: [
+          {
+            model: idiomas,
+            attributes: ['idioma'],
+            through: {
+              model: idiomasCurriculo,
+              attributes: ['nivel'],
+            },
           },
-          include: [
-            {
-              model: instituicao,
-              attributes: ['nome', 'cidade', 'pais'],
-              tableName: 'Instituicoes',
-              through: {
-                attributes: [],
-                model: cursosInstituicoes,
-              }
-            }
-          ]
-        },
-        {
-          model: experiencias,
-          attributes: ['empresa', 'endereco', 'ramo'],
-          through: {
-            model: experienciasCurriculo,
-            attributes: ['inicio', 'termino', 'cidade', 'pais', 'salario', 'cargo']
-          }
-        }
-      ]
-    })
-      .then(curriculo => res.json({ curriculo }))
-      .catch(erro => {
+          {
+            model: cursos,
+            attributes: ['curso'],
+            through: {
+              model: cursosCurriculo,
+              attributes: ['inicio', 'termino'],
+            },
+            include: [
+              {
+                model: instituicao,
+                attributes: ['nome', 'cidade', 'pais'],
+                tableName: 'Instituicoes',
+                through: {
+                  attributes: [],
+                  model: cursosInstituicoes,
+                },
+              },
+            ],
+          },
+          {
+            model: experiencias,
+            attributes: ['empresa', 'endereco', 'ramo'],
+            through: {
+              model: experienciasCurriculo,
+              attributes: [
+                'inicio',
+                'termino',
+                'cidade',
+                'pais',
+                'salario',
+                'cargo',
+              ],
+            },
+          },
+        ],
+      })
+      .then((curriculo) => res.json({ curriculo }))
+      .catch((erro) => {
         return res.status(400).json({
           error: true,
-          message: erro
-        })
-      })
+          message: erro,
+        });
+      });
   },
 
   candidatar: async (req, res) => {

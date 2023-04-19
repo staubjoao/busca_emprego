@@ -19,7 +19,7 @@ export const ExibirVaga = observer(() => {
 
   const handleCandidatar = async () => {
     const response = await candidatar(
-      String(id),
+      Number(id),
       loginStore.user.id,
       loginStore.token
     );
