@@ -30,17 +30,35 @@ export const CadastroEmpresa = observer(() => {
   const { empresaStore, snackbarStore } = useStore();
 
   const isFormError = () => {
-    empresaStore.setEmailError(validateGenerico.isEmailError(empresaStore.email));
-    empresaStore.setSenhaError(validateGenerico.isSenhaError(empresaStore.senha));
+    empresaStore.setEmailError(
+      validateGenerico.isEmailError(empresaStore.email)
+    );
+    empresaStore.setSenhaError(
+      validateGenerico.isSenhaError(empresaStore.senha)
+    );
     empresaStore.setNomeError(validateGenerico.isNomeError(empresaStore.nome));
-    empresaStore.setEnderecoError(validateGenerico.isEnderecoError(empresaStore.endereco));
-    empresaStore.setBairroError(validateGenerico.isBairroError(empresaStore.bairro));
-    empresaStore.setCidadeError(validateGenerico.isCidadeError(empresaStore.cidade));
-    empresaStore.setEstadoError(validateGenerico.isEstadoError(empresaStore.estado));
+    empresaStore.setEnderecoError(
+      validateGenerico.isEnderecoError(empresaStore.endereco)
+    );
+    empresaStore.setBairroError(
+      validateGenerico.isBairroError(empresaStore.bairro)
+    );
+    empresaStore.setCidadeError(
+      validateGenerico.isCidadeError(empresaStore.cidade)
+    );
+    empresaStore.setEstadoError(
+      validateGenerico.isEstadoError(empresaStore.estado)
+    );
     empresaStore.setPaisError(validateGenerico.isPaisError(empresaStore.pais));
-    empresaStore.setNumeroError(validateGenerico.isNumeroError(empresaStore.numero));
-    empresaStore.setComplementoError(validateGenerico.isComplementoError(empresaStore.complemento));
-    empresaStore.setTelefoneError(validateGenerico.isTelefoneError(empresaStore.telefone));
+    empresaStore.setNumeroError(
+      validateGenerico.isNumeroError(empresaStore.numero)
+    );
+    empresaStore.setComplementoError(
+      validateGenerico.isComplementoError(empresaStore.complemento)
+    );
+    empresaStore.setTelefoneError(
+      validateGenerico.isTelefoneError(empresaStore.telefone)
+    );
     empresaStore.setRamoError(validateEmpresa.isRamoError(empresaStore.ramo));
     empresaStore.setCnpjError(validateEmpresa.isCnpjError(empresaStore.cnpj));
     empresaStore.setCepError(isCepError());
@@ -65,6 +83,7 @@ export const CadastroEmpresa = observer(() => {
 
   const isCepError = () => {
     const cepApi = empresaStore.cep.replace(/\D/g, '');
+    empresaStore.setCep(cepApi);
     if (empresaStore.cep.trim() === '') return false;
     if (cepApi.length !== 8) return false;
     fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
@@ -100,23 +119,24 @@ export const CadastroEmpresa = observer(() => {
       snackbarStore.setMessage('Campo(s) em branco');
       return;
     }
-    const response = await empresaStore.handleCreateEmpresa(
-      empresaStore.logo,
-      empresaStore.email,
-      empresaStore.senha,
-      empresaStore.nome,
-      empresaStore.ramo,
-      empresaStore.cnpj,
-      empresaStore.pais,
-      empresaStore.cep,
-      empresaStore.estado,
-      empresaStore.cidade,
-      empresaStore.endereco,
-      empresaStore.numero,
-      empresaStore.bairro,
-      empresaStore.complemento,
-      empresaStore.telefone
-    )
+    const response = await empresaStore
+      .handleCreateEmpresa(
+        empresaStore.logo,
+        empresaStore.email,
+        empresaStore.senha,
+        empresaStore.nome,
+        empresaStore.ramo,
+        empresaStore.cnpj,
+        empresaStore.pais,
+        empresaStore.cep,
+        empresaStore.estado,
+        empresaStore.cidade,
+        empresaStore.endereco,
+        empresaStore.numero,
+        empresaStore.bairro,
+        empresaStore.complemento,
+        empresaStore.telefone
+      )
       .then(() => {
         snackbarStore.setOpenSnackbar(true);
         snackbarStore.setSeverity('success');
@@ -124,6 +144,7 @@ export const CadastroEmpresa = observer(() => {
         setTimeout(() => {
           navigate('/login/empresa');
           snackbarStore.setOpenSnackbar(false);
+          empresaStore.clearStatesEmpresa();
         }, 2500);
       })
       .catch(() => {
@@ -210,12 +231,18 @@ export const CadastroEmpresa = observer(() => {
                   label="E-mail"
                   type="email"
                   value={empresaStore.email}
-                  onChange={(event) => empresaStore.setEmail(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setEmail(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setEmailError(validateGenerico.isEmailError(empresaStore.email));
+                    empresaStore.setEmailError(
+                      validateGenerico.isEmailError(empresaStore.email)
+                    );
                   }}
-                  error={!empresaStore.emailError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.emailError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -223,12 +250,18 @@ export const CadastroEmpresa = observer(() => {
                   label="Senha"
                   type="password"
                   value={empresaStore.senha}
-                  onChange={(event) => empresaStore.setSenha(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setSenha(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setSenhaError(validateGenerico.isSenhaError(empresaStore.senha));
+                    empresaStore.setSenhaError(
+                      validateGenerico.isSenhaError(empresaStore.senha)
+                    );
                   }}
-                  error={!empresaStore.senhaError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.senhaError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -238,9 +271,13 @@ export const CadastroEmpresa = observer(() => {
                   onChange={(event) => empresaStore.setNome(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setNomeError(validateGenerico.isNomeError(empresaStore.nome));
+                    empresaStore.setNomeError(
+                      validateGenerico.isNomeError(empresaStore.nome)
+                    );
                   }}
-                  error={!empresaStore.nomeError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.nomeError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -250,9 +287,13 @@ export const CadastroEmpresa = observer(() => {
                   onChange={(event) => empresaStore.setRamo(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setRamoError(validateEmpresa.isRamoError(empresaStore.ramo));
+                    empresaStore.setRamoError(
+                      validateEmpresa.isRamoError(empresaStore.ramo)
+                    );
                   }}
-                  error={!empresaStore.ramoError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.ramoError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -274,9 +315,13 @@ export const CadastroEmpresa = observer(() => {
                   }}
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setCnpjError(validateEmpresa.isCnpjError(empresaStore.cnpj));
+                    empresaStore.setCnpjError(
+                      validateEmpresa.isCnpjError(empresaStore.cnpj)
+                    );
                   }}
-                  error={!empresaStore.cnpjError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.cnpjError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -286,9 +331,13 @@ export const CadastroEmpresa = observer(() => {
                   onChange={(event) => empresaStore.setPais(event.target.value)}
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setPaisError(validateGenerico.isPaisError(empresaStore.pais));
+                    empresaStore.setPaisError(
+                      validateGenerico.isPaisError(empresaStore.pais)
+                    );
                   }}
-                  error={!empresaStore.paisError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.paisError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -311,36 +360,54 @@ export const CadastroEmpresa = observer(() => {
                 <TextField
                   label="Estado"
                   value={empresaStore.estado}
-                  onChange={(event) => empresaStore.setEstado(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setEstado(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setEstadoError(validateGenerico.isEstadoError(empresaStore.estado));
+                    empresaStore.setEstadoError(
+                      validateGenerico.isEstadoError(empresaStore.estado)
+                    );
                   }}
-                  error={!empresaStore.estadoError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.estadoError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Cidade"
                   value={empresaStore.cidade}
-                  onChange={(event) => empresaStore.setCidade(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setCidade(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setCidadeError(validateGenerico.isCidadeError(empresaStore.cidade));
+                    empresaStore.setCidadeError(
+                      validateGenerico.isCidadeError(empresaStore.cidade)
+                    );
                   }}
-                  error={!empresaStore.cidadeError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.cidadeError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Endereço"
                   value={empresaStore.endereco}
-                  onChange={(event) => empresaStore.setEndereco(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setEndereco(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setEnderecoError(validateGenerico.isEnderecoError(empresaStore.endereco));
+                    empresaStore.setEnderecoError(
+                      validateGenerico.isEnderecoError(empresaStore.endereco)
+                    );
                   }}
-                  error={!empresaStore.enderecoError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.enderecoError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -348,37 +415,58 @@ export const CadastroEmpresa = observer(() => {
                   label="Número"
                   value={empresaStore.numero}
                   onChange={(event) =>
-                    empresaStore.setNumero(event.target.value.replace(/\D/g, ''))
+                    empresaStore.setNumero(
+                      event.target.value.replace(/\D/g, '')
+                    )
                   }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setNumeroError(validateGenerico.isNumeroError(empresaStore.numero));
+                    empresaStore.setNumeroError(
+                      validateGenerico.isNumeroError(empresaStore.numero)
+                    );
                   }}
-                  error={!empresaStore.numeroError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.numeroError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Bairro"
                   value={empresaStore.bairro}
-                  onChange={(event) => empresaStore.setBairro(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setBairro(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setBairroError(validateGenerico.isBairroError(empresaStore.bairro));
+                    empresaStore.setBairroError(
+                      validateGenerico.isBairroError(empresaStore.bairro)
+                    );
                   }}
-                  error={!empresaStore.bairroError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.bairroError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   label="Complemento"
                   value={empresaStore.complemento}
-                  onChange={(event) => empresaStore.setComplemento(event.target.value)}
+                  onChange={(event) =>
+                    empresaStore.setComplemento(event.target.value)
+                  }
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setComplementoError(validateGenerico.isComplementoError(empresaStore.complemento));
+                    empresaStore.setComplementoError(
+                      validateGenerico.isComplementoError(
+                        empresaStore.complemento
+                      )
+                    );
                   }}
-                  error={!empresaStore.complementoError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.complementoError &&
+                    empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -386,7 +474,9 @@ export const CadastroEmpresa = observer(() => {
                   label="Telefone"
                   value={empresaStore.telefone}
                   onChange={(event) =>
-                    empresaStore.setTelefone(event.target.value.replace(/\D/g, ''))
+                    empresaStore.setTelefone(
+                      event.target.value.replace(/\D/g, '')
+                    )
                   }
                   InputProps={{
                     inputComponent: MaskedInput as any,
@@ -394,9 +484,13 @@ export const CadastroEmpresa = observer(() => {
                   }}
                   fullWidth
                   onBlur={() => {
-                    empresaStore.setTelefoneError(validateGenerico.isTelefoneError(empresaStore.telefone));
+                    empresaStore.setTelefoneError(
+                      validateGenerico.isTelefoneError(empresaStore.telefone)
+                    );
                   }}
-                  error={!empresaStore.telefoneError && empresaStore.formularioError}
+                  error={
+                    !empresaStore.telefoneError && empresaStore.formularioError
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -418,10 +512,14 @@ export const CadastroEmpresa = observer(() => {
       <Snackbar
         open={snackbarStore.openSnackbar}
         autoHideDuration={6000}
-        onClose={() => snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)}
+        onClose={() =>
+          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+        }
       >
         <Alert
-          onClose={() => snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)}
+          onClose={() =>
+            snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          }
           severity={snackbarStore.severity}
           sx={{ width: '100%' }}
         >

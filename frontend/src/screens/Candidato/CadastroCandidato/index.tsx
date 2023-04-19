@@ -108,6 +108,7 @@ export const CadastroCandidato = observer(() => {
 
   const isCepError = () => {
     const cepApi = candidatoStore.cep.replace(/\D/g, '');
+    candidatoStore.setCep(cepApi);
     if (candidatoStore.cep.trim() === '') return false;
     if (cepApi.length !== 8) return false;
     fetch(`https://viacep.com.br/ws/${cepApi}/json/`)
@@ -143,26 +144,30 @@ export const CadastroCandidato = observer(() => {
       snackbarStore.setMessage('Campo(s) em branco');
       return;
     }
-    const response = await candidatoStore.handleCreateCandidato(
-      candidatoStore.perfil,
-      candidatoStore.email,
-      candidatoStore.senha,
-      candidatoStore.nome,
-      candidatoStore.cpf,
-      candidatoStore.endereco,
-      candidatoStore.bairro,
-      candidatoStore.cidade,
-      candidatoStore.estado,
-      candidatoStore.pais,
-      candidatoStore.numero,
-      candidatoStore.complemento,
-      candidatoStore.telefone,
-      candidatoStore.genero,
-      candidatoStore.deficiencia,
-      candidatoStore.cep,
-      candidatoStore.areaAtuacao,
-      candidatoStore.pretensao
-    )
+    const cpfAux = candidatoStore.cpf.replace(/[^\d]+/g, '');
+    candidatoStore.setCpf(cpfAux);
+    const response = await candidatoStore
+      .handleCreateCandidato(
+        candidatoStore.perfil,
+        candidatoStore.email,
+        candidatoStore.senha,
+        candidatoStore.nome,
+        candidatoStore.cpf,
+        candidatoStore.endereco,
+        candidatoStore.bairro,
+        candidatoStore.cidade,
+        candidatoStore.estado,
+        candidatoStore.pais,
+        candidatoStore.numero,
+        candidatoStore.complemento,
+        candidatoStore.telefone,
+        candidatoStore.genero,
+        candidatoStore.deficiencia,
+        candidatoStore.cep,
+        candidatoStore.areaAtuacao,
+        candidatoStore.pretensao,
+        candidatoStore.descricao
+      )
       .then(() => {
         snackbarStore.setOpenSnackbar(true);
         snackbarStore.setSeverity('success');

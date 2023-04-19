@@ -19,6 +19,7 @@ export const createCandidato = async (
   cep: string,
   areaAtuacao: string,
   pretensao: string,
+  descricao: string
 ) => {
   const response = await api.post('/usuario/cadastro/candidatos', {
     perfil,
@@ -39,6 +40,7 @@ export const createCandidato = async (
     cep,
     areaAtuacao,
     pretensao,
+    descricao,
   });
 
   return { ok: response.statusText };
