@@ -43,6 +43,13 @@ router.get(
   candidatoControlle.exibirDadosVaga
 );
 
+//pega listar todas as vagas que o currículo se candidatou
+router.get(
+  '/candidato/vagas/:idCurriculo',
+  authCandidato,
+  curriculoController.listarVagas
+);
+
 //rota de funcionalidades empresa
 
 //rota de listagem de currículos de uma vaga de determinada empresa
@@ -79,5 +86,12 @@ router.get(
   authEmpresa,
   vagaController.exibirDadosVaga
 );
+
+router.put(
+  '/empresa/:vagaId/:curriculoId/status',
+  authEmpresa,
+  curriculoController.atualizarStatusVaga
+);
+
 
 module.exports = router;

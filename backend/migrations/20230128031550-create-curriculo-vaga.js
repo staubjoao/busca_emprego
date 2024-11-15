@@ -31,6 +31,16 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'Em análise' 
+      },
+      dataAtualizacao: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW 
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

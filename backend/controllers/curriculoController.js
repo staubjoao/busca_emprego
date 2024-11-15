@@ -1,5 +1,6 @@
 const models = require('../models');
 const { campos, getJSON } = require('../utils/curriculos');
+const sendNotification = require('../utils/curriculos/sendNotification');
 
 const vaga = models.Vaga;
 const curriculoVaga = models.CurriculosVagas;
@@ -80,6 +81,29 @@ const curriculo = {
         });
       });
   },
+
+  listarVagas: async (req, res) => {
+    const curriculovaga = models.CurriculosVagas;
+
+    await curriculovaga
+      .findAll({
+        where: { CurriculoId: req.params.idCurriculo },
+        include: [
+          {
+            model: models.Vaga,
+            required: true,
+          },
+        ],
+      })
+      .then((vagas) => res.json({ vagas }))
+      .catch((erro) => {
+        return res.status(400).json({
+          error: true,
+          message: erro,
+        });
+      });
+  },
+
 
   listarCurriculo: async (req, res) => {
     console.log(req.params.idCurriculo);
@@ -202,6 +226,52 @@ const curriculo = {
       });
     }
   },
+
+  atualizarStatusVaga: async(req, res) => {
+    const { curriculoId, vagaId } = req.params;
+    const { status } = req.body;
+  
+    try {
+      const processoSeletivo = await curriculoVaga.findOne({
+        where: { CurriculoId: curriculoId, VagaId: vagaId }
+      });
+
+
+      const curriculo = await candidatoModel.findOne({
+        where: {id: curriculoId}
+      })
+
+
+      const vagaModel = await vaga.findOne({
+        where: {id: vagaId}
+      })
+  
+
+      if (!processoSeletivo) {
+        return res.status(404).json({ error: 'Candidatura não encontrada' });
+      }
+
+  
+      // Atualizando o status e dataAtualizacao
+      processoSeletivo.status = status;
+      processoSeletivo.dataAtualizacao = new Date();
+      await processoSeletivo.save();
+
+  
+      const emailDestinatario = "maria20fernanda@gmail.com"; // Supondo que o e-mail esteja no modelo de currículo
+      const assunto = `Atualização sobre sua candidatura: ${processoSeletivo.status}`;
+      const mensagem = `Olá, sua candidatura para a vaga "${vagaModel.titulo}" foi atualizada para o status: ${processoSeletivo.status}.`;
+      
+      
+      await sendNotification(emailDestinatario, assunto, mensagem)
+
+  
+      return res.json({ success: true, processoSeletivo });
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro ao atualizar o status do processo seletivo' });
+    }
+
+  }
 };
 
 module.exports = curriculo;

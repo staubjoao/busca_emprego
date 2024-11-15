@@ -11,6 +11,16 @@ module.exports = (sequelize, DataTypes) => {
     {
       VagaId: DataTypes.INTEGER,
       CurriculoId: DataTypes.INTEGER,
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Enviada', 
+      },
+      dataAtualizacao: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW, 
+        allowNull: false,
+      }
     },
     {
       sequelize,

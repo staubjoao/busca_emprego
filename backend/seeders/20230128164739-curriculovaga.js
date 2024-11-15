@@ -9,24 +9,32 @@ module.exports = {
         {
           VagaId: 1,
           CurriculoId: 1,
+          status: 'Em análise',
+          dataAtualizacao: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           VagaId: 1,
           CurriculoId: 2,
+          status: 'Em análise',
+          dataAtualizacao: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           VagaId: 2,
           CurriculoId: 1,
+          status: 'Em análise',
+          dataAtualizacao: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           VagaId: 2,
           CurriculoId: 2,
+          status: 'Em análise',
+          dataAtualizacao: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
         }
