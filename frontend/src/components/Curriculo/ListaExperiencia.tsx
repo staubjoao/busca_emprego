@@ -19,7 +19,7 @@ export function ListarExperiencias(props: ExperienciaProps) {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>Experiencia(s)</Typography>
+            <Typography fontWeight="bold" color="#32264D" variant="h6">Experiências profissionais</Typography>
             <List sx={{ mb: 2 }} >
                 {experiencias.map((experiencia) => (
                     <ListItem key={experiencia.empresa} disablePadding>

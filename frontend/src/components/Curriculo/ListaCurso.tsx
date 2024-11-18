@@ -18,7 +18,7 @@ export function ListarCursos(props: CursoProps) {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>Curso(s)</Typography>
+            <Typography fontWeight="bold" color="#32264D" variant="h6">Cursos</Typography>
             <List sx={{ mb: 2 }} >
                 {cursos.map((curso) => (
                     <ListItem key={curso.curso} disablePadding>

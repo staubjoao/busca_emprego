@@ -4,16 +4,21 @@ import { getCurriculo } from '../../../service/curriculo';
 import { ListarIdiomas } from '../../../components/Curriculo/ListaIdioma';
 import { ListarCursos } from '../../../components/Curriculo/ListaCurso';
 import { ListarExperiencias } from '../../../components/Curriculo/ListaExperiencia';
-import { Typography, ButtonBase, Box, Snackbar, Alert } from '@mui/material';
+import { Typography, ButtonBase, Box, Snackbar, Alert, Select, MenuItem, FormControl } from '@mui/material';
 import { useStore } from '../../../hooks/stores';
 import perfilIcon from '../../../assets/icons/perfil.png';
+import {Avatar} from './styles'
+import { BasicModal } from '../../../components/Modal';
+import FooterButtons from './components/FooterButtons';
+import { Header } from './components/Header';
+import { UpdateStatusModal } from './components/UpdateStatus';
 
-interface Idioma {
+export interface Idioma {
   nome: string;
   nivel: string;
 }
 
-interface Curso {
+export interface Curso {
   curso: string;
   inicio: string;
   termino: string;
@@ -22,7 +27,7 @@ interface Curso {
   pais: string;
 }
 
-interface Experiencia {
+export interface Experiencia {
   empresa: string;
   ramo: string;
   inicio: string;
@@ -32,22 +37,28 @@ interface Experiencia {
   cargo: string;
 }
 
-export function ListagemCurriculoCompleto() {
-  const { snackbarStore } = useStore();
-  const { idCurriculo } = useParams();
-  const { loginStore } = useStore();
+export interface Curriculo {
+  id: string;
+  email: string;
+  perfil: string;
+  nome: string;
+  areaAtuacao: string;
+  descricao: string;
+  idiomas: Idioma[];
+  cursos: Curso[];
+  experiencias: Experiencia[];
+}
 
-  const [curriculo, setCurriculo] = useState<{
-    id: string;
-    email: string;
-    perfil: string;
-    nome: string;
-    areaAtuacao: string;
-    descricao: string;
-    idiomas: Idioma[];
-    cursos: Curso[];
-    experiencias: Experiencia[];
-  }>({
+type Params = {
+  idCurriculo: string, idVaga: string 
+}
+
+export function ListagemCurriculoCompleto() {
+  const { snackbarStore, vagaStore, loginStore } = useStore();
+  const { idCurriculo, idVaga } = useParams();
+  const [openModal, setOpenModal] = useState(false)
+
+  const [curriculo, setCurriculo] = useState<Curriculo>({
     id: '',
     email: '',
     perfil: '',
@@ -128,6 +139,7 @@ export function ListagemCurriculoCompleto() {
     console.log(curriculo.email)
   };
 
+
   return (
     <Box bgcolor="rgb(245 245 244)">
       <Box
@@ -144,98 +156,20 @@ export function ListagemCurriculoCompleto() {
           maxWidth="32rem"
           bgcolor="#FFFFFF"
           border-width="px"
-          borderRadius="0.25rem"
+          borderRadius="0.8rem"
           marginBottom="20px"
         >
-          <Box
-            display="flex"
-            paddingX="1.25rem"
-            paddingTop="1.25rem"
-            alignItems="start"
-            justifyContent="space-between"
-          >
-            <Box display="flex">
-              <Box display="flex">
-                {curriculo.perfil === null ||
-                  (curriculo.perfil as any) === '' ? (
-                  <Box
-                    component="img"
-                    src={perfilIcon}
-                    alt="Currículo sem foto"
-                    width="5rem"
-                  />
-                ) : (
-                  <Box
-                    component="img"
-                    src={curriculo.perfil}
-                    width="4rem"
-                    alt="Foto do candidato(a)"
-                  />
-                )}
-                <Box component="span" paddingTop="0.5rem" marginLeft="1rem">
-                  <Typography
-                    variant="h5"
-                    fontWeight="bold"
-                    fontSize="0.875rem"
-                  >
-                    {curriculo.nome}
-                  </Typography>
-                  <Typography fontSize="0.875rem">
-                    {curriculo.areaAtuacao}
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box
-            marginX="0.5rem"
-            fontSize="0.875rem"
-            marginTop="0.5rem"
-            paddingX="1.25rem"
-            paddingBottom="1.25rem"
-            color="rgb(107 114 128 / var(--tw-text-opacity))"
-          >
-            {curriculo.descricao}
-          </Box>
-          <Box>
+         <Header curriculo={curriculo}/>
+          <Box paddingX="0.3rem">
             <ListarCursos cursos={curriculo.cursos} />
           </Box>
-          <Box>
+          <Box paddingX="0.3rem">
             <ListarExperiencias experiencias={curriculo.experiencias} />
           </Box>
-          <Box>
+          <Box paddingX="0.3rem">
             <ListarIdiomas idiomas={curriculo.idiomas} />
           </Box>
-          <Box bgcolor="rgb(250 250 249)">
-            <Box
-              padding="1.25rem"
-              marginX="0.5rem"
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              border-width="2px"
-            >
-              <ButtonBase
-                sx={{
-                  backgroundColor: '#5E80BB',
-                  color: '#FFFFFF',
-                  paddingBlock: '0.625rem',
-                  paddingInline: '1.5rem',
-                  borderRadius: '0.25rem',
-                  fontSize: '0.875rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  ':hover': {
-                    backgroundColor: '#4766AC',
-                  },
-                }}
-              >
-                <Box onClick={copiarEmail} component="span">
-                  Entrar em contato
-                </Box>
-              </ButtonBase>
-            </Box>
-          </Box>
+          <FooterButtons setOpenModal={setOpenModal} copiarEmail={copiarEmail}/>
         </Box>
         <Box
           display="flex"
@@ -246,9 +180,9 @@ export function ListagemCurriculoCompleto() {
       </Box>
       <Snackbar
         open={snackbarStore.openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={() =>
-          snackbarStore.setOpenSnackbar(!snackbarStore.openSnackbar)
+          snackbarStore.setOpenSnackbar(false)
         }
       >
         <Alert
@@ -261,6 +195,10 @@ export function ListagemCurriculoCompleto() {
           {snackbarStore.message}
         </Alert>
       </Snackbar>
+
+      <BasicModal children={
+        <UpdateStatusModal setOpenModal={setOpenModal} idVaga={idVaga} idCandidato={idCurriculo}/>
+      } open={openModal} handleClose={setOpenModal} title="Atualizar status da candidatura"/>
     </Box>
   );
 }

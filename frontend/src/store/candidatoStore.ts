@@ -188,24 +188,25 @@ export interface CandidatoStoreType {
   clearStatesCandidato: () => void;
 
   handleCreateCandidato: (
-    createPerfil: any,
-    createEmail: any,
-    createSenha: any,
-    createNome: any,
-    createCpf: any,
-    createEndereco: any,
-    createBairro: any,
-    createCidade: any,
-    createEstado: any,
-    createPais: any,
-    createNumero: any,
-    createComplemento: any,
-    createTelefone: any,
-    createGenero: any,
-    createDeficiencia: any,
-    createCep: any,
-    createAreaAtuacao: any,
-    createPretensao: any
+    perfil: string,
+    email: string,
+    senha: string,
+    nome: string,
+    cpf: string,
+    endereco: string,
+    bairro: string,
+    cidade: string,
+    estado: string,
+    pais: string,
+    numero: string,
+    complemento: string,
+    telefone: string,
+    genero: string,
+    deficiencia: string,
+    cep: string,
+    areaAtuacao: string,
+    pretensao: string,
+    descricao: string
   ) => void;
 }
 

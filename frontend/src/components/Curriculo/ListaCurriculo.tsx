@@ -9,12 +9,15 @@ interface CartaoProps {
         nome: string
         areaAtuacao: string
         descricao: string
-    }[]
+    }[],
+    idVaga?: string
 }
 
 export function ListarCurriculos(props: CartaoProps) {
-    const { listagem } = props
+    const { listagem, idVaga } = props
+    
     const navigate = useNavigate()
+
 
     return (
         <Box>
@@ -98,7 +101,7 @@ export function ListarCurriculos(props: CartaoProps) {
                                 }}
                             >
                                 <Box component="span"
-                                    onClick={() => navigate('/empresa/curriculo/' + element.id)}>
+                                    onClick={() => navigate(`/empresa/curriculo/${element.id}/${idVaga}`, { state: { idCurriculo: element.id, idVaga: idVaga } } )}>
                                     Expandir Currículo
                                 </Box>
                             </ButtonBase>

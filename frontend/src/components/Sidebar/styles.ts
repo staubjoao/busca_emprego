@@ -66,6 +66,13 @@ export const Button = styled(MuiButton)(({ theme }) => ({
   flexDirection: 'row',
 }));
 
+export const ButtonSmall = styled(MuiButton)(({ theme }) => ({
+  position: 'absolute',
+  bottom: 10,
+  backgroundColor: '#5E80BB',
+  borderRadius: 4,
+}));
+
 export const Typography = styled(MuiTypography)(({ theme }) => ({
   color: '#eee',
   fontWeight: 'bold',

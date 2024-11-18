@@ -17,11 +17,12 @@ export const ExibirVaga = observer(() => {
     }
   };
 
+
   const handleCandidatar = async () => {
     const response = await candidatar(
-      Number(id),
       loginStore.user.id,
-      loginStore.token
+      loginStore.token,
+      id,
     );
 
     snackbarStore.setOpenSnackbar(true);

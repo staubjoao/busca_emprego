@@ -7,7 +7,8 @@ import {
   exibirVagaEmpresa,
   listarVagasCandidatoSearch,
   listarVagasEmpresa,
-  toggleVaga
+  toggleVaga,
+  atualizarStatusVaga
 } from "../service/vagas";
 
 export interface VagaStoreType {
@@ -78,6 +79,10 @@ export interface VagaStoreType {
     setErro: any,
     setCanNavigate: any
   ) => void;
+
+  handleUpdateStatus: (token: string, idCandidato: string,idVaga: string,status: string ) => void
+  statusCandidatura: string;
+  setStatusCandidatura: (statusCandidatura: string) => void
 }
 
 export type ItensList = {
@@ -254,5 +259,14 @@ export class VagaStore implements VagaStoreType{
   handleSearchVagas = async (token: string, empresa: string, titulo: string, descricao: string) => {
     const response = await listarVagasCandidatoSearch(token, empresa, titulo, descricao)
     return response
+  }
+
+  handleUpdateStatus = async(token: string,status: string, idCandidato?: string,idVaga?: string,) => {
+    const response = await atualizarStatusVaga(  status, token, idVaga, idCandidato,);
+    return response
+  }
+  statusCandidatura: string = '';
+  setStatusCandidatura(statusCandidatura: string){
+    this.statusCandidatura = statusCandidatura
   }
 }

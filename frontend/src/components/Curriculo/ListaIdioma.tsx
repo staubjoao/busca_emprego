@@ -14,7 +14,7 @@ export function ListarIdiomas(props: IdiomasProps) {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>Idioma(s)</Typography>
+            <Typography fontWeight="bold" color="#32264D" variant="h6">Idiomas</Typography>
             <List sx={{ mb: 2 }}>
                 {idiomas.map((idioma) => (
                     <ListItem key={idioma.nome} disablePadding>

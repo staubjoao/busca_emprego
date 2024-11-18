@@ -2,15 +2,36 @@ import { FormEvent } from 'react';
 import { api } from './baseURL';
 
 export async function candidatar(
-  idVaga: number,
   idCandidato: string,
-  token: string
+  token: string,
+  idVaga?: string,
 ) {
   const response = await api.post(
     `/usuario/candidatar`,
     {
       idVaga,
       idCandidato,
+    },
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export async function atualizarStatusVaga(
+  status: string,
+  token: string,
+  idVaga?: string,
+  idCandidato?: string,
+) {
+  const response = await api.put(
+    `/usuario/empresa/${idCandidato}/${idVaga}/status`,
+    {
+     status
     },
     {
       headers: {

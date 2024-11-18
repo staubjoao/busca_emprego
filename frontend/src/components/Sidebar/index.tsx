@@ -155,13 +155,13 @@ const MiniDrawer = observer(({ typeUser, navigate }: SideBarProps) => {
             )}
           </Styled.Button>
         ) : (
-          <Styled.Button onClick={handleLogout}>
+          <Styled.ButtonSmall onClick={handleLogout}>
             {loginStore.loading ? (
               <CircularProgress color="inherit" size={20} />
             ) : (
               <Logout sx={{ color: '#eee' }} fontSize="small" />
             )}
-          </Styled.Button>
+          </Styled.ButtonSmall>
         )}
       </Styled.Drawer>
     </Box>

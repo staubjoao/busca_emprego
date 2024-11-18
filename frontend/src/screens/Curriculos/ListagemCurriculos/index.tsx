@@ -10,6 +10,7 @@ const pageSize = 3;
 
 export function ListagemCurriculos() {
   const { idVaga } = useParams();
+  console.log('VAGA ID', idVaga)
   const { loginStore } = useStore();
 
   const [lista, setLista] = useState<
@@ -63,7 +64,7 @@ export function ListagemCurriculos() {
       <Header titleHeader="Estas são os currículos da vaga..." />
 
       <Box minHeight="84.2vh" position="relative" bottom="30px">
-        <ListarCurriculos listagem={lista} />
+        <ListarCurriculos listagem={lista} idVaga={idVaga} />
         <Box
           display="flex"
           justifyContent="center"
