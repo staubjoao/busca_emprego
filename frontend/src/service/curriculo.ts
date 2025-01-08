@@ -21,7 +21,6 @@ export const createCurriculo = async (
     }
   );
 
-  console.log('RESPONSE ----->', response);
 
   return { ok: response.data.ok, message: response.data.message };
 };
@@ -49,3 +48,16 @@ export const getCurriculo = async(idCurriculo: string, token: string) => {
     );
   return response.data.curriculo;
 }
+
+export const getListCandidacy = async(idCurriculo: string, token: string) => {
+  const response = await api.get(
+    `usuario/candidatura/vagas/${idCurriculo}`,
+    {
+      headers: {
+        'authorization-token': token,
+      },
+    }
+    );
+  return response.data;
+}
+

@@ -51,6 +51,10 @@ const candidatoScreens = (idCandidato: string | undefined) => [
     name: 'Cadastrar currículo',
     navigateTo: `/candidato/${idCandidato}/curriculo`,
   },
+  {
+    name: 'Minhas candidaturas',
+    navigateTo: `/candidato/${idCandidato}/candidaturas`,
+  },
 ];
 
 const empresaIcons = (screen: string) => {
@@ -72,6 +76,8 @@ const candidatoIcons = (screen: string) => {
       return <Dashboard />;
     case 'Cadastrar currículo':
       return <PermContactCalendar />;
+    case 'Minhas candidaturas':
+        return <Dashboard />;
     default:
       break;
   }

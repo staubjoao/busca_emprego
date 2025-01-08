@@ -26,6 +26,12 @@ router.post(
   curriculoController.createCurriculo
 );
 router.post('/candidatar', authCandidato, curriculoController.candidatar);
+//pega listar todas as vagas que o currículo se candidatou
+router.get(
+  '/candidatura/vagas/:idCurriculo',
+  authCandidato,
+  candidatoControlle.listarVagasTESTE
+);
 
 //rota de funcionalidades candidato:
 //lista todas as vagas que tem no site para o candidato
@@ -43,12 +49,6 @@ router.get(
   candidatoControlle.exibirDadosVaga
 );
 
-//pega listar todas as vagas que o currículo se candidatou
-router.get(
-  '/candidato/vagas/:idCurriculo',
-  authCandidato,
-  curriculoController.listarVagas
-);
 
 //rota de funcionalidades empresa
 

@@ -96,7 +96,7 @@ export const LoginCandidato = observer(() => {
             <EmailOutlined
               sx={{
                 position: 'absolute',
-                top: 14,
+                top: 8,
                 left: 9,
                 color: '#E7E7E7',
               }}
@@ -112,11 +112,11 @@ export const LoginCandidato = observer(() => {
             />
           </Box>
 
-          <Box position="relative">
+          <Box position="relative" marginTop={1}>
             <LockOutlined
               sx={{
                 position: 'absolute',
-                top: 14,
+                top: 8,
                 left: 9,
                 color: '#E7E7E7',
               }}

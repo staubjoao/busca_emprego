@@ -1,15 +1,23 @@
-import { Box, ButtonBase, Typography, Snackbar, Alert } from '@mui/material';
+import { Box, ButtonBase, Typography, Snackbar, Alert, Stepper, Step, StepLabel } from '@mui/material';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { candidatar } from '../../../service/vagas';
 import empresaIcon from '../../../assets/icons/empresaIcon.svg';
 import { useStore } from '../../../hooks/stores';
 import { observer } from 'mobx-react-lite';
+import { mockDescription, steps } from '../../../components/ListaVagas/Candidato/mock';
+
 
 export const ExibirVaga = observer(() => {
   const { id } = useParams();
+  const {state} = useLocation()
+  const {isCandidacy, status} = state
   const { loginStore, snackbarStore, vagaStore } = useStore();
   const { vaga, setVaga } = vagaStore;
+
+  const activeStep = status && steps.indexOf(status)
+
+  console.log('isCandidatura', isCandidacy, status, activeStep)
 
   const handleVagas = async () => {
     if (id !== undefined) {
@@ -46,6 +54,23 @@ export const ExibirVaga = observer(() => {
           paddingBlock: '3.6rem',
         }}
       />
+      {activeStep && isCandidacy && (
+        <Box paddingY='8px' bgcolor="#FFFFFF"  maxWidth="40rem" borderRadius="16px" position="relative" top="30px" marginBottom="120px" marginX="auto">
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{
+                label === "Rejeitada/Aprovada" ? 
+                      status === 'Rejeitada' ? 'Rejeitada' : 
+                        status === 'Aprovada' ? 'Aprovada' : 
+                        label : label
+                }</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+       </Box>
+      )}
+     
       <Box minHeight="87.5vh" position="relative" bottom="30px" marginX="auto">
         <Box
           marginX="auto"
@@ -89,7 +114,7 @@ export const ExibirVaga = observer(() => {
             </Box>
           </Box>
           <Box component="h5" padding="2rem">
-            {vaga?.descricao}
+            {mockDescription}
           </Box>
           <Box bgcolor="rgb(250 250 249)">
             <Box
@@ -108,7 +133,7 @@ export const ExibirVaga = observer(() => {
                   ? 'R$ ' + vaga.salario?.toString().replace('.', ',')
                   : 'Faixa de salário indisponível'}
               </Typography>
-              <ButtonBase
+              {isCandidacy === undefined &&   <ButtonBase
                 onClick={handleCandidatar}
                 sx={{
                   backgroundColor: '#5E80BB',
@@ -125,7 +150,8 @@ export const ExibirVaga = observer(() => {
                 }}
               >
                 <Box component="span">Candidatar-se</Box>
-              </ButtonBase>
+              </ButtonBase>}
+             
             </Box>
           </Box>
         </Box>

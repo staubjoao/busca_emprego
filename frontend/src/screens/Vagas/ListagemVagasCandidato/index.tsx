@@ -2,7 +2,7 @@ import {FormEvent, useEffect, useState} from 'react'
 import { Lista } from '../../../components/ListaVagas/Candidato/ListaCandidato'
 import { useStore } from '../../../hooks/stores'
 import {listarVagasCandidato, listarVagasCandidatoSearch} from '../../../service/vagas'
-import { Box } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import {observer} from "mobx-react-lite";
 
 export const ListagemVagasCandidato = observer(() => {
@@ -55,47 +55,52 @@ export const ListagemVagasCandidato = observer(() => {
                     Encontramos as seguintes vagas....
                 </h2>
             </Box>
-            <Box className="bg-stone-100">
+            <Box className="bg-stone-100 h-[800px]">
                 <Box>
-                    <form className="ml-2" onSubmit={handleSearchVaga}>
+                    <form className="ml-2 " onSubmit={handleSearchVaga}>
                         <Box className="container mx-auto max-w-lg relative bottom-10 flex justify-between">
-                            <Box className="w-40">
+                            <Box>
                                 <label className="text-sm text-white" htmlFor="empresa">
                                     Empresa
                                 </label>
                                 <input
-                                    className="bg-white rounded border w-11/12 p-1 focus:outline-none focus:ring-2 focus:ring-background1"
+                                    className="bg-white h-[40px] rounded border w-[200px] p-1 focus:outline-none focus:ring-2 focus:ring-background1"
                                     type="text"
                                     id="empresa"
                                     value={empresa}
+                                    placeholder='Ifood'
                                     onChange={event => setEmpresa(event.target.value)}
                                 />
                             </Box>
-                            <Box className="w-40">
+                            <div className='w-[10px]'/>
+                            <Box className='ml-2'>
                                 <label className="text-sm text-white" htmlFor="titulo">
                                     Título
                                 </label>
                                 <input
-                                    className="bg-white rounded border w-11/12 p-1 focus:outline-none focus:ring-2 focus:ring-background1"
+                                    className="bg-white h-[40px] rounded border w-[200px] p-1 focus:outline-none focus:ring-2 focus:ring-background1"
                                     type="text"
                                     id="titulo"
                                     value={titulo}
+                                    placeholder='Dev fullstack'
+
                                     onChange={event => setTitulo(event.target.value)}
                                 />
                             </Box>
-                            <Box className="w-40">
+                            <Box className='ml-2'>
                                 <label className="text-sm text-white" htmlFor="palavra-chave">
                                     Palavra-chave
                                 </label>
                                 <input
-                                    className="bg-white rounded border w-11/12 p-1 focus:outline-none focus:ring-2 focus:ring-background1"
+                                    className="bg-white h-[40px] rounded border w-[200px] p-1 focus:outline-none focus:ring-2 focus:ring-background1"
                                     type="text"
                                     id="palavra-chave"
+                                    placeholder='Palavra-chave'
                                     value={descricao}
                                     onChange={event => setDescricao(event.target.value)}
                                 />
                             </Box>
-                            <Box className="w-40">
+                            <Box className='ml-4'>
                                 <button
                                     type="submit"
                                     className="border-solid border-2 border-zinc-100 mt-4 bg-background1 text-white py-2.5 px-6 rounded-lg text-sm"

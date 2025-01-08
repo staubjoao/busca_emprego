@@ -10,15 +10,17 @@ export const ExitButton = styled(IconButton)(() => ({
 }));
 
 export const InputLogin = styled(InputBase)(() => ({
-  marginTop: '0.5rem',
+ /// marginTop: '0.5rem',
   marginBottom: '0.4rem',
   width: '100%',
+  height: 40,
   paddingRight: '0.75rem',
   paddingLeft: '2.2rem',
   borderWidth: '1px',
   borderColor: '#E7E7E7',
   borderRadius: '0.375rem',
-  display: 'inline-block',
+ // display: 'inline-block',
+  justifyContent: 'center'
 }));
 
 export const LoginButton = styled(ButtonBase)(() => ({

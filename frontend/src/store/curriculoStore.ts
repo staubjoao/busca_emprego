@@ -1,6 +1,6 @@
 import { makeAutoObservable, toJS } from 'mobx';
 import { ItensList } from '../types/curriculo';
-import { createCurriculo } from '../service';
+import { createCurriculo, getListCandidacy } from '../service';
 import { SnackbarStore } from './snackbar';
 export interface CurriculoStoreType {
   nomeEmpresa: string;
@@ -38,6 +38,8 @@ export interface CurriculoStoreType {
     createIdiomas: any,
     createCursos: any
   ) => void;
+
+  handleListCandidacy: (idCurriculo: string, token: string) => void
 }
 
 export class CurriculoStore implements CurriculoStoreType {
@@ -73,6 +75,11 @@ export class CurriculoStore implements CurriculoStoreType {
   loading: boolean = false;
   setLoading(loading: boolean) {
     this.loading = loading;
+  }
+
+  listCandidacy: Array<any> = [];
+  setListCandidacy( listCandidacy: Array<any>) {
+    this.listCandidacy = listCandidacy;
   }
 
   clearStatesCurriculo = () => {
@@ -148,5 +155,12 @@ export class CurriculoStore implements CurriculoStoreType {
     );
 
     return response;
+  }
+
+  async handleListCandidacy(idCurriculo: string,  token: string){
+    const response = await getListCandidacy(idCurriculo, token)
+    console.log('RESPONSE', response)
+    this.setListCandidacy(response)
+    return response
   }
 }

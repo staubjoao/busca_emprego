@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { useStore } from '../../../hooks/stores'
 import {observer} from "mobx-react-lite";
+import { mockDescription } from './mock';
 
 interface ListaProps {
   listagem: {
@@ -14,14 +14,16 @@ interface ListaProps {
     Empresa: {
       logo: string
       nome: string
-    }
+    },
+    status?: string
   }[]
 }
+
+
 
 export const Lista = observer((props: ListaProps) => {
   const navigate = useNavigate()
   const { listagem } = props
-  const { loginStore, vagaStore } = useStore()
 
   return (
     <div>
@@ -55,11 +57,14 @@ export const Lista = observer((props: ListaProps) => {
               <h4 className="text-sm">{e.Empresa.nome}</h4>
             </span>
           </div>
+          <h3  className="mt-3 mx-6 font-bold text-[#32264D] text-[18px]">Requisitos</h3>
           <div className="mx-2 text-sm text-gray-500 mt-2 px-5 pb-5">
-            {e.descricao.length < 250
-              ? e.descricao
-              : e.descricao.substring(0, 50) + ' ...'}
+            {mockDescription.length < 250
+              ? mockDescription
+              : mockDescription.substring(0, 50) + ' ...'} 
+
           </div>
+
           <hr />
           <div className="bg-stone-50">
             <div className="p-5 mx-2 flex justify-between items-center">
@@ -91,7 +96,7 @@ export const Lista = observer((props: ListaProps) => {
                 </svg>
                 <span
                   className="ml-2"
-                  onClick={() => navigate('/candidato/vagas/' + e.id)}
+                  onClick={() => navigate('/candidato/vagas/' + e.id, {state: {status: e.status || undefined, isCandidacy: e.status !== undefined }})}
                 >
                   Visualizar Vaga
                 </span>

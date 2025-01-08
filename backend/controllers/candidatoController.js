@@ -53,6 +53,7 @@ const candidatoController = {
     }
   },
   listarVagas: async (req, res) => {
+    console.log('AQUII')
     await vaga
       .findAll({
         where: { visualizar: true },
@@ -72,6 +73,43 @@ const candidatoController = {
         });
       });
   },
+  listarVagasTESTE: async (req, res) => {
+  
+    const curriculovaga = models.CurriculosVagas;
+
+  
+    await curriculovaga
+      .findAll({
+        where: { CurriculoId: req.params.idCurriculo },  // Filtra por CurriculoId
+        include: [
+          {
+            model: models.Vaga,      // Inclui o modelo Vaga
+            required: true, 
+            include: [
+              {
+                model: models.Empresa,  // Inclui o modelo Empresa dentro de Vaga
+                required: true,         // Garante que sempre haverá uma empresa associada
+              }
+            ]         // Garante que sempre haverá uma vaga associada
+          }
+        ]
+      })
+      .then((vagas) => {
+        const vagasArray = vagas.map((vaga) => {
+          return {
+         ...vaga.toJSON(), 
+        }});
+        res.json(vagasArray);  // Retorna as vagas como um array
+      })
+      .catch((erro) => {
+        return res.status(400).json({
+          error: true,
+          message: erro,
+        });
+      });
+  },
+  
+
 
   listarVagasSearch: async (req, res) => {
     const Sequelize = require('sequelize');

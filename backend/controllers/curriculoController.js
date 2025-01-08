@@ -83,26 +83,37 @@ const curriculo = {
   },
 
   listarVagas: async (req, res) => {
-    const curriculovaga = models.CurriculosVagas;
-
-    await curriculovaga
-      .findAll({
-        where: { CurriculoId: req.params.idCurriculo },
+    try {
+      console.log('ENTROU AQUI', req.params.idCurriculo);
+  
+      const curriculo = await models.Curriculo.findOne({
+        where: { id: req.params.idCurriculo },
         include: [
           {
-            model: models.Vaga,
-            required: true,
+            model: models.Vaga,  // Inclui as vagas diretamente
+            through: { attributes: [] }, // Não precisa incluir os atributos da tabela intermediária
           },
         ],
-      })
-      .then((vagas) => res.json({ vagas }))
-      .catch((erro) => {
-        return res.status(400).json({
-          error: true,
-          message: erro,
-        });
       });
+  
+      if (!curriculo) {
+        return res.status(404).json({
+          error: true,
+          message: 'Currículo não encontrado',
+        });
+      }
+  
+      console.log('Currículo e suas vagas:', curriculo);
+      res.json(curriculo.Vagas);  // Retorna as vagas associadas ao currículo
+    } catch (erro) {
+      console.log('Erro:', erro);
+      return res.status(400).json({
+        error: true,
+        message: erro.message || erro,
+      });
+    }
   },
+  
 
 
   listarCurriculo: async (req, res) => {
